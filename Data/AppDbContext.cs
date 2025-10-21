@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BarrocIntens.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,17 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 
-namespace BarrocIntensTEST.Data
+namespace BarrocIntens.Data
 {
     internal class AppDbContext : DbContext
     {
-        
-        //public DbSet<Medewerker> Medewerkers { get; set; }
+        //TODO:optie voor model bespreek met groepje
+        public DbSet<Medewerker> Medewerkers { get; set; }
+
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.UseMySql(
-        //        "server=localhost;user=root;password=;database=BarrocIntensTESTDatabase",
+        //        "server=localhost;user=root;password=;database=BarrocIntensDatabase",
         //        ServerVersion.Parse("8.0.30")
         //    );
         //}
@@ -25,7 +27,54 @@ namespace BarrocIntensTEST.Data
         {
             optionsBuilder.UseMySql(ConfigurationManager.ConnectionStrings["BarrocIntensDatabase"].ConnectionString,ServerVersion.Parse("8.0.30"));
         }
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-    }
-}
+            modelBuilder.Entity<Medewerker>().HasData(
+                new Medewerker
+                {
+                    Id = 1,
+                    Naam = "Pieter Eigenaar",
+                    Wachtwoord = "eigenaar123",
+                    MedewerkerRol = "Eigenaar"
+                },
+                new Medewerker
+                {
+                    Id = 2,
+                    Naam = "Sophie Finance",
+                    Wachtwoord = "finance123",
+                    MedewerkerRol = "Finance"
+                },
+                new Medewerker
+                {
+                    Id = 3,
+                    Naam = "Mark Sales",
+                    Wachtwoord = "sales123",
+                    MedewerkerRol = "Sales"
+                },
+                new Medewerker
+                {
+                    Id = 4,
+                    Naam = "Laura Inkoop",
+                    Wachtwoord = "inkoop123",
+                    MedewerkerRol = "Inkoop"
+                },
+                new Medewerker
+                {
+                    Id = 5,
+                    Naam = "Tom Maintenance",
+                    Wachtwoord = "maintenance123",
+                    MedewerkerRol = "Maintenance"
+                },
+                new Medewerker
+                {
+                    Id = 6,
+                    Naam = "Emma Planner",
+                    Wachtwoord = "planner123",
+                    MedewerkerRol = "Planner"
+                }
+            );
+
+        }
+}}

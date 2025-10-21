@@ -1,6 +1,5 @@
-using BarrocIntens.Data;
-using BarrocIntens.View;
 using Microsoft.UI.Xaml;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -18,24 +17,19 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace BarrocIntens
+namespace BarrocIntens.View // let op: meervoud
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class HomePageBarrocIntens : Page
+
     {
-        public MainWindow()
+        public HomePageBarrocIntens()
         {
             InitializeComponent();
+        }
 
-            Title = "BarrocIntensTEST";
-
-            using var db = new AppDbContext();
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
-
-            contentFrame.Navigate(typeof(HomePageBarrocIntens));
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(LoginPage));
         }
     }
 }
