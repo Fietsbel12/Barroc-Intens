@@ -34,6 +34,7 @@ namespace BarrocIntens.View
         {
             // waarde opslaan in het veld
             medewerkerRol = e.Parameter as string;
+            RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
         }
 
 
@@ -84,7 +85,7 @@ namespace BarrocIntens.View
             // Controleer de rol voordat je navigeert
             if (medewerkerRol == "Maintenance" || medewerkerRol == "Eigenaar")
             {
-                Frame.Navigate(typeof(InkoopHomepage), medewerkerRol);
+                Frame.Navigate(typeof(MaintenanceHomepage), medewerkerRol);
             }
             else
             {
