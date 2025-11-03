@@ -1,4 +1,5 @@
 ﻿using BarrocIntens.Data;
+using BarrocIntens.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace BarrocIntens.Data
     {
         //TODO:optie voor model bespreek met groepje
         public DbSet<Medewerker> Medewerkers { get; set; }
+
+        public DbSet<Koffiezetapparaat> Koffiezetapparaten { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

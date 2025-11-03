@@ -8,32 +8,137 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Content -->
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="RolTextBlock"
-               FontSize="20"
-               FontWeight="Bold"
-               Foreground="Black"
-               Text="Rol wordt geladen..." />
-            </StackPanel>
 
-        </Grid>
-        <Grid Grid.Row="1" HorizontalAlignment="Right">
+        <!-- =================== HEADER =================== -->
+        <Grid Grid.Row="0"
+              Background="#FF1A1A1A"
+              Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="RolTextBlock"
+                       Grid.Column="0"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFD300"
+                       Text="Rol wordt geladen..." />
+
             <Button x:Name="backButton"
-Margin="20,0,0,15"
-Click="backButton_Click">
-                Back
-            </Button>
+                    Grid.Column="1"
+                    Content="Terug"
+                    Click="backButton_Click"
+                    Padding="12,6"
+                    Background="#FFFFD300"
+                    Foreground="Black"
+                    CornerRadius="4"
+                    FontWeight="Bold"
+                    BorderThickness="0"/>
         </Grid>
 
+        <!-- =================== CONTENT =================== -->
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Width="500"
+                        HorizontalAlignment="Center"
+                        Padding="20"
+                        Spacing="14">
+
+                <Border Background="#FFF9F9F9"
+                        BorderBrush="#FFEFEFEF"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="30"
+                        Margin="0,30,0,30">
+
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Nieuw koffiezetapparaat toevoegen"
+                                   FontSize="23"
+                                   FontWeight="Bold"
+                                   Foreground="#FF1A1A1A"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,20" />
+
+                        <!-- FOTO SECTIE -->
+                        <StackPanel Spacing="6" HorizontalAlignment="Center">
+                            <TextBlock Text="Selecteer een foto"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FF1A1A1A"
+                                       TextAlignment="Center"/>
+
+                            <Image x:Name="ApparaatFoto"
+                                   Width="300"
+                                   Height="200"
+                                   Stretch="Uniform"
+                                   Margin="0,5,0,5"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                                <Button Content="Vorige" Click="VorigeFoto_Click" Padding="8,4"/>
+                                <Button Content="Volgende" Click="VolgendeFoto_Click" Padding="8,4"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- FORMULIER -->
+                        <TextBox x:Name="NaamBox"
+                                 Header="Naam apparaat"
+                                 PlaceholderText="Bijv. Barista Pro"
+                                 Background="White"
+                                 Foreground="Black"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <TextBox x:Name="MerkBox"
+                                 Header="Merk"
+                                 PlaceholderText="Bijv. Philips"
+                                 Background="White"
+                                 Foreground="Black"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <TextBox x:Name="PrijsBox"
+                                 Header="Prijs (€)"
+                                 PlaceholderText="Bijv. 249,99"
+                                 Background="White"
+                                 Foreground="Black"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <TextBox x:Name="VoorraadBox"
+                                 Header="Voorraad"
+                                 PlaceholderText="Bijv. 10"
+                                 Background="White"
+                                 Foreground="Black"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <Button Content="Opslaan"
+                                Click="Opslaan_Click"
+                                HorizontalAlignment="Center"
+                                Margin="0,20,0,0"
+                                Padding="14,8"
+                                Background="#FFFFD300"
+                                Foreground="Black"
+                                FontWeight="Bold"
+                                CornerRadius="6"
+                                BorderThickness="0"
+                                Width="150"/>
+
+                        <TextBlock x:Name="FeedbackText"
+                                   Foreground="#FF1A1A1A"
+                                   Visibility="Collapsed"
+                                   FontWeight="SemiBold"
+                                   TextAlignment="Center"
+                                   Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
