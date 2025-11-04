@@ -38,7 +38,7 @@
                     Click="backButton_Click"
                     Padding="12,6"
                     Background="#FFFFD300"
-                    Foreground="Black"
+                    Foreground="#22201D"
                     CornerRadius="4"
                     FontWeight="Bold"
                     BorderThickness="0"/>
@@ -62,7 +62,7 @@
                         <TextBlock Text="Nieuw koffiezetapparaat toevoegen"
                                    FontSize="23"
                                    FontWeight="Bold"
-                                   Foreground="#FF1A1A1A"
+                                   Foreground="#22201D"
                                    TextAlignment="Center"
                                    Margin="0,0,0,20" />
 
@@ -70,7 +70,7 @@
                         <StackPanel Spacing="6" HorizontalAlignment="Center">
                             <TextBlock Text="Selecteer een foto"
                                        FontWeight="SemiBold"
-                                       Foreground="#FF1A1A1A"
+                                       Foreground="#22201D"
                                        TextAlignment="Center"/>
 
                             <Image x:Name="ApparaatFoto"
@@ -90,7 +90,7 @@
                                  Header="Naam apparaat"
                                  PlaceholderText="Bijv. Barista Pro"
                                  Background="White"
-                                 Foreground="Black"
+                                 Foreground="#22201D"
                                  BorderBrush="#FFCCCCCC"
                                  CornerRadius="4"/>
 
@@ -98,7 +98,7 @@
                                  Header="Merk"
                                  PlaceholderText="Bijv. Philips"
                                  Background="White"
-                                 Foreground="Black"
+                                 Foreground="#22201D"
                                  BorderBrush="#FFCCCCCC"
                                  CornerRadius="4"/>
 
@@ -106,7 +106,7 @@
                                  Header="Prijs (€)"
                                  PlaceholderText="Bijv. 249,99"
                                  Background="White"
-                                 Foreground="Black"
+                                 Foreground="#22201D"
                                  BorderBrush="#FFCCCCCC"
                                  CornerRadius="4"/>
 
@@ -114,7 +114,7 @@
                                  Header="Voorraad"
                                  PlaceholderText="Bijv. 10"
                                  Background="White"
-                                 Foreground="Black"
+                                 Foreground="#22201D"
                                  BorderBrush="#FFCCCCCC"
                                  CornerRadius="4"/>
 
@@ -124,14 +124,14 @@
                                 Margin="0,20,0,0"
                                 Padding="14,8"
                                 Background="#FFFFD300"
-                                Foreground="Black"
+                                Foreground="#22201D"
                                 FontWeight="Bold"
                                 CornerRadius="6"
                                 BorderThickness="0"
                                 Width="150"/>
 
                         <TextBlock x:Name="FeedbackText"
-                                   Foreground="#FF1A1A1A"
+                                   Foreground="#22201D"
                                    Visibility="Collapsed"
                                    FontWeight="SemiBold"
                                    TextAlignment="Center"

@@ -19,7 +19,7 @@
 
         <!-- =================== HEADER =================== -->
         <Grid Grid.Row="0"
-              Background="#FF1A1A1A"
+              Background="#22201D"
               Padding="15,10"
               HorizontalAlignment="Stretch">
 
@@ -28,23 +28,28 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="RolTextBlock"
-           Grid.Column="0"
-           FontSize="20"
-           FontWeight="SemiBold"
-           Foreground="#FFFFD300"
-           Text="Rol wordt geladen..." />
+            <!-- Margin volgorde: Links, Boven, Rechts, Onder -->
+            <Grid Grid.Row="1" HorizontalAlignment="Left">
+                <Image Source="/Assets/LogoHeader.png" Margin="0,0,100,0" Width="293" Height="98" />
+            </Grid>
 
             <!-- RECHTS: Navigatieknoppen -->
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         Spacing="12"
                         VerticalAlignment="Center">
+                <TextBlock x:Name="RolTextBlock"
+                        Grid.Column="0"
+                        Margin="100,0,100,0"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFD300"
+                        Text="Rol wordt geladen..." />
 
                 <Button Content="Sales"
                         Click="SalesPageButton_Click"
                         Background="#FFFFD300"
-                        Foreground="Black"
+                        Foreground="#22201D"
                         Padding="12,6"
                         FontWeight="Bold"
                         CornerRadius="4"
@@ -53,7 +58,7 @@
                 <Button Content="Inkoop"
                         Click="InkoopPageButton_Click"
                         Background="#FFFFD300"
-                        Foreground="Black"
+                        Foreground="#22201D"
                         Padding="12,6"
                         FontWeight="Bold"
                         CornerRadius="4"
@@ -62,7 +67,7 @@
                 <Button Content="Maintenance"
                         Click="MaintenancePageButton_Click"
                         Background="#FFFFD300"
-                        Foreground="Black"
+                        Foreground="#22201D"
                         Padding="12,6"
                         FontWeight="Bold"
                         CornerRadius="4"
@@ -71,7 +76,7 @@
                 <Button Content="Finance"
                         Click="FinancePageButton_Click"
                         Background="#FFFFD300"
-                        Foreground="Black"
+                        Foreground="#22201D"
                         Padding="12,6"
                         FontWeight="Bold"
                         CornerRadius="4"
@@ -96,7 +101,7 @@
             <TextBlock Text="Welkom op het dashboard!"
                        FontSize="26"
                        FontWeight="Bold"
-                       Foreground="#FF1A1A1A"/>
+                       Foreground="#22201D"/>
         </Grid>
     </Grid>
 </Page>

@@ -20,7 +20,7 @@
                 <TextBlock x:Name="RolTextBlock"
                FontSize="20"
                FontWeight="Bold"
-               Foreground="Black"
+               Foreground="#22201D"
                Text="Rol wordt geladen..." />
             </StackPanel>
 
