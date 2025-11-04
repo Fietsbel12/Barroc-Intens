@@ -30,7 +30,7 @@
 
             <!-- Margin volgorde: Links, Boven, Rechts, Onder -->
             <Grid Grid.Row="1" HorizontalAlignment="Left">
-                <Image Source="/Assets/LogoHeader.png" Margin="0,0,100,0" Width="293" Height="98" />
+                <Image Source="/Assets/LogoHeader.png" Margin="0,0,50,0" Width="293" Height="98" />
             </Grid>
 
             <!-- RECHTS: Navigatieknoppen -->
@@ -45,6 +45,15 @@
                         FontWeight="SemiBold"
                         Foreground="#FFFFD300"
                         Text="Rol wordt geladen..." />
+                
+                <Button Content="Planner"
+                        Click="PlanningPageButton_Click"
+                        Background="#FFFFD300"
+                        Foreground="#22201D"
+                        Padding="12,6"
+                        FontWeight="Bold"
+                        CornerRadius="4"
+                        BorderThickness="0"/>
 
                 <Button Content="Sales"
                         Click="SalesPageButton_Click"
@@ -54,6 +63,7 @@
                         FontWeight="Bold"
                         CornerRadius="4"
                         BorderThickness="0"/>
+                
 
                 <Button Content="Inkoop"
                         Click="InkoopPageButton_Click"

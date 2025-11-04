@@ -24,6 +24,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            
 
             <TextBlock x:Name="RolTextBlock"
                        Grid.Column="0"

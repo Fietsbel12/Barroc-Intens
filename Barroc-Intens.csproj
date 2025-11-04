@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\BarrocIntensHomepageImage.png" />
+    <None Remove="View\PlannerHomepage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FotoKoffiezetapparaatFolder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\PlannerHomepage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--

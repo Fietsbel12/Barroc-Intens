@@ -34,50 +34,33 @@ namespace BarrocIntens.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // ---------------------- MEDEWERKERS SEED ----------------------
             modelBuilder.Entity<Medewerker>().HasData(
-                new Medewerker
-                {
-                    Id = 1,
-                    Naam = "Pieter Eigenaar",
-                    Wachtwoord = "eigenaar123",
-                    MedewerkerRol = "Eigenaar"
-                },
-                new Medewerker
-                {
-                    Id = 2,
-                    Naam = "Sophie Finance",
-                    Wachtwoord = "finance123",
-                    MedewerkerRol = "Finance"
-                },
-                new Medewerker
-                {
-                    Id = 3,
-                    Naam = "Mark Sales",
-                    Wachtwoord = "sales123",
-                    MedewerkerRol = "Sales"
-                },
-                new Medewerker
-                {
-                    Id = 4,
-                    Naam = "Laura Inkoop",
-                    Wachtwoord = "inkoop123",
-                    MedewerkerRol = "Inkoop"
-                },
-                new Medewerker
-                {
-                    Id = 5,
-                    Naam = "Tom Maintenance",
-                    Wachtwoord = "maintenance123",
-                    MedewerkerRol = "Maintenance"
-                },
-                new Medewerker
-                {
-                    Id = 6,
-                    Naam = "Emma Planner",
-                    Wachtwoord = "planner123",
-                    MedewerkerRol = "Planner"
-                }
+                new Medewerker { Id = 1, Naam = "Pieter Eigenaar", Wachtwoord = "eigenaar123", MedewerkerRol = "Eigenaar" },
+                new Medewerker { Id = 2, Naam = "Sophie Finance", Wachtwoord = "finance123", MedewerkerRol = "Finance" },
+                new Medewerker { Id = 3, Naam = "Mark Sales", Wachtwoord = "sales123", MedewerkerRol = "Sales" },
+                new Medewerker { Id = 4, Naam = "Laura Inkoop", Wachtwoord = "inkoop123", MedewerkerRol = "Inkoop" },
+                new Medewerker { Id = 5, Naam = "Tom Maintenance", Wachtwoord = "maintenance123", MedewerkerRol = "Maintenance" },
+                new Medewerker { Id = 6, Naam = "Emma Planner", Wachtwoord = "planner123", MedewerkerRol = "Planner" }
             );
 
+            // ---------------------- KOFFIEZETAPPARATEN SEED ----------------------
+            var apparaten = new List<Koffiezetapparaat>();
+            for (int i = 1; i <= 10; i++)
+            {
+                apparaten.Add(new Koffiezetapparaat
+                {
+                    Id = i,
+                    Naam = $"Koffiezetapparaat {i}",
+                    Merk = i % 2 == 0 ? "Philips" : "DeLonghi",
+                    Prijs = 99.99f + (i * 25),
+                    Voorraad = 5 + i,
+                    FotoPad = $@"C:\barroc intens\Barroc-Intens\FotoKoffiezetapparaatFolder\koffiezetapparaat{i}.jpeg"
+                });
+            }
+
+
+            modelBuilder.Entity<Koffiezetapparaat>().HasData(apparaten);
         }
-}}
+    }
+}
