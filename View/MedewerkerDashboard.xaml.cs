@@ -35,6 +35,11 @@ namespace BarrocIntens.View
             // waarde opslaan in het veld
             medewerkerRol = e.Parameter as string;
             RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
+
+            // Alleen zichtbaar maken als de rol "Eigenaar" is
+            AdminPageButton.Visibility = medewerkerRol == "Eigenaar"
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
 
@@ -126,6 +131,12 @@ namespace BarrocIntens.View
         {
             Frame.Navigate(typeof(HomePageBarrocIntens));
         }
+
+        private void AdminPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AdminPanel), medewerkerRol);
+        }
+
     }
-    
+
 }

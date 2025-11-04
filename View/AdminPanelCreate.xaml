@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="BarrocIntens.View.AdminPanelCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BarrocIntens.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="#FFFDFDFD">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Content -->
+        </Grid.RowDefinitions>
+
+        <!-- =================== HEADER =================== -->
+        <Grid Grid.Row="0"
+              Background="#FF1A1A1A"
+              Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="RolTextBlock"
+                       Grid.Column="0"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFD300"
+                       Text="Rol wordt geladen..." />
+
+            <Button x:Name="backButton"
+                    Grid.Column="1"
+                    Content="Terug"
+                    Click="backButton_Click"
+                    Padding="12,6"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    CornerRadius="4"
+                    FontWeight="Bold"
+                    BorderThickness="0"/>
+        </Grid>
+
+        <!-- =================== CONTENT =================== -->
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Width="500"
+                        HorizontalAlignment="Center"
+                        Padding="20"
+                        Spacing="14">
+
+                <Border Background="#FFF9F9F9"
+                        BorderBrush="#FFEFEFEF"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="30"
+                        Margin="0,30,0,30">
+
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Nieuwe Medewerker toevoegen"
+                                   FontSize="23"
+                                   FontWeight="Bold"
+                                   Foreground="#22201D"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,20" />
+
+                        <!-- FOTO SECTIE -->
+                        <StackPanel Spacing="6" HorizontalAlignment="Center">
+                            <TextBlock Text="Selecteer een foto"
+                                       FontWeight="SemiBold"
+                                       Foreground="#22201D"
+                                       TextAlignment="Center"/>
+
+                            <Image x:Name="MedewerkerFoto"
+                                   Width="300"
+                                   Height="200"
+                                   Stretch="Uniform"
+                                   Margin="0,5,0,5"/>
+                        </StackPanel>
+
+                        <!-- FORMULIER -->
+                        <TextBox x:Name="NaamBox"
+                                 Header="Naam medewerker"
+                                 PlaceholderText="Naam "
+                                 Background="White"
+                                 Foreground="#22201D"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <TextBox x:Name="EmailBox"
+                                 Header="Email medewerker"
+                                 PlaceholderText="Voorbeeld@email.com"
+                                 Background="White"
+                                 Foreground="#22201D"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <TextBox x:Name="TelefoonBox"
+                                 Header="Telefoonnummer medewerker"
+                                 PlaceholderText="+31 6 12345678"
+                                 Background="White"
+                                 Foreground="#22201D"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <TextBox x:Name="RolBox"
+                                 Header="Rol Medewerker"
+                                 PlaceholderText="Bijv. Inkoop"
+                                 Background="White"
+                                 Foreground="#22201D"
+                                 BorderBrush="#FFCCCCCC"
+                                 CornerRadius="4"/>
+
+                        <Button Content="Opslaan"
+                                x:Name="Opslaan"
+                                Click="Opslaan_Click"
+                                HorizontalAlignment="Center"
+                                Margin="0,20,0,0"
+                                Padding="14,8"
+                                Background="#FFFFD300"
+                                Foreground="#22201D"
+                                FontWeight="Bold"
+                                CornerRadius="6"
+                                BorderThickness="0"
+                                Width="150"/>
+
+                        <TextBlock x:Name="FeedbackText"
+                                   Foreground="#22201D"
+                                   Visibility="Collapsed"
+                                   FontWeight="SemiBold"
+                                   TextAlignment="Center"
+                                   Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -38,6 +38,17 @@
                         Orientation="Horizontal"
                         Spacing="12"
                         VerticalAlignment="Center">
+                <Button x:Name="AdminPageButton"
+                        Content="Admin"
+                        Click="AdminPageButton_Click"
+                        Background="#FFFFD300"
+                        Foreground="#22201D"
+                        Padding="12,6"
+                        FontWeight="Bold"
+                        CornerRadius="4"
+                        BorderThickness="0"
+                        Visibility="Collapsed"/>
+
                 <TextBlock x:Name="RolTextBlock"
                         Grid.Column="0"
                         Margin="100,0,100,0"
