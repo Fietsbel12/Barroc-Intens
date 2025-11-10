@@ -46,6 +46,9 @@ namespace BarrocIntens.Data
 
             // ---------------------- KOFFIEZETAPPARATEN SEED ----------------------
             var apparaten = new List<Koffiezetapparaat>();
+            var random = new Random();
+
+            // Voeg eerst alle apparaten toe met normale prijs
             for (int i = 1; i <= 10; i++)
             {
                 apparaten.Add(new Koffiezetapparaat
@@ -57,6 +60,18 @@ namespace BarrocIntens.Data
                     Voorraad = 5 + i,
                     FotoPad = $@"C:\barroc intens\Barroc-Intens\FotoKoffiezetapparaatFolder\koffiezetapparaat{i}.jpeg"
                 });
+            }
+
+            // Kies 4 willekeurige apparaten en zet hun prijs op 0
+            var randomIndexes = new HashSet<int>();
+            while (randomIndexes.Count < 4)
+            {
+                randomIndexes.Add(random.Next(0, apparaten.Count)); // 0 t/m 9
+            }
+
+            foreach (var index in randomIndexes)
+            {
+                apparaten[index].Prijs = 0f;
             }
 
 

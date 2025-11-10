@@ -3,8 +3,6 @@ using BarrocIntens.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace BarrocIntens.View
@@ -32,24 +30,26 @@ namespace BarrocIntens.View
             using (var db = new AppDbContext())
             {
                 var apparaten = db.Koffiezetapparaten
-                    .Where(a => a.Naam.ToLower().Contains(query) || a.Merk.ToLower().Contains(query))
+                    .Where(a => a.Prijs > 0 &&  // ? Alleen apparaten met een prijs
+                                (a.Naam.ToLower().Contains(query) || a.Merk.ToLower().Contains(query)))
                     .OrderBy(a => a.Naam)
                     .ToList();
 
                 ApparatenListView.ItemsSource = apparaten;
-
                 GeenApparatenText.Visibility = apparaten.Any() ? Visibility.Collapsed : Visibility.Visible;
             }
         }
-
 
         private async void SalesHomepage_Loaded(object sender, RoutedEventArgs e)
         {
             using (var db = new AppDbContext())
             {
-                var apparaten = db.Koffiezetapparaten.ToList();
+                // ? Alleen apparaten met een prijs > 0 tonen
+                var apparaten = db.Koffiezetapparaten
+                    .Where(a => a.Prijs > 0)
+                    .OrderBy(a => a.Naam)
+                    .ToList();
 
-                // Controleer of er apparaten zijn
                 if (apparaten.Any())
                 {
                     ApparatenListView.ItemsSource = apparaten;

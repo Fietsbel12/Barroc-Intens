@@ -103,14 +103,6 @@
                                  BorderBrush="#FFCCCCCC"
                                  CornerRadius="4"/>
 
-                        <TextBox x:Name="PrijsBox"
-                                 Header="Prijs (€)"
-                                 PlaceholderText="Bijv. 249,99"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
                         <TextBox x:Name="VoorraadBox"
                                  Header="Voorraad"
                                  PlaceholderText="Bijv. 10"
