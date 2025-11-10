@@ -11,8 +11,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition Width="3.5*" />
+
         </Grid.ColumnDefinitions>
 
         <!-- Linkerzijde: Logo -->
@@ -67,12 +68,21 @@
             </StackPanel>
 
             <!-- Help tekst onderaan -->
-            <TextBlock Grid.Row="2"
-                       Text="Need help with login call: 00.000000"
-                       Foreground="#FFD700"
-                       FontSize="12"
-                       HorizontalAlignment="Center"
-                       Margin="0,20,0,20"/>
+            <StackPanel Grid.Row="2"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center"
+            Margin="0,0,0,25">
+                <TextBlock Text="Need help with login call: 00.000000"
+               Foreground="#FFD700"
+               FontSize="12"
+               HorizontalAlignment="Center"/>
+                <TextBlock Text="or email test@outlook.com"
+               Foreground="#FFD700"
+               FontSize="12"
+               HorizontalAlignment="Center"
+               Margin="0,3,0,0"/>
+            </StackPanel>
+
         </Grid>
     </Grid>
 </Page>
