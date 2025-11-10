@@ -9,14 +9,13 @@
     mc:Ignorable="d">
 
     <Grid Background="#FFFDFDFD">
+        <!-- Grid definitions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
             <RowDefinition Height="*"/>
-            <!-- Content -->
         </Grid.RowDefinitions>
 
-        <!-- =================== HEADER =================== -->
+        <!-- Header -->
         <Grid Grid.Row="0"
               Background="#FF1A1A1A"
               Padding="20">
@@ -25,115 +24,74 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="RolTextBlock"
-                       Grid.Column="0"
+            <TextBlock Text="Nieuwe medewerker aanmaken"
                        FontSize="20"
                        FontWeight="SemiBold"
                        Foreground="#FFFFD300"
-                       Text="Rol wordt geladen..." />
+                       VerticalAlignment="Center"/>
 
-            <Button x:Name="backButton"
-                    Grid.Column="1"
-                    Content="Terug"
-                    Click="backButton_Click"
-                    Padding="12,6"
-                    Background="#FFFFD300"
-                    Foreground="#22201D"
-                    CornerRadius="4"
-                    FontWeight="Bold"
-                    BorderThickness="0"/>
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="12"
+                        VerticalAlignment="Center">
+
+                <Button Content="Opslaan"
+                        Click="OpslaanButton_Click"
+                        Background="#FFFFD300"
+                        Foreground="#22201D"
+                        Padding="12,6"
+                        FontWeight="Bold"
+                        CornerRadius="4"
+                        BorderThickness="0"/>
+
+                <Button Content="Terug"
+                        Click="backButton_Click"
+                        Padding="12,6"
+                        Background="#FFFFD300"
+                        Foreground="#22201D"
+                        CornerRadius="4"
+                        FontWeight="Bold"
+                        BorderThickness="0"/>
+            </StackPanel>
         </Grid>
 
-        <!-- =================== CONTENT =================== -->
+        <!-- Content -->
         <ScrollViewer Grid.Row="1">
-            <StackPanel Width="500"
+            <StackPanel Width="600"
                         HorizontalAlignment="Center"
                         Padding="20"
                         Spacing="14">
 
-                <Border Background="#FFF9F9F9"
-                        BorderBrush="#FFEFEFEF"
-                        BorderThickness="1"
-                        CornerRadius="10"
-                        Padding="30"
-                        Margin="0,30,0,30">
+                <!-- Naam -->
+                <TextBlock Text="Naam:" FontWeight="SemiBold" FontSize="16"/>
+                <TextBox x:Name="NaamTextBox"
+                         PlaceholderText="Naam"
+                         Padding="10"
+                         BorderBrush="#FFEFEFEF"
+                         BorderThickness="1"
+                         CornerRadius="6"/>
 
-                    <StackPanel Spacing="12">
-                        <TextBlock Text="Nieuwe Medewerker toevoegen"
-                                   FontSize="23"
-                                   FontWeight="Bold"
-                                   Foreground="#22201D"
-                                   TextAlignment="Center"
-                                   Margin="0,0,0,20" />
+                <!-- Wachtwoord -->
+                <TextBlock Text="Wachtwoord:" FontWeight="SemiBold" FontSize="16"/>
+                <TextBox x:Name="WachtwoordTextBox"
+                         PlaceholderText="Wachtwoord"
+                         Padding="10"
+                         BorderBrush="#FFEFEFEF"
+                         BorderThickness="1"
+                         CornerRadius="6"/>
 
-                        <!-- FOTO SECTIE -->
-                        <StackPanel Spacing="6" HorizontalAlignment="Center">
-                            <TextBlock Text="Selecteer een foto"
-                                       FontWeight="SemiBold"
-                                       Foreground="#22201D"
-                                       TextAlignment="Center"/>
+                <!-- MedewerkerRol -->
+                <TextBlock Text="Rol:" FontWeight="SemiBold" FontSize="16"/>
+                <ComboBox x:Name="MedewerkerRolComboBox"
+                          PlaceholderText="Selecteer rol"
+                          Padding="10"
+                          BorderBrush="#FFEFEFEF"
+                          BorderThickness="1"
+                          CornerRadius="6"/>
 
-                            <Image x:Name="MedewerkerFoto"
-                                   Width="300"
-                                   Height="200"
-                                   Stretch="Uniform"
-                                   Margin="0,5,0,5"/>
-                        </StackPanel>
-
-                        <!-- FORMULIER -->
-                        <TextBox x:Name="NaamBox"
-                                 Header="Naam medewerker"
-                                 PlaceholderText="Naam "
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <TextBox x:Name="EmailBox"
-                                 Header="Email medewerker"
-                                 PlaceholderText="Voorbeeld@email.com"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <TextBox x:Name="TelefoonBox"
-                                 Header="Telefoonnummer medewerker"
-                                 PlaceholderText="+31 6 12345678"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <TextBox x:Name="RolBox"
-                                 Header="Rol Medewerker"
-                                 PlaceholderText="Bijv. Inkoop"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <Button Content="Opslaan"
-                                x:Name="Opslaan"
-                                Click="Opslaan_Click"
-                                HorizontalAlignment="Center"
-                                Margin="0,20,0,0"
-                                Padding="14,8"
-                                Background="#FFFFD300"
-                                Foreground="#22201D"
-                                FontWeight="Bold"
-                                CornerRadius="6"
-                                BorderThickness="0"
-                                Width="150"/>
-
-                        <TextBlock x:Name="FeedbackText"
-                                   Foreground="#22201D"
-                                   Visibility="Collapsed"
-                                   FontWeight="SemiBold"
-                                   TextAlignment="Center"
-                                   Margin="0,10,0,0"/>
-                    </StackPanel>
-                </Border>
+                <!-- Error / Success -->
+                <TextBlock x:Name="ErrorsTextblock" Foreground="Red" FontWeight="SemiBold"/>
+                <TextBlock x:Name="SuccessTextblock" Foreground="Green" FontWeight="SemiBold"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
