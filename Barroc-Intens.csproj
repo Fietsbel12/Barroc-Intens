@@ -16,6 +16,7 @@
     <None Remove="Assets\BarrocIntensHomepageImage.png" />
     <None Remove="View\AdminPanel.xaml" />
     <None Remove="View\AdminPanelCreate.xaml" />
+    <None Remove="View\PlannerHomepage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\AdminPanel.xaml">
+    <Page Update="View\PlannerHomepage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

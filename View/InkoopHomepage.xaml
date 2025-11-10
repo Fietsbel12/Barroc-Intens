@@ -24,6 +24,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            
 
             <TextBlock x:Name="RolTextBlock"
                        Grid.Column="0"
@@ -97,14 +98,6 @@
                         <TextBox x:Name="MerkBox"
                                  Header="Merk"
                                  PlaceholderText="Bijv. Philips"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <TextBox x:Name="PrijsBox"
-                                 Header="Prijs (€)"
-                                 PlaceholderText="Bijv. 249,99"
                                  Background="White"
                                  Foreground="#22201D"
                                  BorderBrush="#FFCCCCCC"

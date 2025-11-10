@@ -91,9 +91,10 @@ namespace BarrocIntens.View
                 {
                     Naam = NaamBox.Text,
                     Merk = MerkBox.Text,
-                    Prijs = float.Parse(PrijsBox.Text),
+                    Prijs = 0, // standaard 0 voor Finance
                     Voorraad = int.Parse(VoorraadBox.Text),
                     FotoPad = fotoBestanden[huidigeFotoIndex] // sla het pad van de geselecteerde foto op
+                    
                 };
 
                 using (var db = new AppDbContext())
@@ -109,7 +110,6 @@ namespace BarrocIntens.View
                 // Formulier leegmaken
                 NaamBox.Text = "";
                 MerkBox.Text = "";
-                PrijsBox.Text = "";
                 VoorraadBox.Text = "";
             }
             catch (Exception ex)
