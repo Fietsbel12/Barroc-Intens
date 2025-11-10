@@ -64,6 +64,13 @@
                         Click="Login_Click"
                         HorizontalAlignment="Stretch"
                         CornerRadius="5"/>
+                <Button Content="Back"
+        Background="#FFD700"
+        Foreground="Black"
+        FontWeight="Bold"
+        Click="backButton_Click"
+        HorizontalAlignment="Stretch"
+        CornerRadius="5"/>
 
             </StackPanel>
 
