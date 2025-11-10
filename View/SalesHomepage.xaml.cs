@@ -25,6 +25,24 @@ namespace BarrocIntens.View
             RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
         }
 
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string query = SearchTextBox.Text.ToLower();
+
+            using (var db = new AppDbContext())
+            {
+                var apparaten = db.Koffiezetapparaten
+                    .Where(a => a.Naam.ToLower().Contains(query) || a.Merk.ToLower().Contains(query))
+                    .OrderBy(a => a.Naam)
+                    .ToList();
+
+                ApparatenListView.ItemsSource = apparaten;
+
+                GeenApparatenText.Visibility = apparaten.Any() ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+
         private async void SalesHomepage_Loaded(object sender, RoutedEventArgs e)
         {
             using (var db = new AppDbContext())

@@ -41,12 +41,21 @@
         <!-- CONTENT -->
         <ScrollViewer Grid.Row="1" Padding="20">
             <StackPanel Spacing="14">
+                
                 <TextBlock Text="Overzicht van alle koffiezetapparaten"
                            FontSize="26"
                            FontWeight="Bold"
                            Foreground="#22201D"
                            TextAlignment="Center"
                            Margin="0,20,0,10"/>
+                <TextBox x:Name="SearchTextBox"
+         Header="Zoeken:"
+         PlaceholderText="Zoek op naam of merk..."
+         TextChanged="SearchTextBox_TextChanged"
+         Margin="0,10,0,20"
+         Width="300"
+         HorizontalAlignment="Center"/>
+
 
                 <TextBlock x:Name="GeenApparatenText"
                            Text="Er zijn nog geen apparaten toegevoegd."
@@ -71,6 +80,7 @@
                                            VerticalAlignment="Top"/>
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:Koffiezetapparaat"
