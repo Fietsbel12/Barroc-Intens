@@ -56,6 +56,38 @@
   <ItemGroup>
     <Folder Include="FotoKoffiezetapparaatFolder\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat1.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat10.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat2.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat3.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat4.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat5.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat6.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat7.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat8.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat9.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <!-- Pagina’s -->
   <ItemGroup>

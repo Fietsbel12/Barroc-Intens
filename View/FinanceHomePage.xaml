@@ -73,7 +73,7 @@
                                     <!-- Foto -->
                                     <Image Width="60" Height="60">
                                         <Image.Source>
-                                            <BitmapImage UriSource="{x:Bind FotoPad, Mode=OneWay}"/>
+                                            <BitmapImage UriSource="{x:Bind VolledigFotoPad, Mode=OneWay}"/>
                                         </Image.Source>
                                     </Image>
 

@@ -16,7 +16,7 @@ namespace BarrocIntens.View
         // FOTO-BROWSING
         private string[] fotoBestanden;
         private int huidigeFotoIndex = 0;
-        private const string fotoFolder = @"C:\barroc intens\Barroc-Intens\FotoKoffiezetapparaatFolder";
+        private const string fotoFolder = @"FotoKoffiezetapparaatFolder";
 
         public InkoopHomepage()
         {
@@ -38,9 +38,9 @@ namespace BarrocIntens.View
         // ---------------- FOTO LADEN ----------------
         private void LaadFotos()
         {
-            if (Directory.Exists(fotoFolder))
+            if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory +fotoFolder))
             {
-                fotoBestanden = Directory.GetFiles(fotoFolder, "*.jp*g"); // jpg & jpeg
+                fotoBestanden = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory +fotoFolder, "*.jp*g"); // jpg & jpeg
                 if (fotoBestanden.Length > 0)
                 {
                     huidigeFotoIndex = 0;

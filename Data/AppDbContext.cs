@@ -58,7 +58,7 @@ namespace BarrocIntens.Data
                     Merk = i % 2 == 0 ? "Philips" : "DeLonghi",
                     Prijs = 99.99f + (i * 25),
                     Voorraad = 5 + i,
-                    FotoPad = $@"C:\barroc intens\Barroc-Intens\FotoKoffiezetapparaatFolder\koffiezetapparaat{i}.jpeg"
+                    FotoPad = $@"FotoKoffiezetapparaatFolder\koffiezetapparaat{i}.jpeg"
                 });
             }
 

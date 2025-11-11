@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BarrocIntens.Models
 {
@@ -25,5 +26,7 @@ namespace BarrocIntens.Models
 
         [MaxLength(500)]
         public string? FotoPad { get; set; }  // Pad naar de geselecteerde foto
+
+        public string VolledigFotoPad => AppDomain.CurrentDomain.BaseDirectory + FotoPad;
     }
 }

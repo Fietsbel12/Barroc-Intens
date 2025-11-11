@@ -99,7 +99,7 @@
                                            HorizontalAlignment="Center"
                                            Margin="0,0,0,6">
                                         <Image.Source>
-                                            <BitmapImage UriSource="{x:Bind FotoPad, Mode=OneWay}"/>
+                                            <BitmapImage UriSource="{x:Bind VolledigFotoPad, Mode=OneWay}"/>
                                         </Image.Source>
                                     </Image>
 
