@@ -65,5 +65,10 @@ namespace BarrocIntens.View
         {
             Frame.GoBack();
         }
+
+        private void OwnerLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MedewerkerDashboard), "Eigenaar");
+        }
     }
 }
