@@ -42,7 +42,7 @@
                 <StackPanel>
                     <TextBlock Text="Username" Foreground="White" Margin="0,0,0,5"/>
                     <TextBox x:Name="NaamTextBox"
-                             PlaceholderText="Enter your username"
+                             PlaceholderText="Gebruikersnaam"
                              BorderBrush="#FFD700"
                              Foreground="White"
                              Background="Transparent"/>
@@ -51,13 +51,13 @@
                 <StackPanel>
                     <TextBlock Text="Password" Foreground="White" Margin="0,10,0,5"/>
                     <PasswordBox x:Name="WachtwoordBox"
-                                 PlaceholderText="Enter your password"
+                                 PlaceholderText="Wachtwoord"
                                  BorderBrush="#FFD700"
                                  Foreground="White"
                                  Background="Transparent"/>
                 </StackPanel>
 
-                <Button Content="Login"
+                <Button Content="Inloggen"
                         Background="#FFD700"
                         Foreground="Black"
                         FontWeight="Bold"
@@ -72,13 +72,13 @@
                         Click="OwnerLoginButton_Click"
                         HorizontalAlignment="Stretch"
                         CornerRadius="5"/>
-                <Button Content="Back"
-        Background="#FFD700"
-        Foreground="Black"
-        FontWeight="Bold"
-        Click="backButton_Click"
-        HorizontalAlignment="Stretch"
-        CornerRadius="5"/>
+                <Button Content="Terug"
+                        Background="#FFD700"
+                        Foreground="Black"
+                        FontWeight="Bold"
+                        Click="backButton_Click"
+                        HorizontalAlignment="Stretch"
+                        CornerRadius="5"/>
 
             </StackPanel>
 
@@ -87,11 +87,11 @@
             VerticalAlignment="Bottom"
             HorizontalAlignment="Center"
             Margin="0,0,0,25">
-                <TextBlock Text="Need help with login call: 00.000000"
+                <TextBlock Text="Hulp nodig bij het inloggen? bel naar: 06-123456789"
                Foreground="#FFD700"
                FontSize="12"
                HorizontalAlignment="Center"/>
-                <TextBlock Text="or email test@outlook.com"
+                <TextBlock Text="of E-mail: test@outlook.com"
                Foreground="#FFD700"
                FontSize="12"
                HorizontalAlignment="Center"
