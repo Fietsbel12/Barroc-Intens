@@ -9,44 +9,75 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380"/> <!-- linkervlak -->
+            <ColumnDefinition Width="8"/> <!-- gele balk -->
+            <ColumnDefinition Width="*"/><!-- donker vlak -->
+        </Grid.ColumnDefinitions>
 
-        <!-- Margin volgorde: Links, Boven, Rechts, Onder -->
-        <Grid Grid.Row="1" HorizontalAlignment="Left">
-            <Image Source="/Assets/BarrocIntensHomepageImage.png" Margin="200,20,20,20" Width="300" Height="100" />
+        <!-- LINKS: wit vlak met logo -->
+        <Grid Grid.Column="0" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Image Source="/Assets/BarrocIntensHomepageImage.png"
+                   Width="220" Height="220"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
         </Grid>
 
+        <!-- GELE BALK -->
+        <Grid Grid.Column="1" Background="#FFD000" HorizontalAlignment="Stretch"/>
 
-        <Grid Grid.Row="2" HorizontalAlignment="Right">
-            <Button x:Name="LoginButton"
-Margin="20,0,0,15"
-Click="LoginButton_Click">
-                Login
-            </Button>
-        </Grid>
+        <!-- RECHTS: Donker vlak -->
+        <Grid Grid.Column="2" Background="#1E1E1E">
+            <Grid Padding="72,60,72,60">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
+                <!-- TITEL -->
+                <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Left">
+                    <TextBlock Text="Over het bedrijf"
+                               Foreground="#FFD000"
+                               FontSize="28"
+                               FontWeight="Bold"/>
+                    <!-- gele lijn onder de titel -->
+                    <Rectangle Height="3" Width="260" Fill="#FFD000" Margin="0,8,0,0"/>
+                </StackPanel>
 
-        <Grid Grid.Row="3">
-            <TextBlock 
-            TextWrapping="Wrap"
-            Width="900"
-            FontSize="18"
-            Foreground="#22201D"
-            TextAlignment="Justify"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center">
+                <!-- Kleine ruimte -->
+                <Border Grid.Row="1" Height="18" Background="Transparent"/>
+
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <TextBlock TextWrapping="Wrap"
+                               Width="520"               
+                               TextAlignment="Justify"   
+                               Foreground="#E6E6E6"
+                               FontSize="14"
+                               LineHeight="20">
+                        Het bedrijf “Barroc Intens” is leverancier van koffieautomaten. Dit bedrijf verhuurt koffiemachines aan horecagelegenheden. Verhuur begint met een gesprek waarbij de behoeften van de klant worden ingevuld op een automatisch intakeformulier. Daaruit komt voor de klant automatisch een offerte en contract per e-mail. Wanneer dit contract digitaal wordt ondertekend wordt de order verwerkt en wordt de factuur aangemaakt en per e-mail verstuurd. Na betaling van de factuur kan het logistieke proces beginnen. Daarna wordt de machine uitgeleverd en geïnstalleerd. Dit dient door de klant voor levering te worden afgetekend. Zodra de levering is voltooid wordt het periodieke onderhoud van de machine ingepland. Dit geheel moet via een backend worden geautomatiseerd.
+                    </TextBlock>
+                </ScrollViewer>
+
+                <!-- LOGIN KNOP  -->
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,28,0,0">
+                    <Border Background="#FFD000"
+                            CornerRadius="16"
+                            Padding="18,8"
+                            Width="160"
+                            HorizontalAlignment="Left">
+                        <Button Content="Login"
+                                HorizontalAlignment="Center"
+                                Click="LoginButton_Click"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="Black"
+                                FontWeight="Bold"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
             
-            <Run Text="Over het bedrijf" FontWeight="Bold" FontSize="24"/><LineBreak/><LineBreak/>
-            <Run Text="Het bedrijf “Barroc Intens” is leverancier van koffieautomaten. Dit bedrijf verhuurt koffiemachines aan horecagelegenheden. Verhuur begint met een gesprek waarbij de behoeften van de klant worden ingevuld op een automatisch intake formulier. Daaruit komt voor de klant automatisch een offerte en contract per e-mail. Wanneer dit contract digitaal wordt ondertekend wordt de order verwerkt en wordt de factuur aangemaakt en per e-mail verstuurd. Na betaling van de factuur kan het logistieke proces beginnen. Daarna wordt de machine uitgeleverd en geïnstalleerd. Dit dient door de klant voor levering te worden afgetekend. Zodra de levering is voltooid wordt het periodieke onderhoud van de machine ingepland. Dit geheel moet via een backend worden geautomatiseerd."/>
-            </TextBlock>
         </Grid>
-
     </Grid>
 </Page>
