@@ -16,7 +16,13 @@ namespace BarrocIntens.View
         // FOTO-BROWSING
         private string[] fotoBestanden;
         private int huidigeFotoIndex = 0;
-        private const string fotoFolder = @"FotoKoffiezetapparaatFolder";
+
+        // De foldernaam waarin de foto’s staan
+        private const string fotoFolder = "FotoKoffiezetapparaatFolder";
+
+        // Berekent het correcte pad naar de folder in de output
+        private static readonly string FotoMapPad =
+            Path.Combine(AppContext.BaseDirectory, fotoFolder);
 
         public InkoopHomepage()
         {
@@ -38,14 +44,25 @@ namespace BarrocIntens.View
         // ---------------- FOTO LADEN ----------------
         private void LaadFotos()
         {
-            if (Directory.Exists(AppDomain.CurrentDomain.BaseDirectory +fotoFolder))
+            if (Directory.Exists(FotoMapPad))
             {
-                fotoBestanden = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory +fotoFolder, "*.jp*g"); // jpg & jpeg
+                fotoBestanden = Directory.GetFiles(FotoMapPad, "*.jp*g");
+
                 if (fotoBestanden.Length > 0)
                 {
                     huidigeFotoIndex = 0;
                     ToonHuidigeFoto();
                 }
+                else
+                {
+                    FeedbackText.Text = "❌ Geen foto's gevonden in de map!";
+                    FeedbackText.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                FeedbackText.Text = $"❌ Map niet gevonden: {FotoMapPad}";
+                FeedbackText.Visibility = Visibility.Visible;
             }
         }
 
@@ -63,6 +80,7 @@ namespace BarrocIntens.View
 
             huidigeFotoIndex--;
             if (huidigeFotoIndex < 0) huidigeFotoIndex = fotoBestanden.Length - 1;
+
             ToonHuidigeFoto();
         }
 
@@ -72,6 +90,7 @@ namespace BarrocIntens.View
 
             huidigeFotoIndex++;
             if (huidigeFotoIndex >= fotoBestanden.Length) huidigeFotoIndex = 0;
+
             ToonHuidigeFoto();
         }
 
@@ -87,14 +106,16 @@ namespace BarrocIntens.View
                     return;
                 }
 
+                string volledigeFoto = fotoBestanden[huidigeFotoIndex];
+                string bestandsNaam = Path.GetFileName(volledigeFoto);
+
                 var apparaat = new Koffiezetapparaat
                 {
                     Naam = NaamBox.Text,
                     Merk = MerkBox.Text,
-                    Prijs = 0, // standaard 0 voor Finance
+                    Prijs = 0,
                     Voorraad = int.Parse(VoorraadBox.Text),
-                    FotoPad = fotoBestanden[huidigeFotoIndex] // sla het pad van de geselecteerde foto op
-                    
+                    FotoPad = $"{fotoFolder}/{bestandsNaam}"   // ✔️ RELATIEF PAD OPSLAAN
                 };
 
                 using (var db = new AppDbContext())
