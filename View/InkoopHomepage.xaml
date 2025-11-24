@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="BarrocIntens.View.InkoopHomepage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -13,7 +12,7 @@
             <RowDefinition Height="Auto"/>
             <!-- Header -->
             <RowDefinition Height="*"/>
-            <!-- Content -->
+            <!-- Content (2 kolommen) -->
         </Grid.RowDefinitions>
 
         <!-- =================== HEADER =================== -->
@@ -24,10 +23,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
 
             <TextBlock x:Name="RolTextBlock"
-                       Grid.Column="0"
                        FontSize="20"
                        FontWeight="SemiBold"
                        Foreground="#FFFFD300"
@@ -45,93 +42,214 @@
                     BorderThickness="0"/>
         </Grid>
 
-        <!-- =================== CONTENT =================== -->
-        <ScrollViewer Grid.Row="1">
-            <StackPanel Width="500"
-                        HorizontalAlignment="Center"
-                        Padding="20"
-                        Spacing="14">
+        <!-- =================== TWEE kolommen =================== -->
+        <Grid Grid.Row="1" Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <!-- Links: overzicht -->
+                <ColumnDefinition Width="2*"/>
+                <!-- Rechts: toevoegen -->
+            </Grid.ColumnDefinitions>
 
-                <Border Background="#FFF9F9F9"
-                        BorderBrush="#FFEFEFEF"
-                        BorderThickness="1"
-                        CornerRadius="10"
-                        Padding="30"
-                        Margin="0,30,0,30">
+            <!-- ============= LIJST MET APPARATEN (LINKS) ============= -->
+            <ScrollViewer Grid.Column="0">
+                <StackPanel Spacing="14">
 
-                    <StackPanel Spacing="12">
-                        <TextBlock Text="Nieuw koffiezetapparaat toevoegen"
-                                   FontSize="23"
-                                   FontWeight="Bold"
-                                   Foreground="#22201D"
-                                   TextAlignment="Center"
-                                   Margin="0,0,0,20" />
+                    <TextBlock Text="Overzicht van alle koffiezetapparaten"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="#22201D"
+                               TextAlignment="Center"
+                               Margin="0,0,0,10"/>
 
-                        <!-- FOTO SECTIE -->
-                        <StackPanel Spacing="6" HorizontalAlignment="Center">
-                            <TextBlock Text="Selecteer een foto"
-                                       FontWeight="SemiBold"
+                    <TextBox x:Name="SearchTextBox"
+                             Header="Zoeken:"
+                             PlaceholderText="Zoek op naam of merk..."
+                             TextChanged="SearchTextBox_TextChanged"
+                             Width="300"
+                             HorizontalAlignment="Center"
+                             Margin="0,10,0,20"/>
+
+                    <TextBlock x:Name="GeenApparatenText"
+                               Text="Er zijn nog geen apparaten toegevoegd."
+                               FontSize="18"
+                               Foreground="Gray"
+                               TextAlignment="Center"
+                               Visibility="Collapsed"/>
+
+                    <ListView x:Name="ApparatenListView"
+                              SelectionMode="None"
+                              IsItemClickEnabled="False"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal"
+                                               MaximumRowsOrColumns="2"
+                                               HorizontalAlignment="Center"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Koffiezetapparaat"
+                                          xmlns:models="using:BarrocIntens.Models">
+
+                                <Border BorderBrush="#FFE0E0E0"
+                                        BorderThickness="1"
+                                        CornerRadius="10"
+                                        Margin="10"
+                                        Background="White"
+                                        Padding="10"
+                                        Width="250">
+
+                                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                                        <Image Width="200"
+                                               Height="150"
+                                               Stretch="UniformToFill"
+                                               Margin="0,0,0,6">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="{x:Bind VolledigFotoPad, Mode=OneWay}"/>
+                                            </Image.Source>
+                                        </Image>
+
+                                        <TextBlock Text="{x:Bind Naam}"
+                                                   FontSize="18"
+                                                   FontWeight="Bold"
+                                                   Foreground="#22201D"
+                                                   TextAlignment="Center"/>
+
+                                        <TextBlock Text="{x:Bind Merk}"
+                                                   FontSize="15"
+                                                   Foreground="Gray"
+                                                   TextAlignment="Center"/>
+
+                                        <TextBlock Text="Prijs:" FontWeight="SemiBold" TextAlignment="Center" Margin="0,5,0,0"/>
+                                        <TextBlock FontSize="15" TextAlignment="Center">
+                                            <Run Text="€ " />
+                                            <Run Text="{x:Bind Prijs}" />
+                                        </TextBlock>
+
+                                        <TextBlock Text="Voorraad:" 
+                                               FontWeight="SemiBold" 
+                                               TextAlignment="Center"
+                                               Margin="0,5,0,0"/>
+
+                                        <StackPanel Orientation="Horizontal" 
+                                                HorizontalAlignment="Center" 
+                                                Spacing="6">
+
+                                            <Button Content="-" 
+                                                Width="40"
+                                                Click="VoorraadMin_Click"
+                                                Tag="{x:Bind Id}"/>
+
+                                            <TextBox Width="50"
+                                                 Text="{x:Bind Voorraad, Mode=TwoWay}"
+                                                 TextAlignment="Center"
+                                                 InputScope="Number"
+                                                 Tag="{x:Bind Id}"
+                                                 LostFocus="VoorraadTextBox_LostFocus"/>
+
+                                            <Button Content="+" 
+                                                Width="40"
+                                                Click="VoorraadPlus_Click"
+                                                Tag="{x:Bind Id}"/>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- ============= NIEUW APPARAAT TOEVOEGEN (RECHTS) ============= -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Width="400"
+                            HorizontalAlignment="Center"
+                            Padding="20"
+                            Spacing="14">
+
+                    <Border Background="#FFF9F9F9"
+                            BorderBrush="#FFEFEFEF"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            Padding="30"
+                            Margin="0,0,0,30">
+
+                        <StackPanel Spacing="12">
+
+                            <TextBlock Text="Nieuw koffiezetapparaat toevoegen"
+                                       FontSize="23"
+                                       FontWeight="Bold"
                                        Foreground="#22201D"
-                                       TextAlignment="Center"/>
+                                       TextAlignment="Center"
+                                       Margin="0,0,0,20"/>
 
-                            <Image x:Name="ApparaatFoto"
-                                   Width="300"
-                                   Height="200"
-                                   Stretch="Uniform"
-                                   Margin="0,5,0,5"/>
+                            <!-- FOTO SELECTIE -->
+                            <StackPanel Spacing="6" HorizontalAlignment="Center">
+                                <TextBlock Text="Selecteer een foto"
+                                           FontWeight="SemiBold"
+                                           Foreground="#22201D"/>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-                                <Button Content="Vorige" Click="VorigeFoto_Click" Padding="8,4"/>
-                                <Button Content="Volgende" Click="VolgendeFoto_Click" Padding="8,4"/>
+                                <Image x:Name="ApparaatFoto"
+                                       Width="300"
+                                       Height="200"
+                                       Stretch="Uniform"
+                                       Margin="0,5,0,5"/>
+
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Button Content="Vorige" Click="VorigeFoto_Click"/>
+                                    <Button Content="Volgende" Click="VolgendeFoto_Click"/>
+                                </StackPanel>
                             </StackPanel>
+
+                            <TextBox x:Name="NaamBox"
+                                     Header="Naam apparaat"
+                                     PlaceholderText="Bijv. Barista Pro"
+                                     Background="White"
+                                     Foreground="#22201D"
+                                     BorderBrush="#FFCCCCCC"
+                                     CornerRadius="4"/>
+
+                            <TextBox x:Name="MerkBox"
+                                     Header="Merk"
+                                     PlaceholderText="Bijv. Philips"
+                                     Background="White"
+                                     Foreground="#22201D"
+                                     BorderBrush="#FFCCCCCC"
+                                     CornerRadius="4"/>
+
+                            <TextBox x:Name="VoorraadBox"
+                                     Header="Voorraad"
+                                     PlaceholderText="Bijv. 10"
+                                     Background="White"
+                                     Foreground="#22201D"
+                                     BorderBrush="#FFCCCCCC"
+                                     CornerRadius="4"/>
+
+                            <Button Content="Opslaan"
+                                    Click="Opslaan_Click"
+                                    HorizontalAlignment="Center"
+                                    Padding="14,8"
+                                    Background="#FFFFD300"
+                                    Foreground="#22201D"
+                                    FontWeight="Bold"
+                                    CornerRadius="6"
+                                    BorderThickness="0"
+                                    Width="150"/>
+
+                            <TextBlock x:Name="FeedbackText"
+                                       Foreground="#22201D"
+                                       Visibility="Collapsed"
+                                       FontWeight="SemiBold"
+                                       TextAlignment="Center"
+                                       Margin="0,10,0,0"/>
                         </StackPanel>
-
-                        <!-- FORMULIER -->
-                        <TextBox x:Name="NaamBox"
-                                 Header="Naam apparaat"
-                                 PlaceholderText="Bijv. Barista Pro"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <TextBox x:Name="MerkBox"
-                                 Header="Merk"
-                                 PlaceholderText="Bijv. Philips"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <TextBox x:Name="VoorraadBox"
-                                 Header="Voorraad"
-                                 PlaceholderText="Bijv. 10"
-                                 Background="White"
-                                 Foreground="#22201D"
-                                 BorderBrush="#FFCCCCCC"
-                                 CornerRadius="4"/>
-
-                        <Button Content="Opslaan"
-                                Click="Opslaan_Click"
-                                HorizontalAlignment="Center"
-                                Margin="0,20,0,0"
-                                Padding="14,8"
-                                Background="#FFFFD300"
-                                Foreground="#22201D"
-                                FontWeight="Bold"
-                                CornerRadius="6"
-                                BorderThickness="0"
-                                Width="150"/>
-
-                        <TextBlock x:Name="FeedbackText"
-                                   Foreground="#22201D"
-                                   Visibility="Collapsed"
-                                   FontWeight="SemiBold"
-                                   TextAlignment="Center"
-                                   Margin="0,10,0,0"/>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-        </ScrollViewer>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>
