@@ -64,10 +64,11 @@
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,28,0,0">
                     <Border Background="#FFD000"
                             CornerRadius="16"
-                            Padding="18,8"
+                           
                             Width="160"
                             HorizontalAlignment="Left">
                         <Button Content="Login"
+                                Padding="25,10,25,10"
                                 HorizontalAlignment="Center"
                                 Click="LoginButton_Click"
                                 Background="Transparent"
