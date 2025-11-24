@@ -7,6 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <local:RolDisableConverter x:Key="RolDisableConverter"/>
+    </Page.Resources>
 
     <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
@@ -83,13 +86,15 @@
                                     <!-- Knoppen -->
                                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                                         <Button Content="Edit"
-                                                Click="EditButton_Click"
-                                                Tag="{x:Bind}"
-                                                Background="#FFD3D3D3"
-                                                Foreground="Black"
-                                                Padding="6,2"
-                                                CornerRadius="4"
-                                                BorderThickness="0"/>
+                                            Click="EditButton_Click"
+                                            Tag="{x:Bind}"
+                                            Background="#FFD3D3D3"
+                                            Foreground="Black"
+                                            Padding="6,2"
+                                            CornerRadius="4"
+                                            BorderThickness="0"
+                                            Visibility="{x:Bind MedewerkerRol, Converter={StaticResource RolDisableConverter}, ConverterParameter=Eigenaar}"/>
+
                                         <Button Content="Delete"
                                                 Click="DeleteButton_Click"
                                                 Tag="{x:Bind}"
@@ -97,7 +102,10 @@
                                                 Foreground="White"
                                                 Padding="6,2"
                                                 CornerRadius="4"
-                                                BorderThickness="0"/>
+                                                BorderThickness="0"
+                                                Visibility="{x:Bind MedewerkerRol, Converter={StaticResource RolDisableConverter}, ConverterParameter=Eigenaar}"/>
+
+
                                     </StackPanel>
                                 </Grid>
                             </Border>
