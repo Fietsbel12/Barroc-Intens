@@ -72,9 +72,9 @@
                          CornerRadius="6"/>
 
                 <!-- Wachtwoord -->
-                <TextBlock Text="Wachtwoord:(laat leeg om niet te wijzigen)" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Text="Wachtwoord:" FontWeight="SemiBold" FontSize="16"/>
                 <TextBox x:Name="WachtwoordTextBox"
-                         PlaceholderText="Wachtwoord (laat leeg om niet te wijzigen)"
+                         PlaceholderText="Wachtwoord"
                          Padding="10"
                          BorderBrush="#FFEFEFEF"
                          BorderThickness="1"
