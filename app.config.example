@@ -3,6 +3,21 @@
 
 	<connectionStrings>
 		<add name="BarrocIntensDatabase"
-			 connectionString="server=localhost;user=root;password=;database=BarrocIntensDatabase;" />
+             connectionString="server=localhost;user=root;password=;database=BarrocIntensDatabase;" />
 	</connectionStrings>
+
+	<!--
+    Name    Velva Kessler
+    Username    velva93@ethereal.email – this account can
+    not be used for inbound emails
+    Password    C6RGdZe7S9y98FvKxc
+
+    https://ethereal.email/
+    Ethereal Email
+
+    setx SMTP_PASS "C6RGdZe7S9y98FvKxc"
+    -->
+
 </configuration>
+
+

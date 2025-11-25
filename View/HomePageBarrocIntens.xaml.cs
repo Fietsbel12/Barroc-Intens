@@ -1,5 +1,6 @@
-using Microsoft.UI.Xaml;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -31,5 +32,12 @@ namespace BarrocIntens.View // let op: meervoud
         {
             Frame.Navigate(typeof(LoginPage));
         }
+
+        private void Hyperlink_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+        {
+            Frame.Navigate(typeof(ContactPage));
+        }
+
+
     }
 }

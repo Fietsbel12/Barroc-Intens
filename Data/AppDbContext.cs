@@ -36,13 +36,14 @@ namespace BarrocIntens.Data
 
             // ---------------------- MEDEWERKERS SEED ----------------------
             modelBuilder.Entity<Medewerker>().HasData(
-                new Medewerker { Id = 1, Naam = "Pieter Eigenaar", Wachtwoord = "eigenaar123", MedewerkerRol = "Eigenaar" },
-                new Medewerker { Id = 2, Naam = "Sophie Finance", Wachtwoord = "finance123", MedewerkerRol = "Finance" },
-                new Medewerker { Id = 3, Naam = "Mark Sales", Wachtwoord = "sales123", MedewerkerRol = "Sales" },
-                new Medewerker { Id = 4, Naam = "Laura Inkoop", Wachtwoord = "inkoop123", MedewerkerRol = "Inkoop" },
-                new Medewerker { Id = 5, Naam = "Tom Maintenance", Wachtwoord = "maintenance123", MedewerkerRol = "Maintenance" },
-                new Medewerker { Id = 6, Naam = "Emma Planner", Wachtwoord = "planner123", MedewerkerRol = "Planner" }
-            );
+    new Medewerker { Id = 1, Naam = "Pieter Eigenaar", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("eigenaar123"), MedewerkerRol = "Eigenaar" },
+    new Medewerker { Id = 2, Naam = "Sophie Finance", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("finance123"), MedewerkerRol = "Finance" },
+    new Medewerker { Id = 3, Naam = "Mark Sales", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("sales123"), MedewerkerRol = "Sales" },
+    new Medewerker { Id = 4, Naam = "Laura Inkoop", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("inkoop123"), MedewerkerRol = "Inkoop" },
+    new Medewerker { Id = 5, Naam = "Tom Maintenance", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("maintenance123"), MedewerkerRol = "Maintenance" },
+    new Medewerker { Id = 6, Naam = "Emma Planner", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("planner123"), MedewerkerRol = "Planner" }
+);
+
 
             // ---------------------- KOFFIEZETAPPARATEN SEED ----------------------
             var apparaten = new List<Koffiezetapparaat>();

@@ -51,23 +51,35 @@
 
                 <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
                     <TextBlock TextWrapping="Wrap"
-                               Width="520"               
-                               TextAlignment="Justify"   
-                               Foreground="#E6E6E6"
-                               FontSize="14"
-                               LineHeight="20">
-                        Het bedrijf “Barroc Intens” is leverancier van koffieautomaten. Dit bedrijf verhuurt koffiemachines aan horecagelegenheden. Verhuur begint met een gesprek waarbij de behoeften van de klant worden ingevuld op een automatisch intakeformulier. Daaruit komt voor de klant automatisch een offerte en contract per e-mail. Wanneer dit contract digitaal wordt ondertekend wordt de order verwerkt en wordt de factuur aangemaakt en per e-mail verstuurd. Na betaling van de factuur kan het logistieke proces beginnen. Daarna wordt de machine uitgeleverd en geïnstalleerd. Dit dient door de klant voor levering te worden afgetekend. Zodra de levering is voltooid wordt het periodieke onderhoud van de machine ingepland. Dit geheel moet via een backend worden geautomatiseerd.
+                       Width="520"
+                       TextAlignment="Justify"
+                       Foreground="#E6E6E6"
+                       FontSize="14"
+                       LineHeight="20">
+                        Het bedrijf “Barroc Intens” is leverancier van koffieautomaten. Dit bedrijf verhuurt koffiemachines aan horecagelegenheden. 
+                        Verhuur begint met een gesprek waarbij de behoeften van de klant worden ingevuld op een automatisch intakeformulier. 
+                        Daaruit komt voor de klant automatisch een offerte en contract per e-mail. Wanneer dit contract digitaal wordt ondertekend wordt de order verwerkt en wordt de factuur aangemaakt en per e-mail verstuurd. 
+                        Na betaling van de factuur kan het logistieke proces beginnen. Daarna wordt de machine uitgeleverd en geïnstalleerd. Dit dient door de klant voor levering te worden afgetekend. 
+                        Zodra de levering is voltooid wordt het periodieke onderhoud van de machine ingepland. 
+                        Dit geheel moet via een backend worden geautomatiseerd.
+                        <Hyperlink Click="Hyperlink_Click">
+                            Neem Contact met ons op
+                        </Hyperlink>
+                    <LineBreak/>
                     </TextBlock>
                 </ScrollViewer>
+
+
 
                 <!-- LOGIN KNOP  -->
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,28,0,0">
                     <Border Background="#FFD000"
                             CornerRadius="16"
-                            Padding="18,8"
+                           
                             Width="160"
                             HorizontalAlignment="Left">
                         <Button Content="Login"
+                                Padding="25,10,25,10"
                                 HorizontalAlignment="Center"
                                 Click="LoginButton_Click"
                                 Background="Transparent"
