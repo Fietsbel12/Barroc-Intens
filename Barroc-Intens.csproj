@@ -19,6 +19,8 @@
     <None Remove="Assets\BarrocIntensHomepageImage.png" />
     <None Remove="View\AdminPanel.xaml" />
     <None Remove="View\AdminPanelCreate.xaml" />
+    <None Remove="View\ContactPage.xaml" />
+    <None Remove="View\CustomThemeResourceDictionary.xaml" />
     <None Remove="View\PlannerHomepage.xaml" />
   </ItemGroup>
 
@@ -47,6 +49,7 @@
   <!-- NuGet packages -->
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="MailKit" Version="4.14.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6584" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250916003" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
@@ -88,6 +91,12 @@
     <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat9.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\CustomThemeResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\ContactPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- Pagina’s -->
