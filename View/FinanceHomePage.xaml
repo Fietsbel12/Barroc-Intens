@@ -10,10 +10,10 @@
 
     <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/><!-- Header -->
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
-            <RowDefinition Height="*"/>
-            <!-- Content -->
+            <RowDefinition Height="*"/> <!-- Content -->
+            
         </Grid.RowDefinitions>
 
         <!-- =================== HEADER =================== -->
@@ -44,8 +44,46 @@
                     BorderThickness="0"/>
         </Grid>
 
+            <!-- =================== PDF KNOPPEN =================== -->
+        <StackPanel
+            Grid.Row="1"
+            Spacing="10"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Margin="0,20,0,0">
+            <!-- Offerte aanmaak button -->
+            <Button Content="Offerte aanmaken"
+                        x:Name="offerteAanmaken"
+                        Background="#FFFFD300"
+                        Foreground="#22201D"
+                        Padding="10"
+                        CornerRadius="4"
+                        FontWeight="Bold"
+                        Click="offerteAanmaken_Click"/>
+
+            <!-- Factuur aanmaak button -->
+            <Button Content="Factuur aanmaken"
+                        x:Name="factuurAanmaken"
+                        Background="#ffffd300"
+                        Foreground="#22201d"
+                        Padding="10"
+                        CornerRadius="4"
+                        FontWeight="Bold"
+                        Click="factuurAanmaken_Click"/>
+
+            <!-- Contract aanmaak button -->
+            <Button Content="Contract aanmaken"
+                        x:Name="contractAanmaken"
+                        Background="#ffffd300"
+                        Foreground="#22201d"
+                        Padding="10"
+                        CornerRadius="4"
+                        FontWeight="Bold"
+                        Click="contractAanmaken_Click"/>
+        </StackPanel>
+
         <!-- =================== CONTENT =================== -->
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="2">
             <StackPanel Width="650"
                         HorizontalAlignment="Center"
                         Padding="20"
