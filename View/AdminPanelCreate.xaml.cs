@@ -15,14 +15,8 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace BarrocIntens.View
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AdminPanelCreate : Page
     {
         private string medewerkerRol;
@@ -35,11 +29,9 @@ namespace BarrocIntens.View
         public AdminPanelCreate()
         {
             this.InitializeComponent();
-            // ComboBox vullen met rollen
             MedewerkerRolComboBox.ItemsSource = Rollen;
         }
 
-        // Ontvang de ingelogde rol bij navigatie naar deze pagina
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -49,7 +41,7 @@ namespace BarrocIntens.View
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(AdminPanel), medewerkerRol);
-            Frame.BackStack.Clear(); 
+            Frame.BackStack.Clear();
         }
 
         private async void OpslaanButton_Click(object sender, RoutedEventArgs e)
@@ -57,76 +49,83 @@ namespace BarrocIntens.View
             ErrorsTextblock.Text = "";
             SuccessTextblock.Text = "";
 
-
-            string geselecteerdeRol = MedewerkerRolComboBox.SelectedItem.ToString();
-
-            var medewerker = new Medewerker
-            {
-                Naam = NaamTextBox.Text.Trim(),
-                Wachtwoord = WachtwoordTextBox.Text.Trim(),
-                MedewerkerRol = geselecteerdeRol
-            };
-
-            // Naam validatie
-            if (string.IsNullOrWhiteSpace(medewerker.Naam))
-            {
-                ErrorsTextblock.Text = "Naam is verplicht.";
-                return;
-            }
-            if (medewerker.Naam.Length > 50)
-            {
-                ErrorsTextblock.Text = "Ongeldige naam.";
-                return;
-            }
-            if (medewerker.Naam.Length < 2)
-            {
-                ErrorsTextblock.Text = "Naam moet minimaal 2 tekens bevatten.";
-                return;
-            }
-            if (!System.Text.RegularExpressions.Regex.IsMatch(medewerker.Naam, @"^[a-zA-Z\s]+$"))
-            {
-                ErrorsTextblock.Text = "Naam mag alleen letters bevatten.";
-                return;
-            }
-
-            // Wachtwoord validatie
-            if (string.IsNullOrWhiteSpace(medewerker.Wachtwoord))
-            {
-                ErrorsTextblock.Text = "Wachtwoord is verplicht.";
-                return;
-            }
-            if (medewerker.Wachtwoord.Length > 50)
-            {
-                ErrorsTextblock.Text = "Ongeldig wachtwoord.";
-                return;
-            }
-            if (medewerker.Wachtwoord.Length < 6)
-            {
-                ErrorsTextblock.Text = "Wachtwoord moet minimaal 6 tekens bevatten.";
-                return;
-            }
-            if (!System.Text.RegularExpressions.Regex.IsMatch(medewerker.Wachtwoord, @"[0-9]"))
-            {
-                ErrorsTextblock.Text = "Wachtwoord moet minimaal één cijfer bevatten.";
-                return;
-            }
-            if (!System.Text.RegularExpressions.Regex.IsMatch(medewerker.Wachtwoord, @"[A-Z]"))
-            {
-                ErrorsTextblock.Text = "Wachtwoord moet minimaal één hoofdletter bevatten.";
-                return;
-            }
-            if (!System.Text.RegularExpressions.Regex.IsMatch(medewerker.Wachtwoord, @"[\W_]"))
-            {
-                ErrorsTextblock.Text = "Wachtwoord moet minimaal één speciaal teken bevatten.";
-                return;
-            }
-
-            // Rol validatie
+            // Validatie van rol
             if (MedewerkerRolComboBox.SelectedItem == null)
             {
                 ErrorsTextblock.Text = "Selecteer een geldige rol.";
                 return;
             }
+
+            string geselecteerdeRol = MedewerkerRolComboBox.SelectedItem.ToString();
+
+            // NAAM VALIDATIE
+            string naam = NaamTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(naam))
+            {
+                ErrorsTextblock.Text = "Naam is verplicht.";
+                return;
+            }
+            if (naam.Length > 50)
+            {
+                ErrorsTextblock.Text = "Ongeldige naam.";
+                return;
+            }
+            if (naam.Length < 2)
+            {
+                ErrorsTextblock.Text = "Naam moet minimaal 2 tekens bevatten.";
+                return;
+            }
+            if (!System.Text.RegularExpressions.Regex.IsMatch(naam, @"^[a-zA-Z\s]+$"))
+            {
+                ErrorsTextblock.Text = "Naam mag alleen letters bevatten.";
+                return;
+            }
+
+            // WACHTWOORD VALIDATIE
+            string wachtwoord = WachtwoordTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(wachtwoord))
+            {
+                ErrorsTextblock.Text = "Wachtwoord is verplicht.";
+                return;
+            }
+            if (wachtwoord.Length > 50)
+            {
+                ErrorsTextblock.Text = "Ongeldig wachtwoord.";
+                return;
+            }
+            if (wachtwoord.Length < 6)
+            {
+                ErrorsTextblock.Text = "Wachtwoord moet minimaal 6 tekens bevatten.";
+                return;
+            }
+            if (!System.Text.RegularExpressions.Regex.IsMatch(wachtwoord, @"[0-9]"))
+            {
+                ErrorsTextblock.Text = "Wachtwoord moet minimaal één cijfer bevatten.";
+                return;
+            }
+            if (!System.Text.RegularExpressions.Regex.IsMatch(wachtwoord, @"[A-Z]"))
+            {
+                ErrorsTextblock.Text = "Wachtwoord moet minimaal één hoofdletter bevatten.";
+                return;
+            }
+            if (!System.Text.RegularExpressions.Regex.IsMatch(wachtwoord, @"[\W_]"))
+            {
+                ErrorsTextblock.Text = "Wachtwoord moet minimaal één speciaal teken bevatten.";
+                return;
+            }
+
+            // HASH HET WACHTWOORD
+            string gehashtWachtwoord = BCrypt.Net.BCrypt.HashPassword(wachtwoord);
+
+            // AANGEMAAKT OBJECT NA VALIDATIES
+            var medewerker = new Medewerker
+            {
+                Naam = naam,
+                Wachtwoord = gehashtWachtwoord,
+                MedewerkerRol = geselecteerdeRol
+            };
 
             try
             {
@@ -138,9 +137,8 @@ namespace BarrocIntens.View
 
                 await Task.Delay(1000);
 
-                
                 Frame.Navigate(typeof(AdminPanel), medewerkerRol);
-                Frame.BackStack.Clear(); 
+                Frame.BackStack.Clear();
             }
             catch (Exception ex)
             {

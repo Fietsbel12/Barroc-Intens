@@ -15,7 +15,7 @@ namespace BarrocIntens.View
     public sealed partial class AdminPanel : Page
     {
         private string medewerkerRol;
-        private readonly string[] Rollen = { "Finance", "Sales", "Inkoop", "Maintenance", "Planner"};
+        private readonly string[] Rollen = { "Finance", "Sales", "Inkoop", "Maintenance", "Planner" };
 
         public AdminPanel()
         {
@@ -59,7 +59,7 @@ namespace BarrocIntens.View
                 Content = $"Weet je zeker dat je {medewerker.Naam} wilt verwijderen?",
                 PrimaryButtonText = "Ja",
                 CloseButtonText = "Nee",
-                XamlRoot = this.XamlRoot // Belangrijk in WinUI 3
+                XamlRoot = this.XamlRoot
             };
 
             var result = await dialog.ShowAsync();
@@ -94,13 +94,13 @@ namespace BarrocIntens.View
             var panel = new StackPanel { Spacing = 10 };
 
             var naamBox = new TextBox { Text = medewerker.Naam, PlaceholderText = "Naam" };
-            var wachtwoordBox = new TextBox { Text = medewerker.Wachtwoord, PlaceholderText = "Wachtwoord" };
+            var wachtwoordBox = new TextBox { PlaceholderText = "Nieuw wachtwoord" };
             var rolBox = new ComboBox { ItemsSource = Rollen, SelectedItem = medewerker.MedewerkerRol };
             var errorTextBlock = new TextBlock { Foreground = new SolidColorBrush(Colors.Red) };
 
             panel.Children.Add(new TextBlock { Text = "Naam:" });
             panel.Children.Add(naamBox);
-            panel.Children.Add(new TextBlock { Text = "Wachtwoord:" });
+            panel.Children.Add(new TextBlock { Text = "Wachtwoord:(laat leeg om niet te wijzigen)" });
             panel.Children.Add(wachtwoordBox);
             panel.Children.Add(new TextBlock { Text = "Rol:" });
             panel.Children.Add(rolBox);
@@ -143,30 +143,29 @@ namespace BarrocIntens.View
                     continue;
                 }
 
-                if (string.IsNullOrWhiteSpace(wachtwoord))
+                // Alleen wachtwoord validatie als er een nieuw wachtwoord is ingevuld
+                if (!string.IsNullOrWhiteSpace(wachtwoord))
                 {
-                    errorTextBlock.Text = "Wachtwoord is verplicht.";
-                    continue;
-                }
-                if (wachtwoord.Length < 6)
-                {
-                    errorTextBlock.Text = "Wachtwoord moet minimaal 6 tekens bevatten.";
-                    continue;
-                }
-                if (!Regex.IsMatch(wachtwoord, @"[0-9]"))
-                {
-                    errorTextBlock.Text = "Wachtwoord moet minimaal één cijfer bevatten.";
-                    continue;
-                }
-                if (!Regex.IsMatch(wachtwoord, @"[A-Z]"))
-                {
-                    errorTextBlock.Text = "Wachtwoord moet minimaal één hoofdletter bevatten.";
-                    continue;
-                }
-                if (!Regex.IsMatch(wachtwoord, @"[\W_]"))
-                {
-                    errorTextBlock.Text = "Wachtwoord moet minimaal één speciaal teken bevatten.";
-                    continue;
+                    if (wachtwoord.Length < 6)
+                    {
+                        errorTextBlock.Text = "Wachtwoord moet minimaal 6 tekens bevatten.";
+                        continue;
+                    }
+                    if (!Regex.IsMatch(wachtwoord, @"[0-9]"))
+                    {
+                        errorTextBlock.Text = "Wachtwoord moet minimaal één cijfer bevatten.";
+                        continue;
+                    }
+                    if (!Regex.IsMatch(wachtwoord, @"[A-Z]"))
+                    {
+                        errorTextBlock.Text = "Wachtwoord moet minimaal één hoofdletter bevatten.";
+                        continue;
+                    }
+                    if (!Regex.IsMatch(wachtwoord, @"[\W_]"))
+                    {
+                        errorTextBlock.Text = "Wachtwoord moet minimaal één speciaal teken bevatten.";
+                        continue;
+                    }
                 }
 
                 if (rolBox.SelectedItem == null)
@@ -175,14 +174,19 @@ namespace BarrocIntens.View
                     continue;
                 }
 
-                // Als alle validaties goed zijn
+                // Alles goed
                 valid = true;
 
                 try
                 {
                     medewerker.Naam = naam;
-                    medewerker.Wachtwoord = wachtwoord;
                     medewerker.MedewerkerRol = rol;
+
+                    // Als er een nieuw wachtwoord is ingevuld, hash het
+                    if (!string.IsNullOrWhiteSpace(wachtwoord))
+                    {
+                        medewerker.Wachtwoord = BCrypt.Net.BCrypt.HashPassword(wachtwoord);
+                    }
 
                     using var context = new AppDbContext();
                     context.Medewerkers.Update(medewerker);
