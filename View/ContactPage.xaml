@@ -9,16 +9,87 @@
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel Padding="20" Spacing="10">
-            <TextBlock Text="Contact Us" FontSize="24" FontWeight="Bold" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380"/>
+            <!-- linkervlak -->
+            <ColumnDefinition Width="8"/>
+            <!-- gele balk -->
+            <ColumnDefinition Width="*"/>
+            <!-- donker vlak -->
+        </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="NameBox" PlaceholderText="Your Name" />
-            <TextBox x:Name="EmailBox" PlaceholderText="Your Email" />
-            <TextBox x:Name="MessageBox" PlaceholderText="Your Message" AcceptsReturn="True" Height="100" />
+        <!-- LINKS: wit vlak (kan logo of afbeelding bevatten) -->
+        <Grid Grid.Column="0" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Image Source="/Assets/BarrocIntensHomepageImage.png"
+                   Width="220" Height="220"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        </Grid>
 
-            <Button Content="Send Email" Click="SendEmail_Click" HorizontalAlignment="Left" />
-            <TextBlock x:Name="StatusText" Foreground="Red" />
-        </StackPanel>
+        <!-- GELE BALK -->
+        <Grid Grid.Column="1" Background="#FFD000" HorizontalAlignment="Stretch"/>
 
+        <!-- RECHTS: Donker vlak met padding -->
+        <Grid Grid.Column="2" Background="#1E1E1E">
+            <Grid Padding="72,60,72,60">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Titel -->
+                    <RowDefinition Height="18"/>
+                    <!-- Kleine ruimte -->
+                    <RowDefinition Height="*"/>
+                    <!-- Formulier -->
+                </Grid.RowDefinitions>
+
+                <!-- TITEL -->
+                <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center">
+                    <TextBlock Text="Neem contact op"
+                               Foreground="#FFD000"
+                               FontSize="28"
+                               FontWeight="Bold"/>
+                    <!-- gele lijn onder de titel -->
+                    <Rectangle Height="3" Width="260" Fill="#FFD000" Margin="0,8,0,0"/>
+                </StackPanel>
+
+                <!-- Kleine ruimte wordt al door RowDefinition gedaan -->
+
+                <!-- FORMULIER -->
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="10">
+                        <TextBox x:Name="NameBox" PlaceholderText="Your Name" 
+                                 Width="520" Padding="10"
+                                 Background="#2E2E2E" Foreground="#E6E6E6"
+                                 BorderBrush="#FFD000" BorderThickness="1"
+                                 FontSize="14"/>
+
+                        <TextBox x:Name="EmailBox" PlaceholderText="Your Email"
+                                 Width="520" Padding="10"
+                                 Background="#2E2E2E" Foreground="#E6E6E6"
+                                 BorderBrush="#FFD000" BorderThickness="1"
+                                 FontSize="14"/>
+
+                        <TextBox x:Name="MessageBox" PlaceholderText="Your Message" AcceptsReturn="True" Height="150"
+                                 Width="520" Padding="10"
+                                 Background="#2E2E2E" Foreground="#E6E6E6"
+                                 BorderBrush="#FFD000" BorderThickness="1"
+                                 FontSize="14"/>
+
+                        <Border Background="#FFD000" CornerRadius="16" Width="160">
+                            <Button Content="Send Email"
+                                    Padding="25,10,25,10"
+                                    HorizontalAlignment="Center"
+                                    Click="SendEmail_Click"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="Black"
+                                    FontWeight="Bold"/>
+                        </Border>
+
+                        <TextBlock x:Name="StatusText" Foreground="Red"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
