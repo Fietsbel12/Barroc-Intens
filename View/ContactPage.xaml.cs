@@ -2,13 +2,19 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Threading.Tasks;
 using MailKit.Security;
 using MimeKit;
+using Windows.UI; // nodig voor Color
 
 namespace BarrocIntens.View
 {
     public sealed partial class ContactPage : Page
     {
+        private static readonly Color RedColor = Color.FromArgb(255, 255, 0, 0);
+        private static readonly Color GreenColor = Color.FromArgb(255, 0, 128, 0);
+        private static readonly Color BlackColor = Color.FromArgb(255, 0, 0, 0);
+
         public ContactPage()
         {
             this.InitializeComponent();
@@ -16,79 +22,105 @@ namespace BarrocIntens.View
 
         private async void SendEmail_Click(object sender, RoutedEventArgs e)
         {
-            string name = NameBox.Text.Trim();
-            string email = EmailBox.Text.Trim();
-            string message = MessageBox.Text.Trim();
+            string name = NameBox.Text?.Trim() ?? string.Empty;
+            string email = EmailBox.Text?.Trim() ?? string.Empty;
+            string message = MessageBox.Text?.Trim() ?? string.Empty;
 
-            // Controleer lege velden
             if (string.IsNullOrWhiteSpace(name) ||
                 string.IsNullOrWhiteSpace(email) ||
                 string.IsNullOrWhiteSpace(message))
             {
-                StatusText.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
-                StatusText.Text = "Please fill in all fields.";
+                SetStatus("Vul naam, e-mail en bericht in.", RedColor);
                 return;
             }
 
-            // Controleer geldig e-mailadres
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);
                 if (addr.Address != email)
                 {
-                    StatusText.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
-                    StatusText.Text = "Invalid email address.";
+                    SetStatus("Ongeldig e-mailadres.", RedColor);
                     return;
                 }
             }
             catch
             {
-                StatusText.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
-                StatusText.Text = "Invalid email address.";
+                SetStatus("Ongeldig e-mailadres.", RedColor);
                 return;
             }
 
-            // Maak de e-mail
-            var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("BarrocIntens Contact Form", "velva93@ethereal.email")); // Ethereal account
-            emailMessage.ReplyTo.Add(new MailboxAddress(name, email)); // Gebruikers e-mail
-            emailMessage.To.Add(new MailboxAddress("BarrocIntens", "velva93@ethereal.email")); // Ontvanger (je Ethereal account zelf)
-            emailMessage.Subject = "Contact Form Message";
-            emailMessage.Body = new TextPart("plain") { Text = $"From: {name} <{email}>\n\n{message}" };
+            // UI: status en disable knoppen
+            SetStatus("bericht wordt gestuurd...", BlackColor);
+            if (SendButton != null) SendButton.IsEnabled = false;
+            if (GoBack != null) GoBack.IsEnabled = false;
 
             try
             {
-                StatusText.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Black);
-                StatusText.Text = "Sending email...";
+                var emailMessage = new MimeMessage();
 
-                using (var client = new MailKit.Net.Smtp.SmtpClient())
+                var smtpUser = Environment.GetEnvironmentVariable("SMTP_USER") ?? "velva93@ethereal.email";
+                var smtpPass = Environment.GetEnvironmentVariable("SMTP_PASS"); // verplicht
+                var smtpHost = Environment.GetEnvironmentVariable("SMTP_HOST") ?? "smtp.ethereal.email";
+                var smtpPortStr = Environment.GetEnvironmentVariable("SMTP_PORT") ?? "587";
+                var toAddress = Environment.GetEnvironmentVariable("TO_ADDRESS") ?? "velva93@ethereal.email";
+
+                if (string.IsNullOrEmpty(smtpPass))
                 {
-                    await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-
-                    // Lees wachtwoord uit environment variable
-                    string smtpPassword = Environment.GetEnvironmentVariable("SMTP_PASS");
-
-                    if (string.IsNullOrEmpty(smtpPassword))
-                    {
-                        StatusText.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
-                        StatusText.Text = "SMTP password not set in environment variables!";
-                        return;
-                    }
-
-                    // Authenticate met environment variable wachtwoord
-                    await client.AuthenticateAsync("velva93@ethereal.email", smtpPassword);
-                    await client.SendAsync(emailMessage);
-                    await client.DisconnectAsync(true);
+                    SetStatus("SMTP wachtwoord (SMTP_PASS) is niet ingesteld.", RedColor);
+                    return;
                 }
 
-                StatusText.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Green);
-                StatusText.Text = "Email sent successfully!";
+                if (!int.TryParse(smtpPortStr, out int smtpPort))
+                    smtpPort = 587;
+
+                emailMessage.From.Add(new MailboxAddress("BarrocIntens Contact Form", smtpUser));
+                emailMessage.ReplyTo.Add(new MailboxAddress(name, email));
+                emailMessage.To.Add(new MailboxAddress("BarrocIntens", toAddress));
+                emailMessage.Subject = "Contact Form Message";
+                emailMessage.Body = new TextPart("plain") { Text = $"From: {name} <{email}>\n\n{message}" };
+
+                await SendWithMailKitAsync(emailMessage, smtpHost, smtpPort, smtpUser, smtpPass);
+
+                SetStatus("bericht gestuurd ✔", GreenColor);
+
+                // Clear velden
+                NameBox.Text = "";
+                EmailBox.Text = "";
+                MessageBox.Text = "";
             }
             catch (Exception ex)
             {
-                StatusText.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
-                StatusText.Text = $"Error sending email: {ex.Message}";
+                SetStatus($"Fout bij verzenden: {ex.Message}", RedColor);
             }
+            finally
+            {
+                if (SendButton != null) SendButton.IsEnabled = true;
+                if (GoBack != null) GoBack.IsEnabled = true;
+            }
+        }
+
+        private async Task SendWithMailKitAsync(MimeMessage message, string host, int port, string user, string pass)
+        {
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                client.Timeout = 20000;
+                await client.ConnectAsync(host, port, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(user, pass);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+            }
+        }
+
+        private void GoBack_Click(object sender, RoutedEventArgs e)
+        {
+            if (Frame != null && Frame.CanGoBack)
+                Frame.GoBack();
+        }
+
+        private void SetStatus(string text, Color color)
+        {
+            StatusText.Text = text;
+            StatusText.Foreground = new SolidColorBrush(color);
         }
     }
 }
