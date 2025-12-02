@@ -1,38 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="BarrocIntens.View.PlannerHomepage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BarrocIntens.View"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:data="using:BarrocIntens.Data">
 
-    <Grid>
+    <Grid Background="#FFF5F5F5">
+
+        <!-- =================== GRID DEFINITIES =================== -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Content -->
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="RolTextBlock"
-               FontSize="20"
-               FontWeight="Bold"
-               Foreground="#22201D"
-               Text="Rol wordt geladen..." />
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <!-- Agenda -->
+            <ColumnDefinition Width="3*"/>
+            <!-- Detail -->
+        </Grid.ColumnDefinitions>
+
+        <!-- =================== HEADER =================== -->
+        <Grid Grid.Row="0" Grid.ColumnSpan="2"
+              Background="#FF1A1A1A"
+              Padding="20">
+            <!-- Kolommen voor header -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Rol tekst -->
+            <TextBlock x:Name="RolTextBlock"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFD300"
+                       VerticalAlignment="Center"
+                       Text="Rol wordt geladen..." />
+
+            <!-- Terug-knop -->
+            <Button x:Name="backButton"
+                    Grid.Column="1"
+                    Content="Terug"
+                    Click="backButton_Click"
+                    Padding="12,6"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    CornerRadius="4"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- =================== AGENDA LIST =================== -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
+            <TextBlock Text="Agenda" FontSize="30" FontWeight="Bold" Margin="0,0,0,10" />
+
+            <ListView ItemsSource="{Binding TakenLijst}"
+                      IsItemClickEnabled="True"
+                      ItemClick="TaskList_ItemClick"
+                      x:Name="TaskList"
+                      SelectionMode="None">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="data:Taken">
+                        <Border Background="White" Padding="10" Margin="0,0,0,10" CornerRadius="8">
+                            <StackPanel>
+                                <TextBlock Text="{x:Bind Name}" FontSize="20" FontWeight="Bold" Foreground="#22201D"/>
+                                <TextBlock Text="{x:Bind Tijd, Mode=OneWay}" Foreground="#555"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </StackPanel>
+
+        <!-- =================== DETAIL PANEL =================== -->
+        <Grid Grid.Row="1" Grid.Column="1"
+              x:Name="TaskDetailPanel"
+              Visibility="Collapsed"
+              Background="White"
+              Padding="20"
+              CornerRadius="12"
+              Margin="10">
+
+            <StackPanel>
+                <TextBlock x:Name="TaskDetailName" FontSize="26" FontWeight="Bold" Foreground="#22201D"/>
+                <TextBlock x:Name="TaskDetailTime" Margin="0,5,0,5" Foreground="#555"/>
+                <TextBlock x:Name="TaskDetailDescription" TextWrapping="Wrap" FontSize="18" Foreground="#333"/>
+
+                <Button Content="Sluiten" Margin="0,20,0,0" Click="CloseDetail_Click"
+                        Padding="12,6"
+                        Background="#FFFFD300"
+                        Foreground="#22201D"
+                        CornerRadius="4"
+                        FontWeight="Bold"
+                        BorderThickness="0"/>
             </StackPanel>
 
         </Grid>
-        <Grid Grid.Row="2" HorizontalAlignment="Right">
-            <Button x:Name="backButton"
-Margin="20,0,0,15"
-Click="backButton_Click">
-                Back
-            </Button>
-        </Grid>
-
     </Grid>
 </Page>
-
