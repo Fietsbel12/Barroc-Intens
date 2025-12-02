@@ -29,7 +29,7 @@ namespace BarrocIntens
         {
             InitializeComponent();
 
-            Title = "BarrocIntensTEST";
+            Title = "BarrocIntens";
 
             using var db = new AppDbContext();
             db.Database.EnsureDeleted();
