@@ -6,33 +6,17 @@
     xmlns:data="using:BarrocIntens.Data">
 
     <Grid Background="#FFF5F5F5">
-
-        <!-- =================== GRID DEFINITIES =================== -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
             <RowDefinition Height="*"/>
-            <!-- Content -->
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <!-- Agenda -->
-            <ColumnDefinition Width="3*"/>
-            <!-- Detail -->
-        </Grid.ColumnDefinitions>
-
-        <!-- =================== HEADER =================== -->
-        <Grid Grid.Row="0" Grid.ColumnSpan="2"
-              Background="#FF1A1A1A"
-              Padding="20">
-            <!-- Kolommen voor header -->
+        <Grid Grid.Row="0" Background="#FF1A1A1A" Padding="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Rol tekst -->
             <TextBlock x:Name="RolTextBlock"
                        FontSize="20"
                        FontWeight="SemiBold"
@@ -40,7 +24,6 @@
                        VerticalAlignment="Center"
                        Text="Rol wordt geladen..." />
 
-            <!-- Terug-knop -->
             <Button x:Name="backButton"
                     Grid.Column="1"
                     Content="Terug"
@@ -54,53 +37,81 @@
                     VerticalAlignment="Center"/>
         </Grid>
 
-        <!-- =================== AGENDA LIST =================== -->
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
-            <TextBlock Text="Agenda" FontSize="30" FontWeight="Bold" Margin="0,0,0,10" />
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
 
-            <ListView ItemsSource="{Binding TakenLijst}"
-                      IsItemClickEnabled="True"
-                      ItemClick="TaskList_ItemClick"
-                      x:Name="TaskList"
-                      SelectionMode="None">
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
+                <TextBlock Text="Agenda" FontSize="30" FontWeight="Bold" Margin="0,0,0,10"/>
 
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="data:Taken">
-                        <Border Background="White" Padding="10" Margin="0,0,0,10" CornerRadius="8">
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Name}" FontSize="20" FontWeight="Bold" Foreground="#22201D"/>
-                                <TextBlock Text="{x:Bind Tijd, Mode=OneWay}" Foreground="#555"/>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            </ListView>
-        </StackPanel>
+                    <Button Content="&lt;" Click="PreviousMonth_Click" Grid.Column="0" Margin="0,0,5,0"/>
+                    <TextBlock x:Name="CurrentMonthTextBlock" Grid.Column="1" Text="Huidige maand" FontSize="24" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Content="&gt;" Click="NextMonth_Click" Grid.Column="2" Margin="5,0,0,0"/>
+                </Grid>
 
-        <!-- =================== DETAIL PANEL =================== -->
-        <Grid Grid.Row="1" Grid.Column="1"
-              x:Name="TaskDetailPanel"
-              Visibility="Collapsed"
-              Background="White"
-              Padding="20"
-              CornerRadius="12"
-              Margin="10">
-
-            <StackPanel>
-                <TextBlock x:Name="TaskDetailName" FontSize="26" FontWeight="Bold" Foreground="#22201D"/>
-                <TextBlock x:Name="TaskDetailTime" Margin="0,5,0,5" Foreground="#555"/>
-                <TextBlock x:Name="TaskDetailDescription" TextWrapping="Wrap" FontSize="18" Foreground="#333"/>
-
-                <Button Content="Sluiten" Margin="0,20,0,0" Click="CloseDetail_Click"
-                        Padding="12,6"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        CornerRadius="4"
-                        FontWeight="Bold"
-                        BorderThickness="0"/>
+                <CalendarView x:Name="CalendarView"
+                              DisplayMode="Month"
+                              CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
+                              SelectedDatesChanged="CalendarView_SelectedDatesChanged"
+                              FirstDayOfWeek="Monday"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"/>
             </StackPanel>
 
+            <ScrollViewer Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="10,0,0,10" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Taken van de dag" FontSize="30" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <TextBlock x:Name="SelectedDateTextBlock" Text="Selecteer een dag" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+                    <ListView ItemsSource="{Binding TakenVoorGeselecteerdeDag}"
+                              IsItemClickEnabled="True"
+                              ItemClick="TaskList_ItemClick"
+                              x:Name="DailyTaskList"
+                              SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="data:Taken">
+                                <Border Background="White" Padding="10" Margin="0,0,0,5" CornerRadius="8">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Bind Name}" FontSize="20" FontWeight="Bold" Foreground="#22201D"/>
+                                        <TextBlock Text="{x:Bind Tijd}" Foreground="#555"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Grid x:Name="TaskDetailPanel" Grid.Row="1" Grid.Column="0" Background="White" Padding="20" CornerRadius="12" Margin="0,10,10,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock x:Name="TaskDetailName" FontSize="26" FontWeight="Bold" Foreground="#22201D"/>
+                        <TextBlock x:Name="TaskDetailTime" Margin="0,5,0,5" Foreground="#555"/>
+                        <TextBlock x:Name="TaskDetailDescription" TextWrapping="Wrap" FontSize="18" Foreground="#333"/>
+
+                        <Button Content="Sluiten" Margin="0,20,0,0" Click="CloseDetail_Click"
+                    Padding="12,6"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    CornerRadius="4"
+                    FontWeight="Bold"
+                    BorderThickness="0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 </Page>
