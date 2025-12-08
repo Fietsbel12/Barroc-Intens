@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BarrocIntens.View
 {
@@ -37,19 +38,19 @@ namespace BarrocIntens.View
             medewerkerRol = e.Parameter as string;
             RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
 
-            using (var db = new AppDbContext())
+            if (medewerkerRol == "Planner" || medewerkerRol == "Eigenaar")
             {
-                var takenUitDB = await db.Taken.OrderBy(t => t.Tijd).ToListAsync();
-                TakenLijst.Clear();
-                foreach (var taak in takenUitDB)
-                    TakenLijst.Add(taak);
+                backButton.Visibility = Visibility.Visible;
+                CreatetaskButton.Visibility = Visibility.Visible;
             }
 
-            DataContext = this;
 
-            if (CalendarView.SelectedDates.Any())
-                FilterTasksForSelectedDate(CalendarView.SelectedDates.First().Date);
+            // Taken opnieuw laden zodra we op deze pagina komen
+            await LoadTakenAsync();
+
+            DataContext = this;
         }
+
 
         private void FilterTasksForSelectedDate(DateTime selectedDate)
         {
@@ -122,6 +123,30 @@ namespace BarrocIntens.View
                 TaskDetailPanel.Visibility = Visibility.Visible;
             }
         }
+        private async Task LoadTakenAsync()
+        {
+            using (var db = new AppDbContext())
+            {
+                var takenUitDB = await db.Taken
+                    .OrderBy(t => t.Tijd)
+                    .ToListAsync();
+
+                TakenLijst.Clear();
+                foreach (var taak in takenUitDB)
+                    TakenLijst.Add(taak);
+            }
+
+            if (CalendarView.SelectedDates.Any())
+            {
+                FilterTasksForSelectedDate(CalendarView.SelectedDates.First().Date);
+            }
+        }
+
+        private void CreatetaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CreateTaskpage), medewerkerRol);
+        }
+
 
         private void CloseDetail_Click(object sender, RoutedEventArgs e)
         {
@@ -130,8 +155,7 @@ namespace BarrocIntens.View
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Frame.CanGoBack)
-                Frame.GoBack();
+            Frame.Navigate(typeof(MedewerkerDashboard), medewerkerRol);
         }
     }
 }

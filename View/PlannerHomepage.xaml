@@ -15,27 +15,50 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="20" />
+                <!-- ruimte -->
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
+            <!-- Titel / Rol -->
             <TextBlock x:Name="RolTextBlock"
-                       FontSize="20"
-                       FontWeight="SemiBold"
-                       Foreground="#FFFFD300"
-                       VerticalAlignment="Center"
-                       Text="Rol wordt geladen..." />
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               VerticalAlignment="Center"
+               Text="Rol wordt geladen..." />
 
+            <!-- Nieuwe taak knop (links van terug) -->
+            <Button x:Name="CreatetaskButton"
+            Grid.Column="1"
+            Content="Nieuwe taak"
+            Click="CreatetaskButton_Click"
+            Padding="12,6"
+            Background="#FFFFD300"
+            Foreground="#22201D"
+            CornerRadius="4"
+            FontWeight="Bold"
+            BorderThickness="0"
+            VerticalAlignment="Center"
+            Visibility="Collapsed"/>
+
+            <!-- Kolom 2 = lege ruimte -->
+
+            <!-- Terug knop (helemaal rechts) -->
             <Button x:Name="backButton"
-                    Grid.Column="1"
-                    Content="Terug"
-                    Click="backButton_Click"
-                    Padding="12,6"
-                    Background="#FFFFD300"
-                    Foreground="#22201D"
-                    CornerRadius="4"
-                    FontWeight="Bold"
-                    BorderThickness="0"
-                    VerticalAlignment="Center"/>
+            Grid.Column="3"
+            Content="Terug"
+            Click="backButton_Click"
+            Padding="12,6"
+            Background="#FFFFD300"
+            Foreground="#22201D"
+            CornerRadius="4"
+            FontWeight="Bold"
+            BorderThickness="0"
+            VerticalAlignment="Center"/>
         </Grid>
+
+
 
         <Grid Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>

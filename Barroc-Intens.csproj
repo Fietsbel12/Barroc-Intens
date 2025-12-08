@@ -20,6 +20,7 @@
     <None Remove="View\AdminPanel.xaml" />
     <None Remove="View\AdminPanelCreate.xaml" />
     <None Remove="View\ContactPage.xaml" />
+    <None Remove="View\CreateTaskpage.xaml" />
     <None Remove="View\CustomThemeResourceDictionary.xaml" />
     <None Remove="View\PlannerHomepage.xaml" />
   </ItemGroup>
@@ -92,6 +93,9 @@
     <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat9.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\CreateTaskpage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\CustomThemeResourceDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
