@@ -10,10 +10,12 @@
 
     <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/><!-- Header -->
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/> <!-- Content -->
-            
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <!-- Content -->
+
         </Grid.RowDefinitions>
 
         <!-- =================== HEADER =================== -->
@@ -44,7 +46,7 @@
                     BorderThickness="0"/>
         </Grid>
 
-            <!-- =================== PDF KNOPPEN =================== -->
+        <!-- =================== PDF KNOPPEN =================== -->
         <StackPanel
             Grid.Row="1"
             Spacing="10"
