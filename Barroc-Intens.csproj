@@ -23,6 +23,7 @@
     <None Remove="View\CreateTaskpage.xaml" />
     <None Remove="View\CustomThemeResourceDictionary.xaml" />
     <None Remove="View\PlannerHomepage.xaml" />
+    <None Remove="View\SalesSellPage.xaml" />
   </ItemGroup>
 
   <!-- Content assets -->
@@ -93,6 +94,9 @@
     <None Update="FotoKoffiezetapparaatFolder\koffiezetapparaat9.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\SalesSellPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\CreateTaskpage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

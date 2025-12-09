@@ -18,7 +18,7 @@ namespace BarrocIntens.Data
         public DbSet<Medewerker> Medewerkers { get; set; }
         public DbSet<Taken> Taken { get; set; }
 
-
+        public DbSet<Klant> Klanten { get; set; }
         public DbSet<Koffiezetapparaat> Koffiezetapparaten { get; set; }
 
 
@@ -108,6 +108,11 @@ namespace BarrocIntens.Data
                 new Taken { Id = 19, Name = "Taak 19", Description = "Beschrijving taak 19", Tijd = DateTime.Now.AddHours(19) },
                 new Taken { Id = 20, Name = "Taak 20", Description = "Beschrijving taak 20", Tijd = DateTime.Now.AddHours(20) }
             );
+
+            modelBuilder.Entity<Klant>().HasData(
+                new Klant { Id = 1, KlantNaam = "Klant A", Adres = "Straat 1, Stad", TelefoonNummer = "0612345678", Email = "Test@gmail.com" }
+                );
+                
 
 
         }
