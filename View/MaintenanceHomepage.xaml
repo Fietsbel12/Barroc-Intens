@@ -8,29 +8,42 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- Header -->
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="RolTextBlock"
-               FontSize="20"
-               FontWeight="Bold"
-               Foreground="#22201D"
-               Text="Rol wordt geladen..." />
-            </StackPanel>
+            <RowDefinition Height="*"/>
+            <!-- Content -->
 
-        </Grid>
-        <Grid Grid.Row="2" HorizontalAlignment="Right">
+        </Grid.RowDefinitions>
+
+        <!-- =================== HEADER =================== -->
+        <Grid Grid.Row="0"
+              Background="#FF1A1A1A"
+              Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="RolTextBlock"
+                       Grid.Column="0"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFD300"
+                       Text="Rol wordt geladen..." />
+
             <Button x:Name="backButton"
-Margin="20,0,0,15"
-Click="backButton_Click">
-                Back
-            </Button>
+                    Grid.Column="1"
+                    Content="Terug"
+                    Click="backButton_Click"
+                    Padding="12,6"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    CornerRadius="4"
+                    FontWeight="Bold"
+                    BorderThickness="0"/>
         </Grid>
 
     </Grid>

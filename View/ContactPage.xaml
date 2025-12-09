@@ -51,7 +51,6 @@
                     <Rectangle Height="3" Width="260" Fill="#FFD000" Margin="0,8,0,0"/>
                 </StackPanel>
 
-                <!-- Kleine ruimte wordt al door RowDefinition gedaan -->
 
                 <!-- FORMULIER -->
                 <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
@@ -75,16 +74,26 @@
                                  FontSize="14"/>
 
                         <Border Background="#FFD000" CornerRadius="16" Width="160">
-                            <Button Content="Send Email"
+                            <Button x:Name="SendButton" Content="Send Email"
+                                Padding="25,10,25,10"
+                                HorizontalAlignment="Center"
+                                Click="SendEmail_Click"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="Black"
+                                FontWeight="Bold"/>
+                        </Border>
+                        <Border Background="#FFD000" CornerRadius="16" Width="160">
+                            <Button Content="Go back"
+                                    x:Name="GoBack"
                                     Padding="25,10,25,10"
                                     HorizontalAlignment="Center"
-                                    Click="SendEmail_Click"
+                                    Click="GoBack_Click"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="Black"
                                     FontWeight="Bold"/>
                         </Border>
-
                         <TextBlock x:Name="StatusText" Foreground="Red"/>
                     </StackPanel>
                 </ScrollViewer>

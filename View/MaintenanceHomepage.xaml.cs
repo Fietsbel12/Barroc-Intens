@@ -1,3 +1,6 @@
+using BarrocIntens.Data;
+using BarrocIntens.Models;
+using BarrocIntens.View;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -24,16 +27,15 @@ namespace BarrocIntens.View
     public sealed partial class MaintenanceHomepage : Page
     {
         private string medewerkerRol;
+
         public MaintenanceHomepage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Waarde opslaan
             medewerkerRol = e.Parameter as string;
-
-            // TextBlock bijwerken
             RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
         }
         private void backButton_Click(object sender, RoutedEventArgs e)

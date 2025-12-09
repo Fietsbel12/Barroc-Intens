@@ -66,25 +66,27 @@ namespace BarrocIntens.View
         }
         private async void PlanningPageButton_Click(object sender, RoutedEventArgs e)
         {
-            // Controleer de rol voordat je navigeert
-            if (medewerkerRol == "Planner" || medewerkerRol == "Eigenaar")
+            // Controleer of de medewerker een rol heeft
+            if (!string.IsNullOrEmpty(medewerkerRol))
             {
+                // Navigeer naar de PlannerHomepage en geef de rol mee
                 Frame.Navigate(typeof(PlannerHomepage), medewerkerRol);
             }
             else
             {
-                // Toon een melding als de medewerker geen toegang heeft
+                // Toon een melding als de medewerker geen rol heeft
                 ContentDialog dialog = new ContentDialog
                 {
                     XamlRoot = this.XamlRoot,
                     Title = "Toegang geweigerd",
-                    Content = "Je hebt geen toegang tot de Planner-pagina.",
+                    Content = "Er is geen rol toegewezen aan deze medewerker.",
                     CloseButtonText = "OK"
                 };
 
                 await dialog.ShowAsync();
             }
         }
+
         private async void InkoopPageButton_Click(object sender, RoutedEventArgs e)
         {
             // Controleer de rol voordat je navigeert
