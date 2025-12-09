@@ -44,6 +44,15 @@
                 Foreground="#FFFFD300"
                 Text="Rol wordt geladen..." />
 
+                <Button Content="Verkoop"
+                Click="SellButton_Click"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="0"/>
+
                 <Button Content="Terug"
                 Click="BackButton_Click"
                 Background="#FFFFD300"
@@ -53,14 +62,7 @@
                 CornerRadius="4"
                 BorderThickness="0"/>
 
-                <Button Content="Verkoop"
-                Click="SellButton_Click"
-                Background="#FFFFD300"
-                Foreground="#22201D"
-                Padding="12,6"
-                FontWeight="Bold"
-                CornerRadius="4"
-                BorderThickness="0"/>
+
 
             </StackPanel>
         </Grid>
