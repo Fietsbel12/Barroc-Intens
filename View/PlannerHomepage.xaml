@@ -11,80 +11,63 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- HEADER -->
         <Grid Grid.Row="0" Background="#FF1A1A1A" Padding="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="20" />
-                <!-- ruimte -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Titel / Rol -->
             <TextBlock x:Name="RolTextBlock"
-               FontSize="20"
-               FontWeight="SemiBold"
-               Foreground="#FFFFD300"
-               VerticalAlignment="Center"
-               Text="Rol wordt geladen..." />
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFD300"
+                       VerticalAlignment="Center"
+                       Text="Rol wordt geladen..."/>
 
-            <!-- Nieuwe taak knop (links van terug) -->
             <Button x:Name="CreatetaskButton"
-            Grid.Column="1"
-            Content="Nieuwe taak"
-            Click="CreatetaskButton_Click"
-            Padding="12,6"
-            Background="#FFFFD300"
-            Foreground="#22201D"
-            CornerRadius="4"
-            FontWeight="Bold"
-            BorderThickness="0"
-            VerticalAlignment="Center"
-            Visibility="Collapsed"/>
+                    Grid.Column="1"
+                    Content="Nieuwe taak"
+                    Click="CreatetaskButton_Click"
+                    Padding="12,6"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    CornerRadius="4"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed"/>
 
-            <!-- Kolom 2 = lege ruimte -->
-
-            <!-- Terug knop (helemaal rechts) -->
             <Button x:Name="backButton"
-            Grid.Column="3"
-            Content="Terug"
-            Click="backButton_Click"
-            Padding="12,6"
-            Background="#FFFFD300"
-            Foreground="#22201D"
-            CornerRadius="4"
-            FontWeight="Bold"
-            BorderThickness="0"
-            VerticalAlignment="Center"/>
+                    Grid.Column="3"
+                    Content="Terug"
+                    Click="backButton_Click"
+                    Padding="12,6"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    CornerRadius="4"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    VerticalAlignment="Center"/>
         </Grid>
 
-
-
+        <!-- CONTENT -->
         <Grid Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- AGENDA / CALENDAR -->
             <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
                 <TextBlock Text="Agenda" FontSize="30" FontWeight="Bold" Margin="0,0,0,10"/>
-
-                <Grid Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Content="&lt;" Click="PreviousMonth_Click" Grid.Column="0" Margin="0,0,5,0"/>
-                    <TextBlock x:Name="CurrentMonthTextBlock" Grid.Column="1" Text="Huidige maand" FontSize="24" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Button Content="&gt;" Click="NextMonth_Click" Grid.Column="2" Margin="5,0,0,0"/>
-                </Grid>
-
                 <CalendarView x:Name="CalendarView"
                               DisplayMode="Month"
                               CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
@@ -94,6 +77,7 @@
                               VerticalAlignment="Stretch"/>
             </StackPanel>
 
+            <!-- TAKEN LIJST -->
             <ScrollViewer Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="10,0,0,10" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="Taken van de dag" FontSize="30" FontWeight="Bold" Margin="0,0,0,10"/>
@@ -110,6 +94,7 @@
                                     <StackPanel>
                                         <TextBlock Text="{x:Bind Name}" FontSize="20" FontWeight="Bold" Foreground="#22201D"/>
                                         <TextBlock Text="{x:Bind Tijd}" Foreground="#555"/>
+                                        <TextBlock Text="{x:Bind Medewerker.Naam}" Foreground="DarkBlue"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -118,20 +103,24 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <Grid x:Name="TaskDetailPanel" Grid.Row="1" Grid.Column="0" Background="White" Padding="20" CornerRadius="12" Margin="0,10,10,0">
+            <!-- DETAIL PANEL -->
+            <Grid x:Name="TaskDetailPanel" Grid.Row="1" Grid.Column="0" Background="White" Padding="20" CornerRadius="12" Margin="0,10,10,0" Visibility="Collapsed">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <TextBlock x:Name="TaskDetailName" FontSize="26" FontWeight="Bold" Foreground="#22201D"/>
                         <TextBlock x:Name="TaskDetailTime" Margin="0,5,0,5" Foreground="#555"/>
                         <TextBlock x:Name="TaskDetailDescription" TextWrapping="Wrap" FontSize="18" Foreground="#333"/>
-
+                        <TextBlock x:Name="TaskDetailAssignedTo"
+                                   Margin="0,10,0,0"
+                                   Foreground="DarkBlue"
+                                   FontWeight="SemiBold"/>
                         <Button Content="Sluiten" Margin="0,20,0,0" Click="CloseDetail_Click"
-                    Padding="12,6"
-                    Background="#FFFFD300"
-                    Foreground="#22201D"
-                    CornerRadius="4"
-                    FontWeight="Bold"
-                    BorderThickness="0"/>
+                                Padding="12,6"
+                                Background="#FFFFD300"
+                                Foreground="#22201D"
+                                CornerRadius="4"
+                                FontWeight="Bold"
+                                BorderThickness="0"/>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
