@@ -11,5 +11,8 @@ namespace BarrocIntens.Data
 
         public int MedewerkerId { get; set; }
         public Medewerker Medewerker { get; set; }
+
+        // Read-only property voor x:Bind
+        public string TijdString => Tijd.ToString("dd-MM-yyyy HH:mm");
     }
 }
