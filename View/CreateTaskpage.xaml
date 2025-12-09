@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!-- test-->
+
         <!-- HEADER -->
         <Grid Grid.Row="0"
               Background="#22201D"
@@ -99,6 +99,18 @@
                     <DatePicker x:Name="DateInput"/>
                     <TimePicker x:Name="TimeInput"/>
                 </StackPanel>
+
+                <!-- Medewerker -->
+                <TextBlock Text="Toewijzen aan Medewerker"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="#22201D"/>
+
+                <ComboBox x:Name="MedewerkerCombo"
+                          PlaceholderText="Selecteer een medewerker"
+                          DisplayMemberPath="Naam"
+                          SelectedValuePath="Id"
+                          Margin="0,5,0,20"/>
 
                 <!-- Opslaan -->
                 <Button Content="Taak Opslaan"
