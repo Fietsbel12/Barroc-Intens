@@ -15,99 +15,81 @@
             <RowDefinition Height="*"/>
             <!-- Content -->
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"
-              Background="#22201D"
-              Padding="15,10"
-              HorizontalAlignment="Stretch">
 
-        <!-- HEADER -->
+        <!-- =================== HEADER =================== -->
         <Grid Grid.Row="0"
-      Background="#FF1A1A1A"
-      Padding="20">
+          Background="#FF1A1A1A"
+          Padding="20">
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <!-- Logo -->
                 <ColumnDefinition Width="Auto"/>
                 <!-- Rol -->
                 <ColumnDefinition Width="*"/>
                 <!-- PageTitle -->
                 <ColumnDefinition Width="Auto"/>
-                <!-- Terug knop -->
+                <!-- Acties -->
             </Grid.ColumnDefinitions>
 
-            <!-- Margin volgorde: Links, Boven, Rechts, Onder -->
-            <Grid Grid.Row="1" HorizontalAlignment="Left">
-                <Image Source="/Assets/LogoHeader.png" Margin="0,0,50,0" Width="293" Height="98" />
-            </Grid>
+            <!-- Logo -->
+            <Image Grid.Column="0"
+               Source="/Assets/LogoHeader.png"
+               Width="293"
+               Height="98"
+               Margin="0,0,30,0"
+               VerticalAlignment="Center"/>
 
-            <!-- RECHTS: Navigatieknoppen -->
-            <StackPanel Grid.Column="1"
-                Orientation="Horizontal"
-                Spacing="12"
-                VerticalAlignment="Center">
-
-                <TextBlock x:Name="RolTextBlock"
-                Grid.Column="0"
-                Margin="100,0,100,0"
-                FontSize="20"
-                FontWeight="SemiBold"
-                Foreground="#FFFFD300"
-                Text="Rol wordt geladen..." />
-
-                <Button Content="Verkoop"
-                Click="SellButton_Click"
-                Background="#FFFFD300"
-                Foreground="#22201D"
-                Padding="12,6"
-                FontWeight="Bold"
-                CornerRadius="4"
-                BorderThickness="0"/>
-
-                <Button Content="Terug"
-                Click="BackButton_Click"
-                Background="#FFFFD300"
-                Foreground="#22201D"
-                Padding="12,6"
-                FontWeight="Bold"
-                CornerRadius="4"
-                BorderThickness="0"/>
-
-
-
-            </StackPanel>
             <!-- Rol -->
             <TextBlock x:Name="RolTextBlock"
-               Grid.Column="0"
-               VerticalAlignment="Center"
-               FontSize="20"
-               FontWeight="SemiBold"
-               Foreground="#FFFFD300"
-               Text="Rol wordt geladen..." />
+                   Grid.Column="1"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   FontWeight="SemiBold"
+                   Foreground="#FFFFD300"
+                   Text="Rol wordt geladen..." />
 
             <!-- PageTitle -->
-            <TextBlock Grid.Column="1"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               FontSize="22"
-               FontWeight="SemiBold"
-               Foreground="#FFFFD300"
-               Text="SalesHomepage"/>
+            <TextBlock Grid.Column="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   FontWeight="SemiBold"
+                   Foreground="#FFFFD300"
+                   Text="SalesHomepage"/>
 
-            <!-- Terug knop -->
-            <Button x:Name="backButton"
-            Grid.Column="2"
-            Content="Terug"
-            Click="backButton_Click"
-            Padding="12,6"
-            Background="#FFFFD300"
-            Foreground="#22201D"
-            CornerRadius="4"
-            FontWeight="Bold"
-            BorderThickness="0"
-            VerticalAlignment="Center"/>
+            <!-- RECHTS: Actieknoppen -->
+            <StackPanel Grid.Column="3"
+                    Orientation="Horizontal"
+                    Spacing="12"
+                    VerticalAlignment="Center">
+
+                <Button Content="Verkoop"
+                    Click="SellButton_Click"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    Padding="12,6"
+                    FontWeight="Bold"
+                    CornerRadius="4"
+                    BorderThickness="0"/>
+
+                <Button Content="Terug"
+                    Click="BackButton_Click"
+                    Background="#FFFFD300"
+                    Foreground="#22201D"
+                    Padding="12,6"
+                    FontWeight="Bold"
+                    CornerRadius="4"
+                    BorderThickness="0"/>
+            </StackPanel>
         </Grid>
 
+       
+     
 
-        <!-- CONTENT -->
+
+
+    <!-- CONTENT -->
         <ScrollViewer Grid.Row="1" Padding="20">
             <StackPanel Spacing="14">
 

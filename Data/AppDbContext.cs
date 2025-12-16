@@ -11,7 +11,6 @@ namespace BarrocIntens.Data
     {
         public DbSet<Medewerker> Medewerkers { get; set; }
         public DbSet<Taken> Taken { get; set; }
-
         public DbSet<Klant> Klanten { get; set; }
         public DbSet<Koffiezetapparaat> Koffiezetapparaten { get; set; }
 
@@ -35,6 +34,11 @@ namespace BarrocIntens.Data
                 new Medewerker { Id = 4, Naam = "Laura Inkoop", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("inkoop123"), MedewerkerRol = "Inkoop" },
                 new Medewerker { Id = 5, Naam = "Tom Maintenance", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("maintenance123"), MedewerkerRol = "Maintenance" },
                 new Medewerker { Id = 6, Naam = "Emma Planner", Wachtwoord = BCrypt.Net.BCrypt.HashPassword("planner123"), MedewerkerRol = "Planner" }
+            );
+
+            // ---------------------- KLANT SEED ----------------------
+            modelBuilder.Entity<Klant>().HasData(
+                new Klant { Id = 1, KlantNaam = "Klant A", Adres = "Straat 1, Stad", TelefoonNummer = "0612345678", Email = "Test@gmail.com" }
             );
 
             // ---------------------- KOFFIEZETAPPARATEN SEED ----------------------
@@ -68,10 +72,9 @@ namespace BarrocIntens.Data
             modelBuilder.Entity<Koffiezetapparaat>().HasData(apparaten);
 
             // ---------------------- TAKEN SEED ----------------------
-            // Fix: elke taak heeft nu een geldige MedewerkerId (1 t/m 6)
             int medewerkerCounter = 1;
-
             var taken = new List<Taken>();
+
             for (int id = 1; id <= 20; id++)
             {
                 taken.Add(new Taken
@@ -82,11 +85,6 @@ namespace BarrocIntens.Data
                     Tijd = DateTime.Now.AddHours(id),
                     MedewerkerId = medewerkerCounter
                 });
-
-            modelBuilder.Entity<Klant>().HasData(
-                new Klant { Id = 1, KlantNaam = "Klant A", Adres = "Straat 1, Stad", TelefoonNummer = "0612345678", Email = "Test@gmail.com" }
-                );
-                
 
                 medewerkerCounter++;
                 if (medewerkerCounter > 6)
