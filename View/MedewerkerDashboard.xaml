@@ -19,102 +19,119 @@
 
         <!-- =================== HEADER =================== -->
         <Grid Grid.Row="0"
-              Background="#22201D"
-              Padding="15,10"
-              HorizontalAlignment="Stretch">
+      Background="#22201D"
+      Padding="15,10"
+      HorizontalAlignment="Stretch">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <!-- Logo -->
+                <ColumnDefinition Width="*"/>
+                <!-- PageTitle -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Navigatie -->
             </Grid.ColumnDefinitions>
 
-            <!-- Margin volgorde: Links, Boven, Rechts, Onder -->
-            <Grid Grid.Row="1" HorizontalAlignment="Left">
-                <Image Source="/Assets/LogoHeader.png" Margin="0,0,50,0" Width="293" Height="98" />
-            </Grid>
+            <!-- LINKS: Logo -->
+            <Image Grid.Column="0"
+           Source="/Assets/LogoHeader.png"
+           Width="293"
+           Height="98"
+           VerticalAlignment="Center"
+           Margin="0,0,40,0"/>
+
+            <!-- MIDDEN: PageTitle -->
+            <TextBlock Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="22"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="Dashboard"/>
 
             <!-- RECHTS: Navigatieknoppen -->
-            <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        Spacing="12"
-                        VerticalAlignment="Center">
-                
+            <StackPanel Grid.Column="2"
+                Orientation="Horizontal"
+                Spacing="12"
+                VerticalAlignment="Center">
+
+                <!-- Rol -->
                 <TextBlock x:Name="RolTextBlock"
-                        Grid.Column="0"
-                        Margin="100,0,100,0"
-                        FontSize="20"
-                        FontWeight="SemiBold"
-                        Foreground="#FFFFD300"
-                        Text="Rol wordt geladen..." />
-                
+                   Margin="0,0,20,0"
+                   FontSize="20"
+                   FontWeight="SemiBold"
+                   Foreground="#FFFFD300"
+                   Text="Rol wordt geladen..." />
+
                 <Button Content="Planner"
-                        Click="PlanningPageButton_Click"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="0"/>
+                Click="PlanningPageButton_Click"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="0"/>
 
                 <Button Content="Sales"
-                        Click="SalesPageButton_Click"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="0"/>
-                
+                Click="SalesPageButton_Click"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="0"/>
 
                 <Button Content="Inkoop"
-                        Click="InkoopPageButton_Click"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="0"/>
+                Click="InkoopPageButton_Click"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="0"/>
 
                 <Button Content="Maintenance"
-                        Click="MaintenancePageButton_Click"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="0"/>
+                Click="MaintenancePageButton_Click"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="0"/>
 
                 <Button Content="Finance"
-                        Click="FinancePageButton_Click"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="0"/>
+                Click="FinancePageButton_Click"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="0"/>
+
                 <Button x:Name="AdminPageButton"
-                        Content="Admin"
-                        Click="AdminPageButton_Click"
-                        Background="Transparent"
-                        Foreground="#FFFFD300"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="1"
-                        BorderBrush="#FFFFD300"
-                        Visibility="Collapsed"/>
+                Content="Admin"
+                Click="AdminPageButton_Click"
+                Background="Transparent"
+                Foreground="#FFFFD300"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="1"
+                BorderBrush="#FFFFD300"
+                Visibility="Collapsed"/>
 
                 <Button Content="Logout"
-                        Click="LogoutButton_Click"
-                        Background="Transparent"
-                        Foreground="#FFFFD300"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderBrush="#FFFFD300"
-                        BorderThickness="1"/>
+                Click="LogoutButton_Click"
+                Background="Transparent"
+                Foreground="#FFFFD300"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderBrush="#FFFFD300"
+                BorderThickness="1"/>
             </StackPanel>
         </Grid>
+
 
         <!-- =================== CONTENT =================== -->
         <Grid Grid.Row="1"

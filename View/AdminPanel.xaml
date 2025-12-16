@@ -18,40 +18,65 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <Grid Grid.Row="0" Background="#FF1A1A1A" Padding="20">
+        <Grid Grid.Row="0"
+      Background="#FF1A1A1A"
+      Padding="20">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <!-- Rol -->
+                <ColumnDefinition Width="*"/>
+                <!-- PageTitle -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Actieknoppen -->
             </Grid.ColumnDefinitions>
 
+            <!-- Rol -->
             <TextBlock x:Name="RolTextBlock"
-                       Grid.Column="0"
-                       FontSize="20"
-                       FontWeight="SemiBold"
-                       Foreground="#FFFFD300"
-                       Text="Rol wordt geladen..." />
+               Grid.Column="0"
+               VerticalAlignment="Center"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="Rol wordt geladen..." />
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+            <!-- PageTitle -->
+            <TextBlock Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="22"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="AdminPanel"/>
+
+            <!-- RECHTS: Actieknoppen -->
+            <StackPanel Grid.Column="2"
+                Orientation="Horizontal"
+                Spacing="12"
+                VerticalAlignment="Center">
+
                 <Button x:Name="AdminCreateButton"
-                        Content="Aanmaken"
-                        Click="AdminCreateButton_Click"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="0"/>
+                Content="Aanmaken"
+                Click="AdminCreateButton_Click"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                Padding="12,6"
+                FontWeight="Bold"
+                CornerRadius="4"
+                BorderThickness="0"/>
+
                 <Button x:Name="backButton"
-                        Content="Terug"
-                        Click="backButton_Click"
-                        Padding="12,6"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        CornerRadius="4"
-                        FontWeight="Bold"
-                        BorderThickness="0"/>
+                Content="Terug"
+                Click="backButton_Click"
+                Padding="12,6"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                CornerRadius="4"
+                FontWeight="Bold"
+                BorderThickness="0"/>
             </StackPanel>
         </Grid>
+
 
         <!-- Content -->
         <ScrollViewer Grid.Row="1">

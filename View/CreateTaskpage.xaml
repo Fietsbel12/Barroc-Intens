@@ -17,46 +17,61 @@
 
         <!-- HEADER -->
         <Grid Grid.Row="0"
-              Background="#22201D"
-              Padding="15,10">
+      Background="#22201D"
+      Padding="20,10">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
+                <!-- Logo -->
                 <ColumnDefinition Width="*"/>
+                <!-- Rol -->
                 <ColumnDefinition Width="Auto"/>
+                <!-- Pagetitle -->
+                <ColumnDefinition Width="*"/>
+                <!-- Spacer -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Terug knop -->
             </Grid.ColumnDefinitions>
 
             <!-- Logo -->
             <Image Source="/Assets/LogoHeader.png"
-                   Width="200"
-                   Height="70"/>
+           Width="200"
+           Height="70"
+           VerticalAlignment="Center"/>
 
             <!-- Rol -->
             <TextBlock x:Name="RolTextBlock"
-                       Grid.Column="1"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="20"
-                       FontWeight="SemiBold"
-                       Foreground="#FFFFD300"
-                       Text="Rol wordt geladen..."/>
+               Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="Rol"/>
+
+            <!-- PageTitle -->
+            <TextBlock Grid.Column="2"
+               Margin="30,0"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="TaakAanmaken"/>
 
             <!-- Terug knop -->
-            <StackPanel Grid.Column="2"
-                        Orientation="Horizontal"
-                        Spacing="12"
-                        VerticalAlignment="Center">
-
-                <Button Content="Terug"
-                        Click="BackButton_Click"
-                        Background="#FFFFD300"
-                        Foreground="#22201D"
-                        Padding="12,6"
-                        FontWeight="Bold"
-                        CornerRadius="4"
-                        BorderThickness="0"/>
-            </StackPanel>
+            <Button Grid.Column="4"
+            Content="Terug"
+            Click="BackButton_Click"
+            Background="#FFFFD300"
+            Foreground="#22201D"
+            Padding="14,6"
+            FontWeight="Bold"
+            CornerRadius="4"
+            BorderThickness="0"
+            VerticalAlignment="Center"/>
         </Grid>
+
 
         <!-- CONTENT -->
         <ScrollViewer Grid.Row="1">
