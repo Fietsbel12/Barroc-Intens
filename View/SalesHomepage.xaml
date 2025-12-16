@@ -20,9 +20,18 @@
               Padding="15,10"
               HorizontalAlignment="Stretch">
 
+        <!-- HEADER -->
+        <Grid Grid.Row="0"
+      Background="#FF1A1A1A"
+      Padding="20">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <!-- Rol -->
+                <ColumnDefinition Width="*"/>
+                <!-- PageTitle -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Terug knop -->
             </Grid.ColumnDefinitions>
 
             <!-- Margin volgorde: Links, Boven, Rechts, Onder -->
@@ -65,7 +74,38 @@
 
 
             </StackPanel>
+            <!-- Rol -->
+            <TextBlock x:Name="RolTextBlock"
+               Grid.Column="0"
+               VerticalAlignment="Center"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="Rol wordt geladen..." />
+
+            <!-- PageTitle -->
+            <TextBlock Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="22"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="SalesHomepage"/>
+
+            <!-- Terug knop -->
+            <Button x:Name="backButton"
+            Grid.Column="2"
+            Content="Terug"
+            Click="backButton_Click"
+            Padding="12,6"
+            Background="#FFFFD300"
+            Foreground="#22201D"
+            CornerRadius="4"
+            FontWeight="Bold"
+            BorderThickness="0"
+            VerticalAlignment="Center"/>
         </Grid>
+
 
         <!-- CONTENT -->
         <ScrollViewer Grid.Row="1" Padding="20">

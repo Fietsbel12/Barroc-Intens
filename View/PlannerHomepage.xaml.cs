@@ -19,16 +19,9 @@ namespace BarrocIntens.View
         public ObservableCollection<Taken> TakenLijst { get; set; } = new();
         public ObservableCollection<Taken> TakenVoorGeselecteerdeDag { get; set; } = new();
 
-        private DateTime _currentDisplayDate = DateTime.Today;
-
         public PlannerHomepage()
         {
             InitializeComponent();
-
-            CalendarView.Language = "nl-NL";
-            CalendarView.SelectedDates.Add(DateTime.Today);
-            CalendarView.SetDisplayDate(_currentDisplayDate);
-            UpdateCurrentMonthDisplay(_currentDisplayDate);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -36,117 +29,80 @@ namespace BarrocIntens.View
             base.OnNavigatedTo(e);
 
             medewerkerRol = e.Parameter as string;
-            RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
-
-            if (medewerkerRol == "Planner" || medewerkerRol == "Eigenaar")
+            if (string.IsNullOrWhiteSpace(medewerkerRol))
             {
-                backButton.Visibility = Visibility.Visible;
-                CreatetaskButton.Visibility = Visibility.Visible;
+                Frame.GoBack();
+                return;
             }
 
+            RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
 
-            // Taken opnieuw laden zodra we op deze pagina komen
+            CreatetaskButton.Visibility =
+                (medewerkerRol == "Planner" || medewerkerRol == "Eigenaar")
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
             await LoadTakenAsync();
 
             DataContext = this;
+
+            // Trigger CalendarViewDayItemChanging om dagen met taken te markeren
+            // Dit werkt door tijdelijk een selectie te maken
+            CalendarView.SelectedDates.Add(DateTime.Today);
+            CalendarView.SelectedDates.Clear();
         }
 
-
-        private void FilterTasksForSelectedDate(DateTime selectedDate)
+        private async Task LoadTakenAsync()
         {
-            var startOfDay = selectedDate.Date;
-            var endOfDay = startOfDay.AddDays(1);
+            using var db = new AppDbContext();
+            var items = await db.Taken.Include(t => t.Medewerker).ToListAsync();
 
-            var filteredTasks = TakenLijst
-                .Where(t => t.Tijd >= startOfDay && t.Tijd < endOfDay)
-                .OrderBy(t => t.Tijd)
-                .ToList();
-
-            TakenVoorGeselecteerdeDag.Clear();
-            foreach (var taak in filteredTasks)
-                TakenVoorGeselecteerdeDag.Add(taak);
-
-            SelectedDateTextBlock.Text = $"Taken voor: {selectedDate:dd MMMM yyyy}";
-            TaskDetailPanel.Visibility = Visibility.Collapsed;
-        }
-
-        private void UpdateCurrentMonthDisplay(DateTime date)
-        {
-            CurrentMonthTextBlock.Text = date.ToString("MMMM yyyy");
-        }
-
-        private void PreviousMonth_Click(object sender, RoutedEventArgs e)
-        {
-            _currentDisplayDate = _currentDisplayDate.AddMonths(-1);
-            CalendarView.SetDisplayDate(_currentDisplayDate);
-            UpdateCurrentMonthDisplay(_currentDisplayDate);
-        }
-
-        private void NextMonth_Click(object sender, RoutedEventArgs e)
-        {
-            _currentDisplayDate = _currentDisplayDate.AddMonths(1);
-            CalendarView.SetDisplayDate(_currentDisplayDate);
-            UpdateCurrentMonthDisplay(_currentDisplayDate);
+            TakenLijst.Clear();
+            foreach (var taak in items)
+                TakenLijst.Add(taak);
         }
 
         private void CalendarView_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
         {
-            if (args.Phase == 0)
-                args.RegisterUpdateCallback(CalendarView_CalendarViewDayItemChanging);
-            else if (args.Phase == 1)
-            {
-                var hasTasks = TakenLijst.Any(t => t.Tijd.Date == args.Item.Date.Date);
-                args.Item.Background = hasTasks
-                    ? new SolidColorBrush(Colors.Gold)
-                    : new SolidColorBrush(Colors.Transparent);
-            }
+            // Als er taken zijn op deze dag, markeer met goud
+            bool hasTasks = TakenLijst.Any(t => t.Tijd.Date == args.Item.Date.Date);
+            args.Item.Background = hasTasks ? new SolidColorBrush(Colors.Gold) : new SolidColorBrush(Colors.Transparent);
         }
 
         private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
             if (!sender.SelectedDates.Any()) return;
 
-            var selectedDate = sender.SelectedDates.First().Date;
-            while (sender.SelectedDates.Count > 1)
-                sender.SelectedDates.RemoveAt(1);
+            var day = sender.SelectedDates.First().Date;
 
-            FilterTasksForSelectedDate(selectedDate);
+            var filtered = TakenLijst
+                .Where(t => t.Tijd.Date == day)
+                .OrderBy(t => t.Tijd)
+                .ToList();
+
+            TakenVoorGeselecteerdeDag.Clear();
+            foreach (var taak in filtered)
+                TakenVoorGeselecteerdeDag.Add(taak);
+
+            SelectedDateTextBlock.Text = $"Taken voor {day:dd-MM-yyyy}";
         }
 
         private void TaskList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (e.ClickedItem is Taken taak)
-            {
-                TaskDetailName.Text = taak.Name;
-                TaskDetailDescription.Text = taak.Description;
-                TaskDetailTime.Text = taak.Tijd.ToString("dd-MM-yyyy HH:mm");
-                TaskDetailPanel.Visibility = Visibility.Visible;
-            }
-        }
-        private async Task LoadTakenAsync()
-        {
-            using (var db = new AppDbContext())
-            {
-                var takenUitDB = await db.Taken
-                    .OrderBy(t => t.Tijd)
-                    .ToListAsync();
+            if (e.ClickedItem is not Taken taak) return;
 
-                TakenLijst.Clear();
-                foreach (var taak in takenUitDB)
-                    TakenLijst.Add(taak);
-            }
+            TaskDetailName.Text = taak.Name;
+            TaskDetailDescription.Text = taak.Description;
+            TaskDetailTime.Text = taak.Tijd.ToString("dd-MM-yyyy HH:mm");
+            TaskDetailAssignedTo.Text = $"Toegewezen aan: {taak.Medewerker.Naam}";
 
-            if (CalendarView.SelectedDates.Any())
-            {
-                FilterTasksForSelectedDate(CalendarView.SelectedDates.First().Date);
-            }
+            TaskDetailPanel.Visibility = Visibility.Visible;
         }
 
         private void CreatetaskButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(CreateTaskpage), medewerkerRol);
         }
-
 
         private void CloseDetail_Click(object sender, RoutedEventArgs e)
         {
