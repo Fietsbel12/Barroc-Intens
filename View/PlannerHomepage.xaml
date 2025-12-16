@@ -12,46 +12,66 @@
         </Grid.RowDefinitions>
 
         <!-- HEADER -->
-        <Grid Grid.Row="0" Background="#FF1A1A1A" Padding="20">
+        <Grid Grid.Row="0"
+      Background="#FF1A1A1A"
+      Padding="20">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <!-- Rol -->
+                <ColumnDefinition Width="*"/>
+                <!-- PageTitle -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Actieknoppen -->
             </Grid.ColumnDefinitions>
 
+            <!-- Rol -->
             <TextBlock x:Name="RolTextBlock"
-                       FontSize="20"
-                       FontWeight="SemiBold"
-                       Foreground="#FFFFD300"
-                       VerticalAlignment="Center"
-                       Text="Rol wordt geladen..."/>
+               Grid.Column="0"
+               VerticalAlignment="Center"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="Rol wordt geladen..." />
 
-            <Button x:Name="CreatetaskButton"
-                    Grid.Column="1"
-                    Content="Nieuwe taak"
-                    Click="CreatetaskButton_Click"
-                    Padding="12,6"
-                    Background="#FFFFD300"
-                    Foreground="#22201D"
-                    CornerRadius="4"
-                    FontWeight="Bold"
-                    BorderThickness="0"
-                    VerticalAlignment="Center"
-                    Visibility="Collapsed"/>
+            <!-- PageTitle -->
+            <TextBlock Grid.Column="1"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="22"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"
+               Text="PlannerHomepage"/>
 
-            <Button x:Name="backButton"
-                    Grid.Column="3"
-                    Content="Terug"
-                    Click="backButton_Click"
-                    Padding="12,6"
-                    Background="#FFFFD300"
-                    Foreground="#22201D"
-                    CornerRadius="4"
-                    FontWeight="Bold"
-                    BorderThickness="0"
-                    VerticalAlignment="Center"/>
+            <!-- RECHTS: Actieknoppen -->
+            <StackPanel Grid.Column="2"
+                Orientation="Horizontal"
+                Spacing="12"
+                VerticalAlignment="Center">
+
+                <Button x:Name="CreatetaskButton"
+                Content="Nieuwe taak"
+                Click="CreatetaskButton_Click"
+                Padding="12,6"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                CornerRadius="4"
+                FontWeight="Bold"
+                BorderThickness="0"
+                Visibility="Collapsed"/>
+
+                <Button x:Name="backButton"
+                Content="Terug"
+                Click="backButton_Click"
+                Padding="12,6"
+                Background="#FFFFD300"
+                Foreground="#22201D"
+                CornerRadius="4"
+                FontWeight="Bold"
+                BorderThickness="0"/>
+            </StackPanel>
         </Grid>
+
 
         <!-- CONTENT -->
         <Grid Grid.Row="1" Margin="10">
