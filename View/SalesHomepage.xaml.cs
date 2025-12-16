@@ -61,9 +61,13 @@ namespace BarrocIntens.View
             }
         }
 
-        private void backButton_Click(object sender, RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.GoBack();
+        }
+        private void SellButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SalesSellPage), medewerkerRol);
         }
     }
 }

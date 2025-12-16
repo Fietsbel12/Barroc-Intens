@@ -11,6 +11,8 @@ namespace BarrocIntens.Data
     {
         public DbSet<Medewerker> Medewerkers { get; set; }
         public DbSet<Taken> Taken { get; set; }
+
+        public DbSet<Klant> Klanten { get; set; }
         public DbSet<Koffiezetapparaat> Koffiezetapparaten { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -80,6 +82,11 @@ namespace BarrocIntens.Data
                     Tijd = DateTime.Now.AddHours(id),
                     MedewerkerId = medewerkerCounter
                 });
+
+            modelBuilder.Entity<Klant>().HasData(
+                new Klant { Id = 1, KlantNaam = "Klant A", Adres = "Straat 1, Stad", TelefoonNummer = "0612345678", Email = "Test@gmail.com" }
+                );
+                
 
                 medewerkerCounter++;
                 if (medewerkerCounter > 6)
