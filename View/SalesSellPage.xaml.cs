@@ -1,21 +1,23 @@
 using BarrocIntens.Data;
 using BarrocIntens.Models;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace BarrocIntens.View
 {
-    // Hulpklasse voor het mandje (MOET ZICH IN DEZELFDE NAMESPACE BEVINDEN of de XAML aanpassen)
-    // De naam is aangepast naar 'CartItem' (hoofdletter I) voor consistentie met XAML/C# conventies
     public class CartItem
     {
         public Koffiezetapparaat Product { get; set; }
         public int Aantal { get; set; }
-        public decimal TotaalPrijs => (decimal)Product.Prijs * Aantal;
+        public string TotaalPrijs => $"€ {(decimal)Product.Prijs * Aantal:N2}";
+        public decimal TotaalBedragNumeriek => (decimal)Product.Prijs * Aantal;
     }
 
     public sealed partial class SalesSellPage : Page
@@ -40,9 +42,13 @@ namespace BarrocIntens.View
         {
             using (var db = new AppDbContext())
             {
-                ProductComboBox.ItemsSource = db.Koffiezetapparaten
-                                                .Where(p => p.Voorraad > 0)
-                                                .OrderBy(p => p.Naam).ToList();
+                // We laden de lijst opnieuw in. 
+                // Klanten blijven hetzelfde, maar producten krijgen de nieuwste voorraadstand.
+                var producten = db.Koffiezetapparaten
+                                  .Where(p => p.Voorraad > 0)
+                                  .OrderBy(p => p.Naam).ToList();
+
+                ProductComboBox.ItemsSource = producten;
 
                 CustomerComboBox.ItemsSource = db.Klanten
                                                 .OrderBy(k => k.KlantNaam).ToList();
@@ -53,21 +59,33 @@ namespace BarrocIntens.View
         {
             if (ProductComboBox.SelectedItem is Koffiezetapparaat selectedProduct)
             {
-                StockStatusText.Text = $"Beschikbaar: {selectedProduct.Voorraad} | Prijs: €{selectedProduct.Prijs}";
+                // Toon voorraad met kleurindicatie
+                StockStatusText.Text = $"Beschikbaar: {selectedProduct.Voorraad} stuks | Prijs: €{selectedProduct.Prijs:N2}";
+
+                if (selectedProduct.Voorraad < 5)
+                    StockStatusText.Foreground = new SolidColorBrush(Colors.Red);
+                else
+                    StockStatusText.Foreground = new SolidColorBrush(Colors.Green);
+
+                // Beperk de NumberBox tot wat er echt is
+                QuantityNumberBox.Maximum = selectedProduct.Voorraad;
                 QuantityNumberBox.Value = 1;
+            }
+            else
+            {
+                StockStatusText.Text = "Voorraad: -";
+                StockStatusText.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
 
-        // TOEVOEGEN AAN MANDJE
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
             ErrorTextBlock.Visibility = Visibility.Collapsed;
 
             var selectedProduct = ProductComboBox.SelectedItem as Koffiezetapparaat;
-            // Zorg ervoor dat je de NumberBox waarde converteert naar int.
             int aantalWens = (int)QuantityNumberBox.Value;
 
-            if (selectedProduct == null) { ShowError("Kies een product."); return; }
+            if (selectedProduct == null) { ShowError("Selecteer eerst een product."); return; }
             if (aantalWens <= 0) { ShowError("Aantal moet minimaal 1 zijn."); return; }
 
             var bestaandItem = winkelmandje.FirstOrDefault(i => i.Product.Id == selectedProduct.Id);
@@ -75,91 +93,79 @@ namespace BarrocIntens.View
 
             if ((aantalAlInMandje + aantalWens) > selectedProduct.Voorraad)
             {
-                ShowError($"Niet genoeg voorraad! Je hebt er al {aantalAlInMandje} in het mandje, en er zijn er totaal maar {selectedProduct.Voorraad}.");
+                ShowError($"Onvoldoende voorraad! Er zijn er nog {selectedProduct.Voorraad} over.");
                 return;
             }
 
             if (bestaandItem != null)
             {
-                bestaandItem.Aantal += aantalWens;
-
-                // Hack om de ListView te refreshen
+                int nieuweHoeveelheid = bestaandItem.Aantal + aantalWens;
                 int index = winkelmandje.IndexOf(bestaandItem);
-                winkelmandje[index] = new CartItem { Product = selectedProduct, Aantal = bestaandItem.Aantal, };
+                winkelmandje[index] = new CartItem { Product = selectedProduct, Aantal = nieuweHoeveelheid };
             }
             else
             {
-                winkelmandje.Add(new CartItem
-                {
-                    Product = selectedProduct,
-                    Aantal = aantalWens
-                });
+                winkelmandje.Add(new CartItem { Product = selectedProduct, Aantal = aantalWens });
             }
 
             CalculateTotal();
         }
 
-        // TOTAAL BEREKENEN
         private void CalculateTotal()
         {
-            decimal totaal = winkelmandje.Sum(item => item.TotaalPrijs);
+            decimal totaal = winkelmandje.Sum(item => item.TotaalBedragNumeriek);
             TotalPriceText.Text = $"€ {totaal:N2}";
         }
 
-        // AFREKENEN (Database update)
         private async void Checkout_Click(object sender, RoutedEventArgs e)
         {
             ErrorTextBlock.Visibility = Visibility.Collapsed;
             var selectedCustomer = CustomerComboBox.SelectedItem as Klant;
 
-            if (selectedCustomer == null) { ShowError("Selecteer eerst een klant voor deze order."); return; }
-            if (winkelmandje.Count == 0) { ShowError("Het winkelmandje is leeg."); return; }
+            if (selectedCustomer == null) { ShowError("Selecteer eerst een klant."); return; }
+            if (winkelmandje.Count == 0) { ShowError("Winkelmandje is nog leeg."); return; }
 
             using (var db = new AppDbContext())
             {
-                // De transactie zorgt dat alles in één keer wordt uitgevoerd.
                 using (var transaction = db.Database.BeginTransaction())
                 {
-                    try
+                    
+                    foreach (var item in winkelmandje)
                     {
-                        foreach (var item in winkelmandje)
+                        var dbProduct = db.Koffiezetapparaten.Find(item.Product.Id);
+
+                        if (dbProduct == null || dbProduct.Voorraad < item.Aantal)
                         {
-                            var dbProduct = db.Koffiezetapparaten.Find(item.Product.Id);
-
-                            if (dbProduct == null || dbProduct.Voorraad < item.Aantal)
-                            {
-                                throw new Exception($"Product '{item.Product.Naam}' is niet meer voldoende op voorraad.");
-                            }
-
-                            // Voorraad bijwerken
-                            dbProduct.Voorraad -= item.Aantal;
-
-                            // (Factuur/Bestelling aanmaken hier)
+                            transaction.Rollback();
+                            ShowError($"Product '{item.Product.Naam}' is in de tussentijd uitverkocht.");
+                            return;
                         }
 
-                        db.SaveChanges();
-                        transaction.Commit();
-
-                        // UI Schoonmaken
-                        winkelmandje.Clear();
-                        CalculateTotal();
-                        CustomerComboBox.SelectedIndex = -1;
-                        ProductComboBox.SelectedIndex = -1;
-
-                        ContentDialog successDialog = new ContentDialog
-                        {
-                            Title = "Verkoop Succesvol",
-                            Content = "De order is verwerkt en de voorraad is bijgewerkt.",
-                            CloseButtonText = "Ok",
-                            XamlRoot = this.XamlRoot
-                        };
-                        await successDialog.ShowAsync();
+                        // Voorraad aftrekken
+                        dbProduct.Voorraad -= item.Aantal;
                     }
-                    catch (Exception ex)
+
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    // 1. Maak UI leeg
+                    winkelmandje.Clear();
+                    CalculateTotal();
+                    CustomerComboBox.SelectedIndex = -1;
+                    ProductComboBox.SelectedIndex = -1;
+
+                    // 2. BELANGRIJK: Vernieuw de data uit de DB zodat de nieuwe voorraad zichtbaar is
+                    LoadData();
+
+                    ContentDialog successDialog = new ContentDialog
                     {
-                        transaction.Rollback();
-                        ShowError($"Fout tijdens verkoop: De transactie is ongedaan gemaakt. Details: {ex.Message}");
-                    }
+                        Title = "Order Voltooid",
+                        Content = "De verkoop is opgeslagen en de voorraad is bijgewerkt.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+                    await successDialog.ShowAsync();
+
                 }
             }
         }
