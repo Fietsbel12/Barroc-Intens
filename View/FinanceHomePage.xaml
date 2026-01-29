@@ -4,18 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BarrocIntens.View"
     xmlns:models="using:BarrocIntens.Models"
+    xmlns:localData="using:BarrocIntens.Data"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
+            <!-- Header (0) -->
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
+            <!-- Knoppen (1) -->
             <RowDefinition Height="Auto"/>
+            <!--Overzicht (2) -->
+            <RowDefinition Height="Auto"/>
+            <!-- Content (3) -->
             <RowDefinition Height="*"/>
-            <!-- Content -->
-
         </Grid.RowDefinitions>
 
         <!-- =================== HEADER =================== -->
@@ -47,12 +50,12 @@
         </Grid>
 
         <!-- =================== PDF KNOPPEN =================== -->
-        <StackPanel
-            Grid.Row="1"
+        <StackPanel Grid.Row="1"
             Spacing="10"
             Orientation="Horizontal"
             HorizontalAlignment="Center"
             Margin="0,20,0,0">
+            
             <!-- Offerte aanmaak button -->
             <Button Content="Offerte aanmaken"
                         x:Name="offerteAanmaken"
@@ -84,8 +87,39 @@
                         Click="contractAanmaken_Click"/>
         </StackPanel>
 
+        <!-- =================== OFFERTE OVERZICHT =================== -->
+        <StackPanel Grid.Row="2"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Center"
+                    Width="650"
+                    Spacing="10">
+            <TextBlock Text="Offertes"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#22201d"/>
+
+            <ListView x:Name="OfferteListView"
+                      IsItemClickEnabled="True"
+                      ItemClick="OfferteListView_ItemClick">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="localData:Offerte">
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind Company }"/>
+                            <TextBlock Text="{x:Bind Customer }"/>
+                            <TextBlock Text="{x:Bind CreatedAt }"/>
+
+                            <Button Content="Bewerken"
+                                    x:Name="editOfferte"
+                                    Click="editOfferte_Click"
+                                    Tag="{x:Bind Id}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>    
+            </ListView>
+        </StackPanel>
+        
         <!-- =================== CONTENT =================== -->
-        <ScrollViewer Grid.Row="2">
+        <ScrollViewer Grid.Row="3">
             <StackPanel Width="650"
                         HorizontalAlignment="Center"
                         Padding="20"

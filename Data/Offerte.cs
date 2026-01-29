@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BarrocIntens.Data
 {
-    internal class Offerte
+    public class Offerte
     {
         public int Id { get; set; }
         public string Company {  get; set; }
@@ -15,5 +15,6 @@ namespace BarrocIntens.Data
         public string Email { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? PdfPath { get; set; }
+
     }
 }
