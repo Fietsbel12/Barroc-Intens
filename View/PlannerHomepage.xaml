@@ -11,43 +11,36 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- HEADER -->
         <Grid Grid.Row="0"
       Background="#FF1A1A1A"
       Padding="20">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <!-- Rol -->
                 <ColumnDefinition Width="*"/>
-                <!-- PageTitle -->
                 <ColumnDefinition Width="Auto"/>
-                <!-- Actieknoppen -->
             </Grid.ColumnDefinitions>
 
-            <!-- Rol -->
             <TextBlock x:Name="RolTextBlock"
-               Grid.Column="0"
-               VerticalAlignment="Center"
-               FontSize="20"
-               FontWeight="SemiBold"
-               Foreground="#FFFFD300"
-               Text="Rol wordt geladen..." />
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Foreground="#FFFFD300"
+                Text="Rol wordt geladen..." />
 
-            <!-- PageTitle -->
             <TextBlock Grid.Column="1"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               FontSize="22"
-               FontWeight="SemiBold"
-               Foreground="#FFFFD300"
-               Text="PlannerHomepage"/>
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="22"
+                FontWeight="SemiBold"
+                Foreground="#FFFFD300"
+                Text="PlannerHomepage"/>
 
-            <!-- RECHTS: Actieknoppen -->
             <StackPanel Grid.Column="2"
-                Orientation="Horizontal"
-                Spacing="12"
-                VerticalAlignment="Center">
+                 Orientation="Horizontal"
+                 Spacing="12"
+                 VerticalAlignment="Center">
 
                 <Button x:Name="CreatetaskButton"
                 Content="Nieuwe taak"
@@ -73,7 +66,6 @@
         </Grid>
 
 
-        <!-- CONTENT -->
         <Grid Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -85,19 +77,17 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- AGENDA / CALENDAR -->
             <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
                 <TextBlock Text="Agenda" FontSize="30" FontWeight="Bold" Margin="0,0,0,10"/>
                 <CalendarView x:Name="CalendarView"
-                              DisplayMode="Month"
-                              CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
-                              SelectedDatesChanged="CalendarView_SelectedDatesChanged"
-                              FirstDayOfWeek="Monday"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"/>
+                             DisplayMode="Month"
+                             CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"
+                             SelectedDatesChanged="CalendarView_SelectedDatesChanged"
+                             FirstDayOfWeek="Monday"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"/>
             </StackPanel>
 
-            <!-- TAKEN LIJST -->
             <ScrollViewer Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="10,0,0,10" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="Taken van de dag" FontSize="30" FontWeight="Bold" Margin="0,0,0,10"/>
@@ -123,7 +113,6 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <!-- DETAIL PANEL -->
             <Grid x:Name="TaskDetailPanel" Grid.Row="1" Grid.Column="0" Background="White" Padding="20" CornerRadius="12" Margin="0,10,10,0" Visibility="Collapsed">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>

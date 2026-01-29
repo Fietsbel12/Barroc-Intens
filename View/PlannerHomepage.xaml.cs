@@ -22,6 +22,7 @@ namespace BarrocIntens.View
         public PlannerHomepage()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -44,12 +45,9 @@ namespace BarrocIntens.View
 
             await LoadTakenAsync();
 
-            DataContext = this;
-
-            // Trigger CalendarViewDayItemChanging om dagen met taken te markeren
-            // Dit werkt door tijdelijk een selectie te maken
-            CalendarView.SelectedDates.Add(DateTime.Today);
+            // Kalender vernieuwen zodat de dagen correct gekleurd worden
             CalendarView.SelectedDates.Clear();
+            CalendarView.SelectedDates.Add(DateTime.Today);
         }
 
         private async Task LoadTakenAsync()
@@ -64,14 +62,60 @@ namespace BarrocIntens.View
 
         private void CalendarView_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
         {
-            // Als er taken zijn op deze dag, markeer met goud
-            bool hasTasks = TakenLijst.Any(t => t.Tijd.Date == args.Item.Date.Date);
-            args.Item.Background = hasTasks ? new SolidColorBrush(Colors.Gold) : new SolidColorBrush(Colors.Transparent);
+            if (args.Item.Date.Year < 1900) return;
+
+            if (args.Phase == 0)
+            {
+                args.RegisterUpdateCallback(CalendarView_CalendarViewDayItemChanging);
+            }
+            else
+            {
+                var today = DateTime.Today;
+                var selectedDate = sender.SelectedDates.FirstOrDefault().Date;
+
+                bool hasTasks = TakenLijst.Any(t => t.Tijd.Date == args.Item.Date.Date);
+
+                // Achtergrondkleur instellen
+                if (args.Item.Date.Date == today)
+                {
+                    args.Item.Background = new SolidColorBrush(Colors.Blue);
+                    args.Item.Foreground = new SolidColorBrush(Colors.White);
+                }
+                else if (hasTasks)
+                {
+                    args.Item.Background = new SolidColorBrush(Colors.Yellow);
+                    args.Item.Foreground = new SolidColorBrush(Colors.Black);
+                }
+                else
+                {
+                    args.Item.Background = new SolidColorBrush(Colors.Transparent);
+                    args.Item.Foreground = new SolidColorBrush(Colors.Black);
+                }
+
+                // Border voor geselecteerde dag
+                if (args.Item.Date.Date == selectedDate)
+                {
+                    args.Item.BorderBrush = new SolidColorBrush(Colors.OrangeRed); // kies gewenste kleur
+                    args.Item.BorderThickness = new Thickness(3);
+                }
+                else
+                {
+                    args.Item.BorderBrush = null;
+                    args.Item.BorderThickness = new Thickness(0);
+                }
+            }
         }
+
+
 
         private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
-            if (!sender.SelectedDates.Any()) return;
+            if (!sender.SelectedDates.Any())
+            {
+                SelectedDateTextBlock.Text = "Selecteer een dag";
+                TakenVoorGeselecteerdeDag.Clear();
+                return;
+            }
 
             var day = sender.SelectedDates.First().Date;
 
@@ -85,6 +129,7 @@ namespace BarrocIntens.View
                 TakenVoorGeselecteerdeDag.Add(taak);
 
             SelectedDateTextBlock.Text = $"Taken voor {day:dd-MM-yyyy}";
+            TaskDetailPanel.Visibility = Visibility.Collapsed;
         }
 
         private void TaskList_ItemClick(object sender, ItemClickEventArgs e)
@@ -94,7 +139,7 @@ namespace BarrocIntens.View
             TaskDetailName.Text = taak.Name;
             TaskDetailDescription.Text = taak.Description;
             TaskDetailTime.Text = taak.Tijd.ToString("dd-MM-yyyy HH:mm");
-            TaskDetailAssignedTo.Text = $"Toegewezen aan: {taak.Medewerker.Naam}";
+            TaskDetailAssignedTo.Text = $"Toegewezen aan: {taak.Medewerker?.Naam}";
 
             TaskDetailPanel.Visibility = Visibility.Visible;
         }
