@@ -5,11 +5,26 @@ Dit document beschrijft de huidige coding conventions die we gebruiken tijdens d
 Klassen worden in PascalCase geschreven.
 Voorbeeld: AdminPanelCreate.
 
-# Comments 
-Bij 1 regel code worden comments met alleen een // geschreven 
-Voorbeeld: // Logo 
+# Variabelen & methodes
+Variabelen en methodes worden geschreven in camelCase
+Voorbeeld: generatePdf(), companyName
 
-Bij meerde regels code worden de comments op deze manier geschreven
-Voorbeeld:   // =======================
-            // WIT VLAK LINKS IN DE HOEK
-            // =======================
+# Comments 
+Één regel commentaar: gebruik //
+Voorbeeld: 
+// Logo 
+
+Meerdere regels / secties: gebruik een visueel blok
+Voorbeeld:
+// =======================
+// WIT VLAK LINKS IN DE HOEK
+// =======================
+
+# Commits
+
+Commit messages worden altijd in het Engels geschreven
+
+Gebruik duidelijke, beschrijvende teksten
+Voorbeelden:
+Add offer PDF generation
+Update offer overview layout
