@@ -105,7 +105,7 @@ namespace BarrocIntens.View
             Frame.GoBack();    
         }
 
-        // Offerte buttton
+        // Code behind de offerte button waarbij het pop-up scherm komt om gegevens in te voeren 
         private async void offerteAanmaken_Click(object sender, RoutedEventArgs e)
         {
             var companyBox = new TextBox { Header = "Naam bedrijf" };
@@ -137,6 +137,22 @@ namespace BarrocIntens.View
 
             if (result == ContentDialogResult.Primary)
             {
+                // Lege velden check
+                if (string.IsNullOrWhiteSpace(companyBox.Text) ||
+                    string.IsNullOrWhiteSpace(customerBox.Text) ||
+                    string.IsNullOrWhiteSpace(adressBox.Text) ||
+                    string.IsNullOrWhiteSpace(emailBox.Text))
+                {
+                    await ShowError("Alle velden zijn verplicht.");
+                    return;
+                }
+
+                // Email check
+                if (!IsValidEmail(emailBox.Text))
+                {
+                    await ShowError("Voer een geldig e-mailadres in.");
+                    return;
+                }
                 var offerte = new Offerte
                 {
                     Company = companyBox.Text,
@@ -150,6 +166,27 @@ namespace BarrocIntens.View
                 GeneratePdfWithCustomerData(offerte);
                 LoadOffertes();
             }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(
+                email,
+                @"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+            );
+        }
+
+        private async Task ShowError(string message)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "Fout",
+                Content = message,
+                CloseButtonText = "OK",
+                XamlRoot = this.Content.XamlRoot
+            };
+
+            await dialog.ShowAsync();
         }
 
         private void SaveOfferte(Offerte offerte)
