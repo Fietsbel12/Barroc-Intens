@@ -118,51 +118,88 @@
                            Visibility="Collapsed"
                            Margin="0,0,0,10"/>
 
-                <!-- Lijst apparaten -->
-                <ListView x:Name="ApparatenListView">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Koffiezetapparaat">
-                            <Border Background="#FFF9F9F9"
-                                    BorderBrush="#FFEFEFEF"
-                                    BorderThickness="1"
-                                    CornerRadius="10"
-                                    Padding="10"
-                                    Margin="0,5,0,5">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
-                                    <!-- Foto -->
-                                    <Image Width="60" Height="60">
-                                        <Image.Source>
-                                            <BitmapImage UriSource="{x:Bind VolledigFotoPad, Mode=OneWay}"/>
-                                        </Image.Source>
-                                    </Image>
+                <ScrollViewer Grid.Row="2">
+                    <StackPanel Width="650"
+                HorizontalAlignment="Center"
+                Padding="20"
+                Spacing="14">
 
-                                    <!-- Naam & merk -->
-                                    <StackPanel Width="200" VerticalAlignment="Center">
-                                        <TextBlock Text="{x:Bind Naam}" FontWeight="Bold"/>
-                                        <TextBlock Text="{x:Bind Merk}" FontStyle="Italic"/>
-                                    </StackPanel>
+                       
 
-                                    <!-- Prijs invoer -->
-                                    <TextBox Width="150" PlaceholderText="Prijs" Margin="0,0,10,0"/>
+                        <!-- Titel nieuwe apparaten -->
+                        <StackPanel>
+                            <TextBlock Text="Nieuwe apparaten (nog zonder prijs)"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#22201D"
+                       TextAlignment="Center"/>
 
-                                    <!-- Opslaan knop -->
-                                    <Button Content="Opslaan"
-                                            Tag="{x:Bind}"
-                                            Click="OpslaanPrijs_Click"
-                                            Background="#FFFFD300"
-                                            Foreground="#22201D"
-                                            FontWeight="Bold"
-                                            CornerRadius="4"
-                                            Padding="8,4"/>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                            <Border Height="1"
+                    Background="#FFE0E0E0"
+                    Margin="0,5,0,15"/>
+                        </StackPanel>
+
+                        <!-- Lijst apparaten -->
+                        <ListView x:Name="ApparatenListView">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Koffiezetapparaat">
+                                    <Border Background="#FFF9F9F9"
+                            BorderBrush="#FFEFEFEF"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            Padding="10"
+                            Margin="0,5,0,5">
+
+                                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    Spacing="10">
+
+                                            <!-- Foto -->
+                                            <Image Width="60" Height="60">
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="{x:Bind VolledigFotoPad, Mode=OneWay}"/>
+                                                </Image.Source>
+                                            </Image>
+
+                                            <!-- Naam & merk -->
+                                            <StackPanel Width="200"
+                                        VerticalAlignment="Center">
+
+                                                <TextBlock Text="{x:Bind Naam}"
+                                           FontWeight="Bold"/>
+
+                                                <TextBlock Text="{x:Bind Merk}"
+                                           FontStyle="Italic"/>
+                                            </StackPanel>
+
+                                            <!-- Prijs invoer -->
+                                            <TextBox Width="150"
+                                     PlaceholderText="Prijs"
+                                     Margin="0,0,10,0"/>
+
+                                            <!-- Opslaan knop -->
+                                            <Button Content="Opslaan"
+                                    Tag="{x:Bind}"
+                                    Click="OpslaanPrijs_Click"
+                                    Background="#FFFFD300"
+                                    Foreground="#22201D"
+                                    FontWeight="Bold"
+                                    CornerRadius="4"
+                                    Padding="8,4"/>
+                                        </StackPanel>
+
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </StackPanel>
+                </ScrollViewer>
+
 
                 <!-- Geen apparaten -->
                 <TextBlock x:Name="GeenApparatenText"
-                           Text="Geen apparaten met prijs 0."
+                           Text="Geen apparaten zonder prijs."
                            Visibility="Collapsed"
                            FontStyle="Italic"
                            HorizontalAlignment="Center"
