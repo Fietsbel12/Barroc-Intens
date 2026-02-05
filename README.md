@@ -20,14 +20,11 @@ Barroc Intens is een intern bedrijfsbeheersysteem voor een koffiemachine-verhuur
 ### 2. Installatie & Database Setup
 Deze applicatie maakt gebruik van en bevat **Seeders** voor testdata. 
 
-**Belangrijk:** Zorg ervoor dat de App.config wordt aangemaakt met de juiste connectionstring naar jouw SQL Server LocalDB instantie. Dupliceer de .Example file.
-
 1. Clone de repository:
 git clone https://github.com/Fietsbel12/Barroc-Intens
 
 
-2. Open de **Package Manager Console** in Visual Studio en voer het volgende commando uit:
-Update-Database
+2. Zorg ervoor dat de App.config wordt aangemaakt met de juiste connectionstring naar jouw SQL Server LocalDB instantie. Dupliceer de .Example file. en maak er een app.config van.
 
 
 ### 3. De applicatie starten
