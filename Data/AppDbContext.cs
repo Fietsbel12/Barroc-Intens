@@ -13,6 +13,7 @@ namespace BarrocIntens.Data
         public DbSet<Taken> Taken { get; set; }
         public DbSet<Klant> Klanten { get; set; }
         public DbSet<Koffiezetapparaat> Koffiezetapparaten { get; set; }
+        public DbSet<Offerte> Offertes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

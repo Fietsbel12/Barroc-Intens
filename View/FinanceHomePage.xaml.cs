@@ -5,11 +5,13 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.Storage.Pickers;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Quality;
 using PdfSharp.UniversalAccessibility.Drawing;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ namespace BarrocIntens.View
     public sealed partial class FinanceHomePage : Page
     {
         private string medewerkerRol;
+        public Offerte SelectedOfferte { get; set; }
 
         public FinanceHomePage()
         {
@@ -99,10 +102,10 @@ namespace BarrocIntens.View
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.GoBack();
+            Frame.GoBack();    
         }
 
-        // Offerte buttton
+        // Code behind de offerte button waarbij het pop-up scherm komt om gegevens in te voeren 
         private async void offerteAanmaken_Click(object sender, RoutedEventArgs e)
         {
             var companyBox = new TextBox { Header = "Naam bedrijf" };
@@ -121,30 +124,103 @@ namespace BarrocIntens.View
                 {
                     Spacing = 10,
                     Children =
-            {
-                companyBox,
-                customerBox,
-                adressBox,
-                emailBox
-            }
+                    {
+                        companyBox,
+                        customerBox,
+                        adressBox,
+                        emailBox
+                    }
                 }
+
             };
+
 
             var result = await customerDialog.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
-                // Haal de waarden nu op uit de variabelen
-                string company = companyBox.Text;
-                string customer = customerBox.Text;
-                string adress = adressBox.Text;
-                string email = emailBox.Text;
+                // Lege velden check
+                if (string.IsNullOrWhiteSpace(companyBox.Text) ||
+                    string.IsNullOrWhiteSpace(customerBox.Text) ||
+                    string.IsNullOrWhiteSpace(adressBox.Text) ||
+                    string.IsNullOrWhiteSpace(emailBox.Text))
+                {
+                    await ShowError("Alle velden zijn verplicht.");
+                    return;
+                }
 
-                GeneratePdfWithCustomerData(company, customer, adress, email);
+                // Email check
+                if (!IsValidEmail(emailBox.Text))
+                {
+                    await ShowError("Voer een geldig e-mailadres in.");
+                    return;
+                }
+                var offerte = new Offerte
+                {
+                    Company = companyBox.Text,
+                    Customer = customerBox.Text,
+                    Address = adressBox.Text,
+                    Email = emailBox.Text,
+                    CreatedAt = DateTime.Now,
+                    Status = OfferteStatus.Offerte
+                };
+
+                SaveOfferte(offerte);
+                GeneratePdfWithCustomerData(offerte);
+                LoadOffertes();
             }
         }
 
-        private void GeneratePdfWithCustomerData(string company, string customer, string adress, string email)
+        private bool IsValidEmail(string email)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(
+                email,
+                @"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+            );
+        }
+
+        private async Task ShowError(string message)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "Fout",
+                Content = message,
+                CloseButtonText = "OK",
+                XamlRoot = this.Content.XamlRoot
+            };
+
+            await dialog.ShowAsync();
+        }
+
+        private void SaveOfferte(Offerte offerte)
+        {
+            using var db = new AppDbContext();
+
+            if (offerte.Id == 0)
+            {
+                // Nieuwe offerte
+                offerte.CreatedAt = DateTime.Now;
+                db.Offertes.Add(offerte);
+            }
+            else
+            {
+                // Bestaande offerte aanpassen
+                db.Offertes.Update(offerte);
+            }
+
+            db.SaveChanges();
+        }
+
+        private void LoadOffertes()
+        {
+            using var db = new AppDbContext();
+            OfferteListView.ItemsSource = db.Offertes
+                .Where(o => o.Status == OfferteStatus.Offerte)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToList();
+        }
+
+        private void GeneratePdfWithCustomerData(Offerte offerte)
         {
             var document = new PdfDocument();
             document.Info.Title = "Offerte";
@@ -212,9 +288,19 @@ namespace BarrocIntens.View
             // TITEL EN DATUM RECHTS
             // =======================
 
-            gfx.DrawString("Offerte", titleFont, black,
+            string title = offerte.Status switch
+            {
+                OfferteStatus.Offerte => "Offerte",
+                OfferteStatus.Factuur => "Factuur",
+                OfferteStatus.Contract => "Contract",
+                _ => "Document"
+            };
+
+            document.Info.Title = title;
+            gfx.DrawString(title, titleFont, black,
                 new XPoint(page.Width - 40, 45),
                 XStringFormats.TopRight);
+
 
             gfx.DrawString($"Datum: {DateTime.Now:dd-MM-yyyy}", regularFont, barrocBlack,
                 new XPoint(page.Width - 40, 65),
@@ -238,13 +324,13 @@ namespace BarrocIntens.View
             gfx.DrawString("Klantgegevens", headerFont, black, 40, y);
             y += 25;
 
-            gfx.DrawString($"Naam bedrijf: {company}", regularFont, black, 40, y); y += 18;
-            gfx.DrawString($"Naam klant: {customer}", regularFont, black, 40, y); y += 18;
-            gfx.DrawString($"Adres: {adress}", regularFont, black, 40, y); y += 18;
-            gfx.DrawString($"E-mail: {email}", regularFont, black, 40, y); y += 35;
+            gfx.DrawString($"Naam bedrijf: {offerte.Company}", regularFont, black, 40, y); y += 18;
+            gfx.DrawString($"Naam klant: {offerte.Customer}", regularFont, black, 40, y); y += 18;
+            gfx.DrawString($"Adres: {offerte.Address}", regularFont, black, 40, y); y += 18;
+            gfx.DrawString($"E-mail: {offerte.Email}", regularFont, black, 40, y); y += 35;
 
             // =======================
-            // TABELLAYOUT
+            // TABEL LAYOUT
             // =======================
 
             gfx.DrawString("Artikeloverzicht", headerFont, black, 40, y);
@@ -259,7 +345,7 @@ namespace BarrocIntens.View
             gfx.DrawString("Aantal", regularFont, black, 350, y + 17);
             gfx.DrawString("Prijs", regularFont, black, 430, y + 17);
 
-            y += 30;
+            y += 40;
 
             // =======================
             // HANDTEKENINGEN BLOK
@@ -271,7 +357,7 @@ namespace BarrocIntens.View
             gfx.DrawString("Handtekening leverancier:", regularFont, black, 330, y);
             gfx.DrawLine(new XPen(XColors.Black, 1), 330, y + 20, 540, y + 20);
 
-            y += 80;
+            y += 100;
 
             // =======================
             // FOOTER
@@ -279,27 +365,163 @@ namespace BarrocIntens.View
 
             gfx.DrawLine(new XPen(XColors.Gray, 1), 0, page.Height - 60, page.Width, page.Height - 60);
 
-            gfx.DrawString("Barroc Intens B.V.", smallFont, black, 40, page.Height - 40);
+            gfx.DrawString("Barroc Intens", smallFont, black, 40, page.Height - 40);
             gfx.DrawString("info@barrocintens.nl | www.barrocintens.nl", smallFont, black, 40, page.Height - 28);
             gfx.DrawString("KvK: 12345678 | BTW: NL001234567B01", smallFont, black, 40, page.Height - 16);
 
             // =======================
             // OPSLAAN & OPENEN
             // =======================
-            var filename = Path.Combine(Path.GetTempPath(), $"Offerte_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+
+            var filename = Path.Combine(
+                Path.GetTempPath(),
+                $"{offerte.Status}_{offerte.Id}.pdf"
+            );
+
             document.Save(filename);
 
-            PdfFileUtility.ShowDocument(filename);
+            offerte.PdfPath = filename;
+
+            using var db = new AppDbContext();
+
+            var dbOfferte = db.Offertes.First(o => o.Id == offerte.Id);
+            dbOfferte.PdfPath = filename;
+
+            db.SaveChanges();
+
         }
 
-        private void factuurAanmaken_Click(object sender, RoutedEventArgs e)
+        private async void factuurAanmaken_Click(object sender, RoutedEventArgs e)
         {
+            using var db = new AppDbContext();
 
+            var offertes = db.Offertes
+                .Where(o => o.Status == OfferteStatus.Offerte)
+                .ToList();
+
+            if (!offertes.Any())
+            {
+                await ShowError("Er zijn geen offertes om om te zetten naar een factuur.");
+                return;
+            }
+
+            var listView = new ListView
+            {
+                ItemsSource = offertes,
+                SelectionMode = ListViewSelectionMode.Single,
+                DisplayMemberPath = "Company"
+            };
+
+            var dialog = new ContentDialog
+            {
+                XamlRoot = this.Content.XamlRoot,
+                Title = "Selecteer een offerte",
+                PrimaryButtonText = "Omzetten naar factuur",
+                CloseButtonText = "Annuleren",
+                Content = listView
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary && listView.SelectedItem is Offerte selectedOfferte)
+            {
+                selectedOfferte.Status = OfferteStatus.Factuur;
+                db.Offertes.Update(selectedOfferte);
+                db.SaveChanges();
+
+                LoadOffertes();
+            }
         }
 
         private void contractAanmaken_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ConvertStatus(int offerteId, OfferteStatus newStatus)
+        {
+            using var db = new AppDbContext();
+            var offerte = db.Offertes.FirstOrDefault(o => o.Id == offerteId);
+
+            if (offerte == null) return;
+
+            offerte.Status = newStatus;
+            db.SaveChanges();
+
+            GeneratePdfWithCustomerData(offerte);
+            LoadOffertes();
+        }
+        private void OfferteListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is Offerte offerte)
+            {
+                if (File.Exists(offerte.PdfPath))
+                {
+                    PdfFileUtility.ShowDocument(offerte.PdfPath);
+                }
+            }
+        }
+
+        private Offerte _selectedOfferte;
+        private void editOfferte_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            int offerteId = (int)button.Tag;
+
+            using var db = new AppDbContext();
+            _selectedOfferte = db.Offertes.First(o => o.Id == offerteId);
+
+            OpenEditOfferteDialog(_selectedOfferte);
+        }
+
+        private async void OpenEditOfferteDialog(Offerte offerte)
+        {
+            var companyBox = new TextBox { Header = "Naam bedrijf", Text = offerte.Company };
+            var customerBox = new TextBox { Header = "Naam klant", Text = offerte.Customer };
+            var addressBox = new TextBox { Header = "Adres", Text = offerte.Address };
+            var emailBox = new TextBox { Header = "E-mail", Text = offerte.Email };
+
+            var dialog = new ContentDialog
+            {
+                XamlRoot = this.Content.XamlRoot,
+                Title = "Offerte bewerken",
+                PrimaryButtonText = "Opslaan",
+                CloseButtonText = "Annuleren",
+                Content = new StackPanel
+                {
+                    Spacing = 10,
+                    Children =
+            {
+                companyBox,
+                customerBox,
+                addressBox,
+                emailBox
+            }
+                }
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                offerte.Company = companyBox.Text;
+                offerte.Customer = customerBox.Text;
+                offerte.Address = addressBox.Text;
+                offerte.Email = emailBox.Text;
+
+                SaveExistingOfferte(offerte);
+            }
+        }
+
+        private void SaveExistingOfferte(Offerte offerte)
+        {
+            using var db = new AppDbContext();
+            db.Offertes.Update(offerte);
+            db.SaveChanges();
+
+            LoadOffertes(); 
         }
     }
 }
