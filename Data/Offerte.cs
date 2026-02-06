@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace BarrocIntens.Data
 {
+    public enum OfferteStatus
+    {
+        Offerte,
+        Factuur,
+        Contract
+    }
     public class Offerte
     {
         public int Id { get; set; }
@@ -16,5 +22,6 @@ namespace BarrocIntens.Data
         public DateTime CreatedAt { get; set; }
         public string? PdfPath { get; set; }
 
+        public OfferteStatus Status { get; set; }
     }
 }

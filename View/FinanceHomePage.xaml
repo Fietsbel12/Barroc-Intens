@@ -67,14 +67,14 @@
                         Click="offerteAanmaken_Click"/>
 
             <!-- Factuur aanmaak button -->
-            <Button Content="Factuur aanmaken"
+            <Button Content="Factuur maken"
                         x:Name="factuurAanmaken"
                         Background="#ffffd300"
                         Foreground="#22201d"
                         Padding="10"
                         CornerRadius="4"
                         FontWeight="Bold"
-                        Click="factuurAanmaken_Click"/>
+                        Click="factuurAanmaken_Click" />
 
             <!-- Contract aanmaak button -->
             <Button Content="Contract aanmaken"
@@ -117,7 +117,9 @@
                 </ListView.ItemTemplate>    
             </ListView>
         </StackPanel>
+
         
+
         <!-- =================== CONTENT =================== -->
         <ScrollViewer Grid.Row="3">
             <StackPanel Width="650"

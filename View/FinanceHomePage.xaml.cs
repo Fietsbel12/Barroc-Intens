@@ -131,7 +131,9 @@ namespace BarrocIntens.View
                         emailBox
                     }
                 }
+
             };
+
 
             var result = await customerDialog.ShowAsync();
 
@@ -159,7 +161,8 @@ namespace BarrocIntens.View
                     Customer = customerBox.Text,
                     Address = adressBox.Text,
                     Email = emailBox.Text,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now,
+                    Status = OfferteStatus.Offerte
                 };
 
                 SaveOfferte(offerte);
@@ -212,6 +215,7 @@ namespace BarrocIntens.View
         {
             using var db = new AppDbContext();
             OfferteListView.ItemsSource = db.Offertes
+                .Where(o => o.Status == OfferteStatus.Offerte)
                 .OrderByDescending(o => o.CreatedAt)
                 .ToList();
         }
@@ -284,9 +288,19 @@ namespace BarrocIntens.View
             // TITEL EN DATUM RECHTS
             // =======================
 
-            gfx.DrawString("Offerte", titleFont, black,
+            string title = offerte.Status switch
+            {
+                OfferteStatus.Offerte => "Offerte",
+                OfferteStatus.Factuur => "Factuur",
+                OfferteStatus.Contract => "Contract",
+                _ => "Document"
+            };
+
+            document.Info.Title = title;
+            gfx.DrawString(title, titleFont, black,
                 new XPoint(page.Width - 40, 45),
                 XStringFormats.TopRight);
+
 
             gfx.DrawString($"Datum: {DateTime.Now:dd-MM-yyyy}", regularFont, barrocBlack,
                 new XPoint(page.Width - 40, 65),
@@ -361,7 +375,7 @@ namespace BarrocIntens.View
 
             var filename = Path.Combine(
                 Path.GetTempPath(),
-                $"Offerte_{offerte.Id}.pdf" 
+                $"{offerte.Status}_{offerte.Id}.pdf"
             );
 
             document.Save(filename);
@@ -377,9 +391,46 @@ namespace BarrocIntens.View
 
         }
 
-        private void factuurAanmaken_Click(object sender, RoutedEventArgs e)
+        private async void factuurAanmaken_Click(object sender, RoutedEventArgs e)
         {
+            using var db = new AppDbContext();
 
+            var offertes = db.Offertes
+                .Where(o => o.Status == OfferteStatus.Offerte)
+                .ToList();
+
+            if (!offertes.Any())
+            {
+                await ShowError("Er zijn geen offertes om om te zetten naar een factuur.");
+                return;
+            }
+
+            var listView = new ListView
+            {
+                ItemsSource = offertes,
+                SelectionMode = ListViewSelectionMode.Single,
+                DisplayMemberPath = "Company"
+            };
+
+            var dialog = new ContentDialog
+            {
+                XamlRoot = this.Content.XamlRoot,
+                Title = "Selecteer een offerte",
+                PrimaryButtonText = "Omzetten naar factuur",
+                CloseButtonText = "Annuleren",
+                Content = listView
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary && listView.SelectedItem is Offerte selectedOfferte)
+            {
+                selectedOfferte.Status = OfferteStatus.Factuur;
+                db.Offertes.Update(selectedOfferte);
+                db.SaveChanges();
+
+                LoadOffertes();
+            }
         }
 
         private void contractAanmaken_Click(object sender, RoutedEventArgs e)
@@ -387,6 +438,19 @@ namespace BarrocIntens.View
 
         }
 
+        private void ConvertStatus(int offerteId, OfferteStatus newStatus)
+        {
+            using var db = new AppDbContext();
+            var offerte = db.Offertes.FirstOrDefault(o => o.Id == offerteId);
+
+            if (offerte == null) return;
+
+            offerte.Status = newStatus;
+            db.SaveChanges();
+
+            GeneratePdfWithCustomerData(offerte);
+            LoadOffertes();
+        }
         private void OfferteListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is Offerte offerte)
@@ -459,7 +523,5 @@ namespace BarrocIntens.View
 
             LoadOffertes(); 
         }
-
-
     }
 }
