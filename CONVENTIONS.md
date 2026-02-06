@@ -11,10 +11,11 @@ AdminPanelCreate.
 
 # Variabelen & methodes
 Variabelen en methodes worden geschreven in camelCase
+de eventhandels worden geschreven in camelCase
 Voorbeeld: 
 
 ```csharp
-generatePdf(), companyName
+generatePdf(), companyName, offerteAanmaken_Click
 ```
 
 # Comments 
