@@ -7,7 +7,8 @@
     xmlns:localData="using:BarrocIntens.Data"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
     <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
@@ -94,50 +95,110 @@
                         CornerRadius="4"
                         FontWeight="Bold"
                         Click="factuurAanmaken_Click" />
-
-            <!-- Contract aanmaak button -->
-            <Button Content="Contract aanmaken"
-                        x:Name="contractAanmaken"
-                        Background="#ffffd300"
-                        Foreground="#22201d"
-                        Padding="10"
-                        CornerRadius="4"
-                        FontWeight="Bold"
-                        Click="contractAanmaken_Click"/>
         </StackPanel>
+
+
+
+
 
         <!-- =================== OFFERTE OVERZICHT =================== -->
         <StackPanel Grid.Row="2"
                     Margin="0,20,0,0"
-                    HorizontalAlignment="Center"
-                    Width="650"
-                    Spacing="10">
+                    HorizontalAlignment="Left"
+                     Width="650"
+                    Spacing="15">
             <TextBlock Text="Offertes"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Foreground="#22201d"/>
+                       FontSize="22"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFD300"/>
 
             <ListView x:Name="OfferteListView"
                       IsItemClickEnabled="True"
-                      ItemClick="OfferteListView_ItemClick">
+                      ItemClick="OfferteListView_ItemClick"
+                      Background="Transparent"
+                      BorderThickness="0">
+                
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="localData:Offerte">
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind Company }"/>
-                            <TextBlock Text="{x:Bind Customer }"/>
-                            <TextBlock Text="{x:Bind CreatedAt }"/>
+                        <Border Background="#FF2A2A2A"
+                            CornerRadius="6"
+                            Padding="15"
+                            Margin="0,5">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="{x:Bind Company }"
+                                            FontWeight="Bold"
+                                            FontSize="16"
+                                            Foreground="#FFFFD300"/>
 
-                            <Button Content="Bewerken"
-                                    x:Name="editOfferte"
-                                    Click="editOfferte_Click"
-                                    Tag="{x:Bind Id}"/>
-                        </StackPanel>
+                                <TextBlock Text="{x:Bind Customer }"
+                                            FontSize="14"
+                                            Foreground="#FFFFFF"/>
+                                <TextBlock Text="{x:Bind CreatedAt }"
+                                            FontSize="12"
+                                            Foreground="#AAAAAA"/>
+
+                                <Button Content="Bewerken"
+                                        x:Name="editOfferte"
+                                        Click="editOfferte_Click"
+                                        Tag="{x:Bind Id}"
+                                        HorizontalAlignment="Right"
+                                        Background="#FFFFD300"
+                                        Foreground="#22201D"
+                                        BorderThickness="0"
+                                        Padding="6,3"
+                                        CornerRadius="4"
+                                        FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+
                     </DataTemplate>
                 </ListView.ItemTemplate>    
             </ListView>
         </StackPanel>
 
-        
+
+
+        <!-- =================== FACTUUR OVERZICHT =================== -->
+        <StackPanel Grid.Row="2"
+            Margin="0,20,0,0"
+            HorizontalAlignment="Right"
+            Width="650"
+            Spacing="15">
+            
+            <TextBlock Text="Facturen"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"/>
+
+            <ListView x:Name="FactuurListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="localData:Offerte">
+                        <Border Background="#FF2A2A2A"
+                                CornerRadius="6"
+                                Padding="15"
+                                Margin="0,5">
+                            
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="{x:Bind Company}" 
+                                            FontWeight="Bold"
+                                            FontSize="16"
+                                            Foreground="#FFFFD300"/>
+                                
+                                <TextBlock Text="{x:Bind Customer}" 
+                                            FontSize="14"
+                                            Foreground="#FFFFFF"/>
+                                
+                                <TextBlock Text="{x:Bind CreatedAt}" 
+                                            FontSize="12"
+                                            Foreground="#AAAAAA"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackPanel>
+
 
         <!-- =================== CONTENT =================== -->
         <ScrollViewer Grid.Row="3">

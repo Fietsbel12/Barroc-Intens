@@ -220,6 +220,16 @@ namespace BarrocIntens.View
                 .ToList();
         }
 
+        private void LoadFacturen()
+        {
+            using var db = new AppDbContext();
+            FactuurListView.ItemsSource = db.Offertes
+                .Where(o => o.Status == OfferteStatus.Factuur)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToList();
+        }
+
+
         private void GeneratePdfWithCustomerData(Offerte offerte)
         {
             var document = new PdfDocument();
@@ -388,7 +398,6 @@ namespace BarrocIntens.View
             dbOfferte.PdfPath = filename;
 
             db.SaveChanges();
-
         }
 
         private async void factuurAanmaken_Click(object sender, RoutedEventArgs e)
@@ -430,13 +439,11 @@ namespace BarrocIntens.View
                 db.SaveChanges();
 
                 LoadOffertes();
+                LoadFacturen();
             }
-        }
-
-        private void contractAanmaken_Click(object sender, RoutedEventArgs e)
-        {
 
         }
+
 
         private void ConvertStatus(int offerteId, OfferteStatus newStatus)
         {
@@ -450,7 +457,9 @@ namespace BarrocIntens.View
 
             GeneratePdfWithCustomerData(offerte);
             LoadOffertes();
+            LoadFacturen();
         }
+
         private void OfferteListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is Offerte offerte)
@@ -522,6 +531,12 @@ namespace BarrocIntens.View
             db.SaveChanges();
 
             LoadOffertes(); 
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadOffertes();
+            LoadFacturen();
         }
     }
 }
