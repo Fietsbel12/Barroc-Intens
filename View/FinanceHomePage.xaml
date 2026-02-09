@@ -75,61 +75,19 @@
                         Padding="10"
                         CornerRadius="4"
                         FontWeight="Bold"
-<<<<<<< Updated upstream
-                        Click="factuurAanmaken_Click" />
-=======
-<<<<<<< Updated upstream
-                        Click="factuurAanmaken_Click"/>
->>>>>>> Stashed changes
-
-            <!-- Contract aanmaak button -->
-            <Button Content="Contract aanmaken"
-                        x:Name="contractAanmaken"
-                        Background="#ffffd300"
-                        Foreground="#22201d"
-                        Padding="10"
-                        CornerRadius="4"
-                        FontWeight="Bold"
-                        Click="contractAanmaken_Click"/>
-        </StackPanel>
-
-<<<<<<< Updated upstream
-=======
-=======
                         Click="factuurAanmaken_Click" />
         </StackPanel>
 
->>>>>>> Stashed changes
+
+
+
+
         <!-- =================== OFFERTE OVERZICHT =================== -->
         <StackPanel Grid.Row="2"
                     Margin="0,20,0,0"
-                    HorizontalAlignment="Center"
-                    Width="650"
-<<<<<<< Updated upstream
-                    Spacing="10">
-            <TextBlock Text="Offertes"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Foreground="#22201d"/>
-
-            <ListView x:Name="OfferteListView"
-                      IsItemClickEnabled="True"
-                      ItemClick="OfferteListView_ItemClick">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="localData:Offerte">
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind Company }"/>
-                            <TextBlock Text="{x:Bind Customer }"/>
-                            <TextBlock Text="{x:Bind CreatedAt }"/>
-
-                            <Button Content="Bewerken"
-                                    x:Name="editOfferte"
-                                    Click="editOfferte_Click"
-                                    Tag="{x:Bind Id}"/>
-                        </StackPanel>
-=======
+                    HorizontalAlignment="Left"
+                     Width="650"
                     Spacing="15">
-            
             <TextBlock Text="Offertes"
                        FontSize="22"
                        FontWeight="SemiBold"
@@ -173,22 +131,20 @@
                                         FontWeight="Bold"/>
                             </StackPanel>
                         </Border>
->>>>>>> Stashed changes
+
                     </DataTemplate>
                 </ListView.ItemTemplate>    
             </ListView>
         </StackPanel>
-<<<<<<< Updated upstream
 
-        
 
-=======
+
         <!-- =================== FACTUUR OVERZICHT =================== -->
         <StackPanel Grid.Row="2"
             Margin="0,20,0,0"
             HorizontalAlignment="Right"
             Width="650"
-            Spacing="10">
+            Spacing="15">
             
             <TextBlock Text="Facturen"
                FontSize="20"
@@ -225,8 +181,6 @@
         </StackPanel>
 
 
->>>>>>> Stashed changes
->>>>>>> Stashed changes
         <!-- =================== CONTENT =================== -->
         <ScrollViewer Grid.Row="3">
             <StackPanel Width="650"

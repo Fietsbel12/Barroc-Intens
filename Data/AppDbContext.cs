@@ -88,6 +88,66 @@ namespace BarrocIntens.Data
             }
 
             modelBuilder.Entity<Taken>().HasData(taken);
+
+            // ---------------------- OFFERTE SEED ----------------------
+            modelBuilder.Entity<Offerte>().HasData(
+                new Offerte
+                {
+                    Id = 1,
+                    Company = "TechNova Solutions B.V.",
+                    Customer = "Jan de Vries",
+                    Address = "Kerkstraat 12, Rotterdam",
+                    Email = "jan.devries@technova.nl",
+                    CreatedAt = new DateTime(2024, 1, 10),
+                    PdfPath = null,
+                    Status = OfferteStatus.Offerte
+                },
+                new Offerte
+                {
+                    Id = 2,
+                    Company = "GreenLeaf Logistics",
+                    Customer = "Lisa Jansen",
+                    Address = "Dorpsweg 34, Utrecht",
+                    Email = "lisa.jansen@greenleaf.nl",
+                    CreatedAt = new DateTime(2024, 1, 15),
+                    PdfPath = "pdfs/offerte_2.pdf",
+                    Status = OfferteStatus.Factuur
+                },
+                new Offerte
+                {
+                    Id = 3,
+                    Company = "UrbanBuild Group",
+                    Customer = "Ahmed El Amrani",
+                    Address = "Stationsplein 8, Den Haag",
+                    Email = "ahmed@urbanbuild.nl",
+                    CreatedAt = new DateTime(2024, 2, 1),
+                    PdfPath = "pdfs/contract_3.pdf",
+                    Status = OfferteStatus.Offerte
+                },
+                new Offerte
+                {
+                    Id = 4,
+                    Company = "BrightWave Marketing",
+                    Customer = "Sanne Bakker",
+                    Address = "Lindelaan 22, Eindhoven",
+                    Email = "sanne@brightwave.nl",
+                    CreatedAt = new DateTime(2024, 2, 10),
+                    PdfPath = null,
+                    Status = OfferteStatus.Offerte
+                },
+                new Offerte
+                {
+                    Id = 5,
+                    Company = "FreshBite Catering",
+                    Customer = "Peter van Dijk",
+                    Address = "Havenstraat 5, Breda",
+                    Email = "peter@freshbite.nl",
+                    CreatedAt = new DateTime(2024, 2, 18),
+                    PdfPath = "pdfs/offerte_5.pdf",
+                    Status = OfferteStatus.Factuur
+                }
+            );
+
         }
     }
 }
