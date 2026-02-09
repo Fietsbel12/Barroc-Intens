@@ -149,6 +149,7 @@ namespace BarrocIntens.View
                     return;
                 }
 
+<<<<<<< Updated upstream
                 // Email check
                 if (!IsValidEmail(emailBox.Text))
                 {
@@ -171,6 +172,38 @@ namespace BarrocIntens.View
             }
         }
 
+=======
+<<<<<<< Updated upstream
+                GeneratePdfWithCustomerData(company, customer, adress, email);
+            }
+        }
+
+        private void GeneratePdfWithCustomerData(string company, string customer, string adress, string email)
+=======
+                // Email check
+                if (!IsValidEmail(emailBox.Text))
+                {
+                    await ShowError("Voer een geldig e-mailadres in.");
+                    return;
+                }
+                var offerte = new Offerte
+                {
+                    Company = companyBox.Text,
+                    Customer = customerBox.Text,
+                    Address = adressBox.Text,
+                    Email = emailBox.Text,
+                    CreatedAt = DateTime.Now,
+                    Status = OfferteStatus.Offerte
+                };
+
+                SaveOfferte(offerte);
+                GeneratePdfWithCustomerData(offerte);
+                LoadOffertes();
+                LoadFacturen();
+            }
+        }
+
+>>>>>>> Stashed changes
         private bool IsValidEmail(string email)
         {
             return System.Text.RegularExpressions.Regex.IsMatch(
@@ -220,7 +253,21 @@ namespace BarrocIntens.View
                 .ToList();
         }
 
+<<<<<<< Updated upstream
         private void GeneratePdfWithCustomerData(Offerte offerte)
+=======
+        private void LoadFacturen()
+        {
+            using var db = new AppDbContext();
+            FactuurListView.ItemsSource = db.Offertes
+                .Where(o => o.Status == OfferteStatus.Factuur)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToList();
+        }
+
+        private void GeneratePdfWithCustomerData(Offerte offerte)
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         {
             var document = new PdfDocument();
             document.Info.Title = "Offerte";
@@ -395,6 +442,7 @@ namespace BarrocIntens.View
         {
             using var db = new AppDbContext();
 
+<<<<<<< Updated upstream
             var offertes = db.Offertes
                 .Where(o => o.Status == OfferteStatus.Offerte)
                 .ToList();
@@ -431,11 +479,147 @@ namespace BarrocIntens.View
 
                 LoadOffertes();
             }
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
         }
 
         private void contractAanmaken_Click(object sender, RoutedEventArgs e)
         {
 
+=======
+            var offertes = db.Offertes
+                .Where(o => o.Status == OfferteStatus.Offerte)
+                .ToList();
+
+            if (!offertes.Any())
+            {
+                await ShowError("Er zijn geen offertes om om te zetten naar een factuur.");
+                return;
+            }
+
+            var listView = new ListView
+            {
+                ItemsSource = offertes,
+                SelectionMode = ListViewSelectionMode.Single,
+                DisplayMemberPath = "Company"
+            };
+
+            var dialog = new ContentDialog
+            {
+                XamlRoot = this.Content.XamlRoot,
+                Title = "Selecteer een offerte",
+                PrimaryButtonText = "Omzetten naar factuur",
+                CloseButtonText = "Annuleren",
+                Content = listView
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary && listView.SelectedItem is Offerte selectedOfferte)
+            {
+                selectedOfferte.Status = OfferteStatus.Factuur;
+                db.Offertes.Update(selectedOfferte);
+                db.SaveChanges();
+
+                LoadOffertes();
+                LoadFacturen();
+            }
+        }
+
+        private void ConvertStatus(int offerteId, OfferteStatus newStatus)
+        {
+            using var db = new AppDbContext();
+            var offerte = db.Offertes.FirstOrDefault(o => o.Id == offerteId);
+
+            if (offerte == null) return;
+
+            offerte.Status = newStatus;
+            db.SaveChanges();
+
+            GeneratePdfWithCustomerData(offerte);
+            LoadOffertes();
+            LoadFacturen();
+        }
+
+        private void OfferteListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is Offerte offerte)
+            {
+                if (File.Exists(offerte.PdfPath))
+                {
+                    PdfFileUtility.ShowDocument(offerte.PdfPath);
+                }
+            }
+        }
+
+        private Offerte _selectedOfferte;
+        private void editOfferte_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            int offerteId = (int)button.Tag;
+
+            using var db = new AppDbContext();
+            _selectedOfferte = db.Offertes.First(o => o.Id == offerteId);
+
+            OpenEditOfferteDialog(_selectedOfferte);
+        }
+
+        private async void OpenEditOfferteDialog(Offerte offerte)
+        {
+            var companyBox = new TextBox { Header = "Naam bedrijf", Text = offerte.Company };
+            var customerBox = new TextBox { Header = "Naam klant", Text = offerte.Customer };
+            var addressBox = new TextBox { Header = "Adres", Text = offerte.Address };
+            var emailBox = new TextBox { Header = "E-mail", Text = offerte.Email };
+
+            var dialog = new ContentDialog
+            {
+                XamlRoot = this.Content.XamlRoot,
+                Title = "Offerte bewerken",
+                PrimaryButtonText = "Opslaan",
+                CloseButtonText = "Annuleren",
+                Content = new StackPanel
+                {
+                    Spacing = 10,
+                    Children =
+            {
+                companyBox,
+                customerBox,
+                addressBox,
+                emailBox
+            }
+                }
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                offerte.Company = companyBox.Text;
+                offerte.Customer = customerBox.Text;
+                offerte.Address = addressBox.Text;
+                offerte.Email = emailBox.Text;
+
+                SaveExistingOfferte(offerte);
+            }
+        }
+
+        private void SaveExistingOfferte(Offerte offerte)
+        {
+            using var db = new AppDbContext();
+            db.Offertes.Update(offerte);
+            db.SaveChanges();
+
+            LoadOffertes(); 
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadOffertes();
+            LoadFacturen();
+>>>>>>> Stashed changes
         }
 
         private void ConvertStatus(int offerteId, OfferteStatus newStatus)

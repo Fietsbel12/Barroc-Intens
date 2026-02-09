@@ -7,7 +7,8 @@
     xmlns:localData="using:BarrocIntens.Data"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
     <Grid Background="#FFFDFDFD">
         <Grid.RowDefinitions>
@@ -74,7 +75,12 @@
                         Padding="10"
                         CornerRadius="4"
                         FontWeight="Bold"
+<<<<<<< Updated upstream
                         Click="factuurAanmaken_Click" />
+=======
+<<<<<<< Updated upstream
+                        Click="factuurAanmaken_Click"/>
+>>>>>>> Stashed changes
 
             <!-- Contract aanmaak button -->
             <Button Content="Contract aanmaken"
@@ -87,11 +93,19 @@
                         Click="contractAanmaken_Click"/>
         </StackPanel>
 
+<<<<<<< Updated upstream
+=======
+=======
+                        Click="factuurAanmaken_Click" />
+        </StackPanel>
+
+>>>>>>> Stashed changes
         <!-- =================== OFFERTE OVERZICHT =================== -->
         <StackPanel Grid.Row="2"
                     Margin="0,20,0,0"
                     HorizontalAlignment="Center"
                     Width="650"
+<<<<<<< Updated upstream
                     Spacing="10">
             <TextBlock Text="Offertes"
                        FontSize="20"
@@ -113,13 +127,106 @@
                                     Click="editOfferte_Click"
                                     Tag="{x:Bind Id}"/>
                         </StackPanel>
+=======
+                    Spacing="15">
+            
+            <TextBlock Text="Offertes"
+                       FontSize="22"
+                       FontWeight="SemiBold"
+                       Foreground="#FFFFD300"/>
+
+            <ListView x:Name="OfferteListView"
+                      IsItemClickEnabled="True"
+                      ItemClick="OfferteListView_ItemClick"
+                      Background="Transparent"
+                      BorderThickness="0">
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="localData:Offerte">
+                        <Border Background="#FF2A2A2A"
+                            CornerRadius="6"
+                            Padding="15"
+                            Margin="0,5">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="{x:Bind Company }"
+                                            FontWeight="Bold"
+                                            FontSize="16"
+                                            Foreground="#FFFFD300"/>
+
+                                <TextBlock Text="{x:Bind Customer }"
+                                            FontSize="14"
+                                            Foreground="#FFFFFF"/>
+                                <TextBlock Text="{x:Bind CreatedAt }"
+                                            FontSize="12"
+                                            Foreground="#AAAAAA"/>
+
+                                <Button Content="Bewerken"
+                                        x:Name="editOfferte"
+                                        Click="editOfferte_Click"
+                                        Tag="{x:Bind Id}"
+                                        HorizontalAlignment="Right"
+                                        Background="#FFFFD300"
+                                        Foreground="#22201D"
+                                        BorderThickness="0"
+                                        Padding="6,3"
+                                        CornerRadius="4"
+                                        FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
+>>>>>>> Stashed changes
                     </DataTemplate>
                 </ListView.ItemTemplate>    
             </ListView>
         </StackPanel>
+<<<<<<< Updated upstream
 
         
 
+=======
+        <!-- =================== FACTUUR OVERZICHT =================== -->
+        <StackPanel Grid.Row="2"
+            Margin="0,20,0,0"
+            HorizontalAlignment="Right"
+            Width="650"
+            Spacing="10">
+            
+            <TextBlock Text="Facturen"
+               FontSize="20"
+               FontWeight="SemiBold"
+               Foreground="#FFFFD300"/>
+
+            <ListView x:Name="FactuurListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="localData:Offerte">
+                        <Border Background="#FF2A2A2A"
+                                CornerRadius="6"
+                                Padding="15"
+                                Margin="0,5">
+                            
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="{x:Bind Company}" 
+                                            FontWeight="Bold"
+                                            FontSize="16"
+                                            Foreground="#FFFFD300"/>
+                                
+                                <TextBlock Text="{x:Bind Customer}" 
+                                            FontSize="14"
+                                            Foreground="#FFFFFF"/>
+                                
+                                <TextBlock Text="{x:Bind CreatedAt}" 
+                                            FontSize="12"
+                                            Foreground="#AAAAAA"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackPanel>
+
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         <!-- =================== CONTENT =================== -->
         <ScrollViewer Grid.Row="3">
             <StackPanel Width="650"
