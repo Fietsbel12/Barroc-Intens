@@ -41,24 +41,26 @@ namespace BarrocIntens.View
             // Haal de rol op uit de navigatieparameter
             medewerkerRol = e.Parameter as string;
 
-            
+            // Als er geen rol is meegegeven, ga terug naar de vorige pagina
             if (string.IsNullOrWhiteSpace(medewerkerRol))
             {
                 Frame.GoBack();
                 return;
             }
 
-            
+            // Toon de huidige rol op het scherm
             RolTextBlock.Text = $"Huidige rol: {medewerkerRol}";
 
-            
+            // Toon de knop voor taken aanmaken alleen voor Planner en Eigenaar
             CreatetaskButton.Visibility =
                 (medewerkerRol == "Planner" || medewerkerRol == "Eigenaar")
                 ? Visibility.Visible
                 : Visibility.Collapsed;
-            =
+
+            // Laad alle taken uit de database
             await LoadTakenAsync();
 
+            // Kalender vernieuwen zodat de dagen correct gekleurd worden
             CalendarView.SelectedDates.Clear();
             CalendarView.SelectedDates.Add(DateTime.Today);
         }
@@ -67,16 +69,16 @@ namespace BarrocIntens.View
         // en vult de TakenLijst ObservableCollection
         private async Task LoadTakenAsync()
         {
-            
+            // Maak een databasecontext aan
             using var db = new AppDbContext();
 
-            
+            // Haal alle taken op inclusief medewerker
             var items = await db.Taken.Include(t => t.Medewerker).ToListAsync();
 
-            
+            // Leeg de huidige lijst
             TakenLijst.Clear();
 
-            
+            // Voeg alle taken toe aan de lijst
             foreach (var taak in items)
                 TakenLijst.Add(taak);
         }
@@ -85,7 +87,7 @@ namespace BarrocIntens.View
         // (bijvoorbeeld kleuren voor vandaag, taken en geselecteerde dag)
         private void CalendarView_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
         {
-            
+            // Negeer ongeldige datums
             if (args.Item.Date.Year < 1900) return;
 
             // Fase 0 registreert een callback voor UI-updates
@@ -95,32 +97,33 @@ namespace BarrocIntens.View
             }
             else
             {
-                
+                // Bepaal vandaag en de geselecteerde datum
                 var today = DateTime.Today;
                 var selectedDate = sender.SelectedDates.FirstOrDefault().Date;
 
-                
+                // Controleer of er taken zijn op deze dag
                 bool hasTasks = TakenLijst.Any(t => t.Tijd.Date == args.Item.Date.Date);
 
-                // Achtergrondkleur instellen 
+                // Achtergrondkleur instellen voor vandaag
                 if (args.Item.Date.Date == today)
                 {
                     args.Item.Background = new SolidColorBrush(Colors.Blue);
                     args.Item.Foreground = new SolidColorBrush(Colors.White);
                 }
-                
+                // Achtergrondkleur voor dagen met taken
                 else if (hasTasks)
                 {
                     args.Item.Background = new SolidColorBrush(Colors.Yellow);
                     args.Item.Foreground = new SolidColorBrush(Colors.Black);
                 }
-                
+                // Standaard uiterlijk voor overige dagen
                 else
                 {
                     args.Item.Background = new SolidColorBrush(Colors.Transparent);
                     args.Item.Foreground = new SolidColorBrush(Colors.Black);
                 }
 
+                // Rand instellen voor de geselecteerde dag
                 if (args.Item.Date.Date == selectedDate)
                 {
                     args.Item.BorderBrush = new SolidColorBrush(Colors.OrangeRed);
@@ -138,7 +141,7 @@ namespace BarrocIntens.View
         // Filtert taken op basis van de gekozen dag
         private void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
-            
+            // Als er geen datum is geselecteerd
             if (!sender.SelectedDates.Any())
             {
                 SelectedDateTextBlock.Text = "Selecteer een dag";
@@ -146,10 +149,10 @@ namespace BarrocIntens.View
                 return;
             }
 
-            
+            // Haal de geselecteerde dag op
             var day = sender.SelectedDates.First().Date;
 
-            
+            // Filter taken op datum en sorteer op tijd
             var filtered = TakenLijst
                 .Where(t => t.Tijd.Date == day)
                 .OrderBy(t => t.Tijd)
@@ -180,11 +183,11 @@ namespace BarrocIntens.View
             TaskDetailTime.Text = taak.Tijd.ToString("dd-MM-yyyy HH:mm");
             TaskDetailAssignedTo.Text = $"Toegewezen aan: {taak.Medewerker?.Naam}";
 
-            
+            // Toon het detailpaneel
             TaskDetailPanel.Visibility = Visibility.Visible;
         }
 
-        // Navigatie buttons
+        // 
         private void CreatetaskButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(CreateTaskpage), medewerkerRol);
